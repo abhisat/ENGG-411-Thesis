@@ -149,8 +149,8 @@
 
 % If you have a long title, split it between two lines. The \TitleBottom field defines the second line
 % A two line title should be an "inverted pyramid" with the top line longer than the bottom.
-  \TitleTop{Smart Contract Communication among Blockchains}
-  %\TitleBottom{Line 2 of the Tile} % edited Beeshanga
+    \TitleTop{Protocol for Smart Contract Communication}
+  \TitleBottom{Among Blockchains} % edited Beeshanga
  \DegreeTitle{Bachelor of Engineering
  \\ Software Engineering Stream} % edited Beeshanga
 
@@ -167,7 +167,10 @@
 
   \Acknowledgments{
   \vspace{-1.5cm}
-    \noindent I would like to acknowledge 
+    \noindent I would like to acknowledge my supervisor Prof. Michael Johnson who has always been a great help throughout my degree and not just this thesis. Michael accepted to supervise my project proposal even though it was not related to one of his areas of research. 
+    
+    
+    \noindent I would also like to acknowledge Mr. Kris Crnomarkovic who has been really helpful with long and tiring discussions about certain difficult issues that I encountered during research. Kris's involvement with my theses is really appreciated.
 
   }
 
@@ -192,8 +195,7 @@
 % The text of your abstract
 \Abstract{
 \vspace{-1.5 cm}
-This is where you write your abstract ...
-
+Blockchain technology has potential applicability in finance, supply-chain management, asset-tracking, web decentralization. Scalability and interoperbility are two major problems, hindering the applicability of blockchains in large-scale commercial architectures. Here, we discuss the application of a novel protocol that aims to solve the issues of scalability and interoperability of blockchains using a communication layer between multiple homogenous blockchains.
 }
 
 
@@ -209,7 +211,7 @@ This is where you write your abstract ...
  % Start page counting in roman numerals
  \frontmatter
 
- % This command makes the formal preliminary pages.
+ %This command makes the formal preliminary pages.
  % You can comment it out during the drafting process if you want to save paper.
 
  \makepreliminarypages
@@ -242,106 +244,65 @@ This is where you write your abstract ...
 %
 \chapter{Introduction}
 \label{chap:Introduction}
-Blockchain technology has demonstrated enormous potential utility in multiple fields including "Internet of things", governance, finance, asset-tracking and web decentralization. 
- Scalability and interoperability are major problems, hindering the mainstream adoption of blockchains into these different fields of application. Current real-world blockchain implementations are practically limited to around 30 transactions per second. This issue arises from the current synchronous consensus mechanisms which require a wide time margin to ensure safety of the transactions. The demand for higher transaction throughput is rapidly increasing with the growing user base. One of the numerous ways of addressing this scalability problem is facilitating intercommunication among smart contracts on multiple separate blockchains. Prior to evaluating the problem of scalability, it is important to get familiar with some basics and terminology related to distrubuted ledgers and blockchains specifically.
+Blockchain technology has demonstrated enormous potential utility in multiple fields including "Internet of things", governance, finance, asset-tracking and web decentralization. However, the adoption and use of blockchains into production grade systems is yet to be demonstrated. 
+ Scalability and inter-operability are major problems, hindering the production grade adoption of blockchains into these different fields of application. Blockchain systems currently are crippled by extremely low transaction  throughput which makes their use impractical in real world use cases. Available blockchain implementations are practically limited to around 30 transactions per second. This issue of limited transaction throughput arises from the current synchronous consensus mechanisms which require a wide time margin to ensure safety of the transactions. The demand for higher transaction throughput is rapidly increasing with the growing user base. One of the  ways of addressing this scalability problem is facilitating intercommunication among smart contracts on multiple separate blockchains. This intercommunication protocol inherently solves the problem of inter-operability along with scalability. In this thesis we lay out the design and implementations specifications of such a protocol that facilitates the inter-operability of multiple compatible blockchains.
 
+\section{Project Goal}
+The goal of this project is to lay out the design, implementation and testing specifications of a layer two blockchain solution that facilitates high transaction throughput and inter-operability among multiple blockchain systems. Layer two, here, is defined as a system that is built on top of a layer one blockchain system like ethereum or bitcoin and therefore relies on the layer one chain for security. Layer two solutions are built without requiring any breakthrough modifications to the existing layer one architecture. The project is specifically going to focus on a protocol that is built on top of ethereum as the foundation layer one blockchain. The biggest challenge for the implementation of this project is ensuring that the layer two solution is at least as secure as the existing foundation that it is built upon. The protocol has to balance between keeping a high transaction throughput and maintaining a high level of decentralization. Decentralization and transaction throughput can easily get inversely intertwined in a decentralized system architecture and therefore precaution needs to be taken while designing the system to reduce centralization.
+\\
+\\ One of the other goals of the project will also be to lay out the modifications to the existing foundation system that would allow the integration of the layer two system to the foundation architecture. The project does not aim to create a completely new blockchain architecture.
+\section{Project Planning}
+The project planning was done over the last six months during the course of ENGG 460. There have been a lot of changes the initial plan that was developed during ENGG 460. The biggest change however has been to the scope, deliverables and timeline of the project. These changes are discussed below in their respective sections.
 
-\section{Hash Function}
-A hash function is a one way mathematical construct that takes a data input of arbitrary length and outputs arbitrary data of a fixed length. The primary use of hashing in cryptography is maintaining the integrity of messages.Hashes are used in a blockchain to ensure the integrity of the data stored in each block.
-\section{Public Key Cryptography}
-\section{Consensus}
-Consensus is a mechanism which ensures that every node on the blockchain network is has the same exact copy of the data. A consensus mechanism syncs data across all nodes as and when those nodes connect to the network. Proof of work is by far the most popular consensus mechanism used in mainstream public blockchains. 
-\section{Clients}
-A client of the blockchain is the end-user software that ensures the blockchain synchronisation, generates and stores private keys, and facilitates transactions on behalf of the private key. 
-\section{Transactions}
-A transaction is a the transfer of a signed data package on the blockchain. It is a record of a computational activity that has taken place on the ledger. Any information that is stored and can retrieved is the result of a transaction. EVM transactions involve transfer of value. 
-\section{Smart Contracts}
-Smart Contracts are agents that facilitate the negotiation of a transaction on the blockchain without the use of another thir party agent.
+\subsection{Scope}
+The project scope has remained very similar to the scope that was described in the initial project plan. The scope is to deliver a protocol for intercommunication and interoperability of smart contracts. The scope in the initial project plan might have indicated that the scope includes the delivery of a prototype of such a blockchain architecture; however, the new scope of the project includes only the system requirements, design and testing specifications of the protocol. 
+\subsection{Deliverables}
+In the initial plan the project had two deliverables. One of the deliverables for the project was a suite of smart contracts on different ethereum blockchains such that those smart contracts can send messages and transactions among themselves. The other deliverable in the initial protect plan was a react-native app that would be able to demonstrate the functionality of the smart contracts. There has been a change in the deliverables for the project over the course of the last six weeks of progressing through the development. 
+\\
 
-\section{Accounts}
-
-
-\subsubsection{MIMO Broadcast Channel Capacity}
-
-
+The new deliverable for the project is a protocol for intercommunication and the interoperability of multiple blockchains. The deliverable includes system requirements, system design and testing specifications. However, any working prototype of the protocol is not a hard deliverable of the project.
+\subsection{Timeline}
+There have been significant changes to the timeline of the project as it has progressed over the last six weeks. The reason for these changes is the change in the deliverables for the project. The deadline for the project was assumed to mid December in the previous project plan; the new deadline is 9th of November which is a hard deadline. Moreover, a lot of variables and deliverables had unknown components with estimated timeframes. The timeline has a become firmer with most of the variables becoming clearer. The new GANTT chart with the updated timeline for the project is shown below.
+\section{Project Background}
+Prior to starting in on blockchain systems, one needs to be familiar with supporting technologies that support and facilitate the working of blockchains. 
+\subsection{Cryptographic Hash Function}
+A cryptographic hash function is a one way mathematical construct that takes a data input of arbitrary length and outputs arbitrary data of a fixed length. The primary use of hashing in cryptography is maintaining the integrity of messages. Hashes are used in a blockchain to ensure the integrity of the data stored in each block. The data or the list of transactions in a block is hashed and the hash is appended to the next block, this ensures the integrity of the data because if even a single bit of the data is manipulated then the new hash of the block is completely different. The hash function used in the protocol described in this paper is Keccac-512 which is a variation of the SHA-512 hashing algorithm. 
+\subsection{Public Key Cryptography}
+Public Key Cryptography is one of the core technologies used in a blockchain system. The accounts on a blockchain are a hashed version of the public key of the user. The accounts can be accessed 
+\subsection{Consensus}
+Consensus is a mechanism which ensures that every node on the blockchain network has the same exact copy of the data. A consensus mechanism syncs data across all nodes as and when those nodes connect to the network. Consensus also works as a fault tolerance mechanism which is essential in any distributed computing setup suck as a distributed ledger to avoid corrupt nodes. Proof of work is by far the most popular consensus mechanism used in mainstream public blockchains. It is a ultimately a variation of the popular Practical Byzantine Fault tolerance algorithm.
+\subsection{State Transition Machine}
+The state on a blockchain is a mapping between the account addresses and the state of the account in terms of the transaction history. Every transaction on the blockchain is a manupulation of the state. The blockchain itself acts as a state transition machine which facilitates transactions by allowing the valid ones to manipulate the state.
+\subsection{Clients}
+A client of the blockchain is the end-user software that ensures the blockchain synchronisation, generates and stores private keys, and facilitates transactions on behalf of the private key. Clients live on user hardware which act as an interface between the user's device and the blockchain network.
+\subsection{Transactions}
+A transaction is a the transfer of a signed data package on the blockchain which manipulates the state of the ledger. It is a record of a valid computational activity that has taken place. Any information that is stored and can be retrieved is the result of a transaction. EVM transactions involve transfer of value as the transaction themselves have a cost attached to them. 
+\subsection{Smart Contracts}
+Smart Contracts are agents that facilitate the negotiation of a transaction on the blockchain without the use of another third party agent. Smart contracts are the only entry point to the state of the blockchain and therefore the only party that can modify the data layer on the ledger.
 
 \chapter{Background and Related Work}
 
-\section{Blockchain Scalability}
-\section{Project Goal}
+\section{Polkadot}
+\section{COSMOS}
+\section{Zilliqa}
 
 \label{chap:LitReview}
 
-
-
-\section{Capacity of MIMO Downlink Channels \label{sec:CapResultsReview}}
-
-In a
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=8cm]{cap1}
-\caption{Comparison of capacity for single and multiple antenna systems.}
-\label{fig:cap1}
-\end{figure}
-
-\
-
-\subsubsection{Channel Knowledge at the Base Station}
-
-The channel.
-
-\subsubsection{MAC-BC Duality}
-
-In order to find an a
-\chapter{User Selection in MIMO Broadcast Channels}
+\chapter{System Requirements}
 \label{chap:singleuser}
 
-\section{Introduction \label{sec:Intro-ChapUserSelec}}
+\section{System Overview \label{sec:Intro-ChapUserSelec}}
 
-\begin{itemize}
+\section{System Features \label{sect:chap2sysmodel}}
 
-\item We identify the limitations of current algorithms and situations where these algorithms are suboptimal.
+\section{Other Non-Fucntional Requirements}
 
-\item We propose modifications of user selection algorithms that reduce execution complexity but retain efficiency.
-
-\item We develop analytical bounds to show that the proposed algorithms are asymptotically effective.
-
-\item We compare the performance of the proposed user selection algorithms with the current user selection algorithms under both DPC and ZF precoding techniques.
-
-\item We show that the proposed user selection algorithms reduce the computational complexity while retaining a high degree of effectiveness in terms of sum-capacity, as compared to other user selection algorithms, under both precoding techniques.
-
-\end{itemize}
-
-
-This chapter is organised as follows. Section \ref{sect:RelWorksingle-user} presents work related to this chapter. In Section \ref{sect:chap2sysmodel}, the system model is described. Section \ref{sect:precoding} describes precoding techniques. Section \ref{sect:sus} is devoted to the proposed user selection algorithms and presents the analytical bounds on the sum-capacity of the proposed user selection algorithms. Performance analysis of different user selection algorithms along with the proposed user selection algorithms is presented in Section \ref{sect:simresults}. Finally, Section \ref{sect:conc3} concludes the chapter.
-
-\section{Related Work \label{sect:RelWorksingle-user}}
-
-In this section, we review some current user selection algorithms for MIMO broadcast wireless channels.
-
-
-A user select.
-
-\section{System Model \label{sect:chap2sysmodel}}
-
-We now consider a
-
-
-This chapter examined current user selection \cite{andrews05} algorithms for wireless broadcast channels. It compared the performance of the algorithms, identified situations where they were suboptimal and developed modifications to reduce computation time without reducing effectiveness. In particular, we presented a modified user selection algorithm, and then two variants were developed that could be used for both ZF and DPC precoding. It was shown that the proposed algorithms work reasonably well compared to other user selection algorithms. The modifications were tested and suggestions for setting parameters were made.
-
-\chapter{Conclusions and Future Work}
+\chapter{System Specifications and Design}
 \label{chap:Conclusions}
-
-
-\section{Conclusions}
-\label{sec:ConclusionsConclusions}
-
-This
-
-
-
-\clearemptydoublepage
+\chapter{System Implementation}
+\chapter{Discussion}
+\chapter{Conclusions}
+\chapter{Future Work}
 \chapter{Abbreviations}
 \label{chap:abbreviations}
 
