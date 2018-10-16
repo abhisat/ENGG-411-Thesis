@@ -281,8 +281,62 @@ A transaction is a the transfer of a signed data package on the blockchain which
 Smart Contracts are agents that facilitate the negotiation of a transaction on the blockchain without the use of another third party agent. Smart contracts are the only entry point to the state of the blockchain and therefore the only party that can modify the data layer on the ledger.
 
 \chapter{Background and Related Work}
+Before any meaningful research is done on the topic, it is quite essential to review the available literature on the topic. The process of reviewing existing literature review helps one to understand the cutting edge research on the topic and also familiarize oneself with failures and successes. This chapter reviews the existing literature and work done in the area of increasing blockchain transaction throughput by facilitating interoperability of blockchains. The most important thing to note is that there is a serious lack of quality academic literature in the field as the research in the field is quite new and hasn't percolated into academia yet. Therefore, most of the available literature is from research work done by blockchain startups and the available whitepapers. The language in those whitepapers is often not very academic and therefore one of the most important tasks in this chapter would be to interpret the whitepapers critically and translate the language into proper academic form.
+\section{Ethereum}
+The entire framework of this project is based on the ethereum protocol. Therefore, the discussion on ethereum is unavoidable. Ethereum is a decentralised value transfer system made possible using a cryptographically secure, transaction-based state machine. A blockchain or a distributed ledger in simple terms. Ethereum was first developed by Vitalik Buterin in late november 2013. It was a complete rewrite of the bitcoin system with addition of a turing-complete virtual machine and smart contract execution capability. In ethereum's state transition machine, the final state also referred to as the canonical state is a result of a consensus mechanism using a simplified version of the GHOST protocol.
 
+\subsection{Blocks, State and Transactions}
+\subsubsection{Blocks}
+The block in Ethereum is a collection of transaction bunched together as a set. The block has three parts, a block header, the transactions, and the ommers which is a collection of related block headers. The block header contains the following pieces of information:
+\begin{description}
+\item[$\bullet$ parentHash:] a Keccak 256-bit hash of the previous block's header
+\item[$\bullet$ ommersHash:] a Keccak 256-bit hash of the ommers list or the list of blocks which have the same parent block as the current block
+\item[$\bullet$ beneficiary:] the 160-bit address of the account to which all the gas fee has to be transferred
+\item[$\bullet$ stateRoot:] a Keccak 256-bit hash of the root node of the state trie
+\item[$\bullet$ transactionsRoot:] a Keccak 256-bit hash of the root node of the trie containing all the transactions in the current block
+\item[$\bullet$ receiptsRoot:] a Keccak 256-bit hash of the trie containing the reciepts of all the transactions in the current block
+\item[$\bullet$ logsBloom:] bloom 
+\item[$\bullet$ difficulty:] a number corresponding to the difficulty level of the block
+\item[$\bullet$ number:] a scalar value corresponding to the number of ancestor blocks of the current block. The genesis block does not have an ancestor block and hence, it is conventionally assigned a number 0.
+\item[$\bullet$ gasLimit:] a scalar value equal to the maximum limit of gas expenditure of the block
+\item[$\bullet$ gasUsed:] a scalar value equal to the total gas used in transactions in the block
+\item[$\bullet$ timeStamp:] a reasonable output of the Unix's time at the block's inception
+\item[$\bullet$ extraData:] arbitrary byte array containing block metadata
+\item[$\bullet$ mixhash:] a 256-bit hash which together with the nonce proves that a sufficient amount of computation has been carried out on this block
+\item[$\bullet$ nonce:] a 64-bit hash which together with the mix-hash proves that a sufficient amount of computation has been done on this block
+\end{description}
+\subsubsection{World State}
+The world state is a mapping between account addresses which are 160 bit hashed versions of the public keys and account states. This mapping is stored in a data-structure called a Merkle Patricia tree. The account states comprise of the following fields;
+\begin{description}
+\item[$\bullet$ nonce:] it is a value that is equal to the number of transactions sent from the account
+\item[$\bullet$ balance:] a value equal to the number of wei owned by the address
+\item[$\bullet$ storageRoot:] a 256-bit hash of the root node of the merkle patricia tree that contains the storage data of the account
+\item[$\bullet$ codeHash:] the hash of the EVM code of the account, which gets executed in case of transactions
+\end{description}
+\subsubsection{Transactions}
+A transaction is formally a single cryptographically signed instruction executed by an external party. There are two types of transactions in Ethereum: the first type results in a message call between actors and the second type results in creation of new accounts. A transaction primarily has the following fields:
+\begin{description}
+\item[$\bullet$ nonce:] a value equal to the number of transactions sent by the sender
+\item[$\bullet$ gasPrice:] number of wei to be paid for each unit of gas. Gas is a computational unit in the EVM which is discussed in a later section.
+\item[$\bullet$ gasLimit:] maximum amount of gas that should be utilised for executing this transaction
+\item[$\bullet$ to:] a 160-bit address of the message call's recipient 
+\item[$\bullet$ value:] number of wei to be transferred to the message call's recipient
+\end{description}
+A contract creation account contains the following additional fields:
+\begin{description}
+\item[$\bullet$ nonce:] infinite size byte array containing the EVM code for account initialisation
+\item[$\bullet$ data:] infinite size byte array containing the input data of the message call
+\end{description}
+\begin{description}
+\item[]
+\end{description}
+\subsection{Gas and Transaction Execution}
+\subsubsection{Gas}
+\subsubsection{Sub-state}
+\subsection{Canonicalisation}
+\subsection{Message Call}
 \section{Polkadot}
+
 \section{COSMOS}
 \section{Zilliqa}
 
