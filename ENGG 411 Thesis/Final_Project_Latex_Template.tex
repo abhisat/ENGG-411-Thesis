@@ -295,7 +295,7 @@ The block in Ethereum is a collection of transaction bunched together as a set. 
 \item[$\bullet$ stateRoot:] a Keccak 256-bit hash of the root node of the state trie
 \item[$\bullet$ transactionsRoot:] a Keccak 256-bit hash of the root node of the trie containing all the transactions in the current block
 \item[$\bullet$ receiptsRoot:] a Keccak 256-bit hash of the trie containing the reciepts of all the transactions in the current block
-\item[$\bullet$ logsBloom:] bloom 
+\item[$\bullet$ logsBloom:] bloom filter composed of index-able log entries for transaction receipts
 \item[$\bullet$ difficulty:] a number corresponding to the difficulty level of the block
 \item[$\bullet$ number:] a scalar value corresponding to the number of ancestor blocks of the current block. The genesis block does not have an ancestor block and hence, it is conventionally assigned a number 0.
 \item[$\bullet$ gasLimit:] a scalar value equal to the maximum limit of gas expenditure of the block
@@ -331,14 +331,82 @@ A contract creation account contains the following additional fields:
 \item[]
 \end{description}
 \subsection{Gas and Transaction Execution}
+Gas and transactions are the core of the ethereum computation engine. Transactions forms the basis for all the computation and Gas forms the basis of all payment calculation in ethereum.
 \subsubsection{Gas}
+Gas is defined as any programmable computation in ethereum. The Ethereum Virtual Machine is a turing-complete computation engine and it is absolutely essential to limit the possibility of denial-of-service attacks in a public computation engine. Gas costs ether to execute and therefore prevents denial-of-service as no ethereum account is likely to have an infinite amount of ether. Every transaction has a gas price which is the amount of ether paid per gas or computational step. Miners will usually preferably select a transaction which has the highest gas price.
 \subsubsection{Sub-state}
+A valid transaction in ethereum is defined as a transaction which:
+\begin{description}
+\item [$\bullet$ is a well formed RLP;]
+\item [$\bullet$ has a valid signature;]
+\item [$\bullet$ has a valid nonce;]
+\item [$\bullet$ has a gas limit which is not less than the intrinsic gas;]
+\item [$\bullet$ has a sender whose account balance greater than the gas cost]
+\end{description}
+
+A transaction is also the most complex part of the ethereum virtual machine as it involves the state transition mechanism. The virtual machine gets in transition state during the execution of the transaction, called the substate. The substate creates a set of temporary accounts needed to complete the transaction, called the suicide set.
+
+The ethereum state transition function is defined as follows:
+
 \subsection{Canonicalisation}
 \subsection{Message Call}
 \section{Polkadot}
+Polkadot is another approach by the ethereum community to solve the issue of scalability and interoperability by developing a multi-chain framework. Currently, Polkadot is far from being a working system or a prototype 
+\section{Cosmos}
+Cosmos is a platform which facilitates the interoperability of multiple parallel blockchains while retaining the inherent security features of blockchains. One of the problems faced by interoperable multi-chain frameworks is their vulnerability to an attack if a majority of the hashing ability is not merge-mined with the central parent chain. Cosmos addresses this issue by having multiple independent blockchain which are called zones in Cosmos. The central or the parent chain is called the Cosmos hub. The zones utilise something called a Tendermint Core, which is a Practical Byzantine Fault Tolerant consensus engine. The system described in this paper uses Tendermint and it will be discussed in a later section.
 
-\section{COSMOS}
+The main currency on the Cosmos hub is a multi-asset proof-of-stake token. The hub and zones facilitate the intercommunication between the hub and the zones using a protocol called the interblockchain comunication protocol, which works on a virtual UDP layer for blockchains.
+
+\subsection{Consensus}
+Cosmos uses a partially synchronous BFT (Byzantine Fault Tolerant) consensus algorithm called Tendermint. It uses optimal Byzantine Fault Tolerance with a super majority of greater than 2/3 of the total voting power. Hence, greater than a third of the total voting power has to be Byzantine to cause a violation of safety. In case, a violation occurs, it can be detected by the system by detecting conflicting blocks. And since Cosmos combined with Tendermint is a permissioned system, it is much easier to detect Byzantine nodes.
+
+\subsection{The Hub and Zones}
+The Hub and different zones in Cosmos are connected using a protocol called Interblockchain-communication (IBC) protocol. The block commits in the zones are are constantly posted on the hub, allowing the hub to keep track of the world state and also the state of the zones. The zones communicate among each other using the IBC protocol, by sending Merkle-proofs of transactions. 
+\subsubsection{The Hub}
+The Cosmos hub is the central blockchain in the system which hosts a distributed ledger that supports multiple tokens. These coins are moved from one zone to another using a speacial packet in IBC called a coin packet. The hub is accountable for counting the total amount of coins in each hub. The hub is the central ledger responsible for the entire network of the zones and therefore, is a single point of failure. The security of the hub is of paramount importance. It is secured by a global set of validators which are all permissioned nodes.
+\subsubsection{The Zones}
+The Zones exchange information among each other via the hub using the IBC. A zone is a essentially a multi-asset, multi-signature account. The hub ensures that the zones cannot transfer more tokens than it has been assigned. The hub does not verify the authenticity of the zones and therefore it should within the senders' discretion to send tokens across zones. 
+\subsection{Inter-blockchain Communication (IBC)}
+The Inter-blockchain communication (IBC) works by moving packets of data from one zone to another via the hub by posting Merkle-proofs. The proof is evidence that the sending chain published a packet which was meant for the receiving chain. 
+
+The IBC is the most important component of the Cosmos literature. IBC is mentioned here because a lot of inspiration for communication between different blockchains, which have been mentioned in later chapters actually come from the IBC protocol. As shown in the diagram below, the IBC has two different types of transactions; namely, IBCBlockCommitTx transaction and an IBCPacketTx transaction. The IBCBlockCommitTx allows a zone to prove to any observer zone that its most recent block hash exists. The IBCPacketTx allows a zone to prove to any observer that a published packet was indeed sent by the sender. The separation of the two different types of transactions allows the sender and receiver zones to have independent control over their block commits, respectively. The IBCBlockCommit interaction diagram which shows the two types of transactions has been shown in figure 2.1 above.
+\begin{figure}
+  \includegraphics[width=\linewidth]{ibc_transactions.png}
+  \caption{IBCBlockCommit Transaction interaction diagram.}
+  \label{fig:1}
+\end{figure}
+
 \section{Zilliqa}
+Zilliqa is another blockchain solution which aims to solve the problem of scalability by using blockchain sharding. It divides the mining network into smaller shards, each capable of processing transactions in parallel. It also has a smart contract execution environment or a virtual machine and a special contract language which implements data-flow programming. This allows the parallel processing of the programs as soon as all the inputs are available. The entire system in Zilliqa is divided into six layers. This layering system is good for maintenance and abstraction of different parts of the system. The layers are explained in more detail in the sections below:
+
+\subsection{Cryptographic Layer}
+Zilliqa's cryptographic layer uses elliptic curve cryptography for digital signatures and a memory hard hash function for proof-of-work (PoW). The hash function used in Ziliqa is ethash, which is the hash function used in ethereum. Ethhash is based on Keccak, which is memory hard meaning that Application specific integrated circuits (ASIC) will not be able to generate the hashes. 
+\subsubsection{EC-Schnorr Signature}
+Zilliqa uses digital signatures based on the EC-Schnorr algorithm instantiated with the secp256k1 elliptic curve. According to Zilliqa, EC-Schnorr has a few benefits over Elliptic Curve Digital Signature Algorithm (ECDSA). Those benefits are Non-malleability, Multisignature ability, and faster speeds. 
+
+\subsubsection{Proof of Work}
+Zilliqa uses Proof of Work to prevent Sybil attacks and generate node identities. This is contrary to other blockchain systems such as Ethereum which use PoW for the purpose of achieving consensus. Sybil attacks work by forging identitites of different systems in order to subvert the reputation of the concerned system, especially in used in peer-to-peer networks. Zilliqa uses ethhash as its algorithm of choice for PoW. As mentioned earlier, ethash is a memory hard hash function and requires a considerable amount of memory and high bandwidth I/O interface which makes it impossible to use specialised hardware for computation of the hash.
+\subsection{Data Layer}
+The data layer mainly consists of the global state of Zilliqa and it also defines the data needed by different entities to update the global state. 
+\subsubsection{Accounts and Addresses}
+Zilliqa just like ethereum is an account based blockchain system and consists of two types of accounts; namely, a normal account and a contract account. A normal account is created when the EC-Schnorr algorithm is invoked to create a private key. A contract account is created when a contract is deployed by another normal account. The public key is then derived from the private key by using the EC-Schnorr algorithm. The account address for a normal account is then generated by using the 160 least significant bits of the SHA-3 hash of the public key and for a contract account it is generated by using the 160 least significant bits of the SHA-3 hash of the address of the creator's account and the account nonce, which is the number of transactions sent from the particular account. The equations for generating the addresses for both normal and contract accounts are given below:
+\begin{equation}
+    A_{normal} = LSB_{160}(SHA3-256(PubKey(sk)))
+\end{equation}
+\begin{equation}
+    A_{contract} = LSB_{160}(SHA3-256(address||nonce))
+\end{equation}
+
+Each account is associated with an account an account state which has the following information:
+\begin{description}
+\item[$\bullet$ account nonce:] the number of transactions sent from the account in case of a normal account, or the number of transactions sent from the creator's account in case of a contract account.
+\end{description}
+\subsection{Network Layer}
+\subsection{Consensus Layer}
+\subsection{Smart Contract Layer}
+\subsection{Incentive Layer}
+
+\section{Tendermint}
 
 \label{chap:LitReview}
 
@@ -349,7 +417,7 @@ A contract creation account contains the following additional fields:
 
 \section{System Features \label{sect:chap2sysmodel}}
 
-\section{Other Non-Fucntional Requirements}
+\section{Other Non-Functional Requirements}
 
 \chapter{System Specifications and Design}
 \label{chap:Conclusions}
@@ -379,7 +447,7 @@ MISO \> Multiple Input Single Output\\
 SIMO \> Single Input Multiple Output\\
 MIMO \> Multiple Input Multiple Output\\
 MMSE \> Minimum Mean Square Error\\
-MRC \> Maximum Ratio Combining\\
+MRC \> Maximum Ratio Combining\\ 
 QoS \> Quality of Service\\
 TDD \> Time Division Duplex\\
 FDD \> Frequency Division Duplex\\
