@@ -346,10 +346,13 @@ A valid transaction in ethereum is defined as a transaction which:
 
 A transaction is also the most complex part of the ethereum virtual machine as it involves the state transition mechanism. The virtual machine gets in transition state during the execution of the transaction, called the substate. The substate creates a set of temporary accounts needed to complete the transaction, called the suicide set.
 
-The ethereum state transition function is defined as follows:
+The ethereum state transition function is defined as follows: \[\sigma' = \upsilon(\sigma, T)\]
+where $\sigma$ is the state and $\Upsilon$ is the state transition function.
 
 \subsection{Canonicalisation}
+
 \subsection{Message Call}
+
 \section{Polkadot}
 Polkadot is another approach by the ethereum community to solve the issue of scalability and interoperability by developing a multi-chain framework. Currently, Polkadot is far from being a working system or a prototype 
 \section{Cosmos}
@@ -396,15 +399,83 @@ Zilliqa just like ethereum is an account based blockchain system and consists of
 \begin{equation}
     A_{contract} = LSB_{160}(SHA3-256(address||nonce))
 \end{equation}
-
+There are two types of states in Zilliqa; the account state and the global state.
 Each account is associated with an account an account state which has the following information:
 \begin{description}
 \item[$\bullet$ account nonce:] the number of transactions sent from the account in case of a normal account, or the number of transactions sent from the creator's account in case of a contract account.
+\item[$\bullet$ balance:] a number that corresponds to the number of tokens currently owned by the respective account.
+\item[$\bullet$ code hash:] for a contract account it is the SHA-3 hash of the contract code and for a normal account it is the SHA-3 hash of an empty string.
+\item[$\bullet$ storage root:] the SHA3-256 digest of the storage of the account which is a key,value store.
 \end{description}
+The global state in Zilliqa is the mapping between account addresses and corresponding account states. 
+\subsubsection{Transactions}
+A transaction in Zilliqa is always sent from a normal account and it updates the global state as it updates the account states of the respective parties involved in the transaction. A transaction contains the following information:
+\begin{description}
+\item[$\bullet$ version:] current version of the global state.
+\item[$\bullet$ nonce:] a number corresponding to the number of transactions sent by the sender's account.
+\item[$\bullet$ to:] receiver's account address or in case of a contract creation the rightmost 160 bits of the SHA3-256 hash of an empty string
+\item[$\bullet$ amount:] the amount to be transferred in the transaction
+\item[$\bullet$ gas price:] the price the sender is willing to pay per Gas for the transaction
+\item[$\bullet$ gas limit:] the maximum amount of gas that can be utilised to execute the transaction
+\item[$\bullet$ code:] a byte array that contains the contract code in case of a new contract account
+\item[$\bullet$ data:] a byte array that specifies the any data needed to process the transaction
+\item[$\bullet$ pub key:] the public key of the sender's account that is used to verify the EC-Schnorr signature
+\item[$\bullet$ signature:] the EC-Schnorr signature the data package
+\end{description}
+\subsubsection{Blocks}
+Most of the Zilliqa protocol until now has been very similar to ethereum but the diferences actually exist at the block level. There are two types of blocks in Zilliqa which implies two different blockchains, one of which is used for purpose of parallel processing of transactions by multiple shards. The two types of blocks are transaction blocks and directory service blocks (DS-Blocks). The transaction blocks are the normal blocks that would be expected to exist in any blockchain system to keep a record of the transactions. The DS-blocks, however, contain metadata about miners participating in transactions in shards to maintain consensus. The DS-block has two parts; the header and the signature. The header part of the DS-block contains the following data:
+\begin{description}
+\item[$\bullet$ version]
+\item[$\bullet$ previous hash]
+\item[$\bullet$ pubkey]
+\item[$\bullet$ difficulty]
+\item[$\bullet$ number]
+\item[$\bullet$ timestamp]
+\item[$\bullet$ mix hash]
+\item[$\bullet$ nonce]
+\end{description}
+And the signature part of the DS-block contains only two fields: an EC-Schnorr signature and a bitmap which records a 0 or 1 depending on whether the i-th node participated in the signature.
+\\
+\\
+The transaction blocks, as the name suggests,  keep a record of all the transactions in the blockchain and have three parts; the header, the data, and the signature. The header part consists of the following fields:
+\begin{description}
+\item[$\bullet$ type:] could be a micro block or a final block.
+\item[$\bullet$ version] 
+\item[$\bullet$ previous hash]
+\item[$\bullet$ gas limit]
+\item[$\bullet$ gas used]
+\item[$\bullet$ number]
+\item[$\bullet$ timestamp]
+\item[$\bullet$ state root]
+\item[$\bullet$ transaction root]
+\item[$\bullet$ tx hashes]
+\item[$\bullet$ pubkey]
+\item[$\bullet$ pubkey micro blocks:] contains public keys of member who finalised the block. This is present only in final blocks.
+\item[$\bullet$ parent block hash]
+\item[$\bullet$ parent ds hash]
+\item[$\bullet$ parent ds block number]
+\end{description}
+The data part of the transaction block contains the tx count, which is the number of transactions contained in the block, and the tx list, which is the list of transactions in the block.
+\\
+\\
+Finally, the signature part of the transaction block contains the EC-Schnorr based multi-signature, which contains two field; the signature and the bitmap, that specifies the signatories.  
+\\
+\\
+Micro blocks are submitted by mining shards which then get approved by the DS-commitee to final block status which form a part of the final transaction blockchain.
 \subsection{Network Layer}
+ Zilliqa's mining network, as mentioned before, is divided into multiple shards which are all capable of processing transactions in parallel. Network sharding is a two step process which involves a dedicated set of special nodes called the Directory Service Committee (DS committee). 
 \subsection{Consensus Layer}
+The DS committee has to run the consensus protocol on the micro blocks in order to finalise the blocks. Zilliqa uses Practical Byzantine Fault Tolerance (PBFT), however, uses a slightly modified PBFT protocol which includes native multisignatures using EC-Schnorr to improve efficency. Using EC-Schnorr multisignature reduces the communication latency from \[O(n^2)\] to \[O(n)\] and reduces the signature size from O(n) to O(1).
+\\
+\\
+Every consensus round is executed in three rounds:
+\begin{description}
+\item[$\bullet$] in the pre-prepare phase, the leader of a consensus shard distributes the next transaction micro block.
+\item[$\bullet$] in the prepare phase, the nodes validate the block and multicast a message to other nodes
+\item[$\bullet$] in the commit phase, after receiving 2/3n commit messages, the group commits the nominated micro block to a final block by performing a second round of EC-Schnorr multisignatures.
+\end{description}
 \subsection{Smart Contract Layer}
-\subsection{Incentive Layer}
+Zilliqa comes with a smart contract execution environment which follows a data-flow programming paradigm. The nodes in Zilliqa's execution model get activated as soon as all the data inputs are available. According to Zilliqa, the advantage of implementing a data flow paradigm is that a lot of nodes can get activated at the same time as soon as all the data points are available. The smart contract language in Zilliqa is not a turing-complete a language, which makes it very application specific. 
 
 \section{Tendermint}
 
@@ -414,12 +485,174 @@ Each account is associated with an account an account state which has the follow
 \label{chap:singleuser}
 
 \section{System Overview \label{sec:Intro-ChapUserSelec}}
-
+\subsection{Overall Description}
+Blockchain systems have been facing major bottlenecks in the areas of scalability and interoperability. In order for blockchains to be applicable in commercial production-scale applications, the issue of scalability and interoperability need to be solved. This chapter lays out the system requirement specification for a production-grade blockchain system that is scalable and can interoperate with a multitude of other systems.
+\subsection{Product Perspective}
+The recent hype about blockchain systems has been phenomenal, however, ignoring all the hype, blockchains practically have a lot of applications in many different fields. The system specified in this thesis will have applicability in banking infrastructure, accounting applications, supply chain systems, and digital currencies. Many industry specific applications that require multiple parties to collaborate securely could potentially implement this system in their existing aerchitecture. The system will improve the overall system security, tamper-proofness along with all the other benefits like having continuous history logging that come with any blockchain system.
+\subsection{User Characteristics}
+The users of the system will mostly be large corporations and conglomerates who have a lot of parties involved in executing a single complete transaction. The product will have three primary classes of users:
+\begin{description}
+\item[$\bullet$ Primary Users:] Large financial institutions like banks, supply chain management and logistics conglomerates such as DHL and Maersk, and accounting firms like PWC will be the primary uses of the system. The system specified here will remove all the complications such firms have to go through because they have to collaborate with multiple parties in order to process through a single transaction.
+\item[$\bullet$ Secondary Users:] The secondary users will be the customers of these large corporations. These users will generally be relying on the large corporations to manage their assets and logistics. These users would have an entry point to the blockchain architecture but they are not the main stakeholders in the system.
+\item[$\bullet$ Admin Users:] This class of users are particularly important for the system becasue they have unparalleled access to manage and modify the system. They will all be the top of the level executives of all the corporations involved as parties in the system. These users are allowed to set rules, modify rules, vote on administrative changes and can act as the administrative back-end of the entire system. High level of mutual collaboration and goodwill is expected of them. 
+\end{description} 
+\subsection{Constraints}
+The system defined in the specifications described below has some constraints associated with it. This a result of all the assumptions that were made in the process of designing the system. The design, however, is very modular and all the features designed according to those assumptions can be optimised as per the real-world scenarios during the integration phase.
+\\
+\\
+The following constraints are placed on the system as of the design phase.
+\begin{description}
+\item[$\bullet$ Legal Constraint:] That the system is financially sound and does so without breaching any financial regulations, both intentionally or unintentionally.
+\item[$\bullet$ Safety Constraint:] The system relies on the safety features of existing blockchain architectures and, therefore, the safety of those external systems cannot be guaranteed. However, relying on the safety of other blockchain systems should be a safe bet, as blockchains have a proven track record of safety.
+\end{description}
+\subsection{Assumptions and Dependencies}
+Along with constraints, some assumptions have also been made in the design and specification of the system. The following assumptions have been made in this software requirements specification:
+\begin{description}
+\item[$\bullet$] The existing systems and infrastructure of the primary users are compatible with the system described here. No compatibility or integration analysis has been done at all.
+\item[$\bullet$] The primary users have an existing collaborative and administrative architecture in place which would make it easier for the integration and collaborative use of the system possible and hassle free.
+\item[$\bullet$]  The system features laid out in this paper all rely on information obtained from reputed existing systems that are assumed to have been working as described in the resources. Therefore, assumptions have been made about the technical working and compatibility of the system's integration.
+\end{description}
 \section{System Features \label{sect:chap2sysmodel}}
-
+The following sections in this document intend to describe the important system features of the blockchain interface being described in this paper and provide the interface stimulus/response sequence along with the functional requirements.
+\subsection{Token Conversion}
+\subsubsection{Description and Priority}
+The requirements in this section describe how the system is able to convert between various tokens of different types native to the multiple blockchains connected to the system. The token conversion system is the most important feature of the system as it would facilitate the interoperability of the blockchains operating within the infrastructure. One of the main goals this system intends to achieve is to interoperate among multiple blockchains by transferring tokens among then. Hence, this is a high priority system feature.
+\subsubsection{Stimulus/Response Sequence}
+The stimulus from different classes of users and response by the system, specific to this system feature is detailed below:
+\begin{description}
+\item[$\bullet$ Primary Users:] Stimulus: Initiate an intercontinental financial transaction such as money transfer.
+\\
+\\
+Response: The token conversion happens in the central blockchain of the architecture and , funds are transferred, and both parties get a receipt of the transaction.
+\item[$\bullet$ Secondary Users:]
+Stimulus: Log in to the system's, user facing interface and check the ownership of their funds and assets.
+\\
+\\
+Response: The system logs the user in correctly using the private keys stored in their device and displays a record of their funds and assets.
+\item[$\bullet$ Admin Users:] Stimulus: Manage token conversion policies and put up and vote on token conversion policy proposals, that they intend to implement by getting enough votes on their proposal.
+\\
+\\
+Response: Token conversion proposals written in the form of smart contracts get voted upon and implemented based on the results of the vote.
+\subsubsection{Functional Requirements}
+\begin{description}
+\item[$\bullet$ FR1:] The system shall allow users to authenticate using their public and private keys and/or alternative log in credentials such as user id and password if they have activated multi-factor authentication.
+\item[$\bullet$ FR2:] The system shall authorize different users with different levels of access identified based on their log in credentials.
+\item[$\bullet$ FR3:] The system shall allow the users to transfer tokens from one blockchain to another by converting the tokens for transfer to the base currency and then reconvert the tokens back to the receiver's currency using a conversion rate stored in a public ledger stored on the central chain.
+\item[$\bullet$ FR4:] The system shall deduct the tokens successfully from the sender's account, freeze those tokens for future use, and release the converted equivalent amount of tokens to the receiver's account.
+\end{description}
+\end{description}
+\subsection{Connection to Multiple Blockchain Systems}
+\subsubsection{Description and Priority}
+In order to be able to transfer tokens between multiple blockchain systems, those systems need to be well connected. This is a high priority feature because the inter-operability and inter-connectivity is essential for the functioning of the system. 
+\subsubsection{Stimulus/Response Sequence}
+The stimulus from different classes of users and response by the system, specific to this system feature is detailed below:
+\begin{description}
+\item[$\bullet$ Primary Users:] Primary users do not have access to this feature and, therefore, do not have an interface to be able to utilise this feature. However, they can be given temporary authorization by an admin user in which case they temporarily have the same interface as an admin user.  
+\item[$\bullet$ Secondary Users:]
+Secondary users do not have access to this feature and, therefore, do not have an interface in the system to be able to utilise this system feature.
+\item[$\bullet$ Admin Users:]
+Stimulus: The user creates a smart contract deployment proposal which has to be voted upon by all the admin users in the entire system. The proposal is they broadcast in the admin network by sending voting request to all users.
+\\
+\\
+Response: After the voting round is complete, the smart contract in the deployment proposal and the corresponding blockchain get added or discarded based on the result of the voting round. 
+\end{description}
+\subsubsection{Functional Requirements}
+\begin{description}
+\item[$\bullet$ FR5:] The system shall collect and broadcast any proposals to add new blockchain and token systems into the architecture from admin users or users granted admin access temporarily.
+\item[$\bullet$ FR6:] The system shall send a voting request to all the members who are eligible to vote upon the specific proposal.
+\item[$\bullet$ FR7:] The system shall collect the votes as and when the eligible voters vote using their voting request.
+\item[$\bullet$ FR8:] The system shall not let any single voter vote on the proposal more than once. In case another admin user has nominated their vote to the specific user, they can vote twice.
+\item[$\bullet$ FR9:] The system shall keep a count of the votes secretly until every user has finished voting.
+\item[$\bullet$ FR10:] The system shall publish the result of the voting after every admin user who is meant to be voting on the respective proposal has finished doing so.
+\item[$\bullet$ FR11:] The system shall add the token and blockchain system into the token exchange data base according to the rules set in the smart contract of the voting proposal, if the voting has a successful outcome.
+\item[$\bullet$ FR12:] The system shall discard the smart contract and the proposal in case of an unsuccessful voting outcome. However, the system shall keep a record of the voting proposal and log of its voting outcomes in a separate blockchain for future reference.
+\end{description}
+\subsection{Parallel Transaction Processing}
+\subsubsection{Description and Priority}
+One of the main goals of the project is to achieve scalability over the meagre 30 transactions per second which is the standard for most blockchain systems, currently. In order to achieve a higher transaction rate the transactions have to be processed in parallel. The connected multiple blockchain improves the transaction processing speeds by a few orders of magnitude. However, parallel transaction processing would improve the speed of transactions that have to pass through the hub. This is a medium to high priority feature because it is only one of the many different ways that improve transaction speeds. 
+\subsubsection{Stimulus/Response Sequence}
+\begin{description}
+\item[$\bullet$ Primary Users:] Stimulus: Initiates a transaction through the interface available to them.
+\\
+\\
+Response: The system processes the transaction in parallel. In case there is no transaction bandwidth available, it verifies the validity of the transaction and puts it in the available queue, if it is a valid transaction.
+\item[$\bullet$ Secondary Users:] Stimulus: Initiates a transaction through the interface available to them.
+\\
+\\
+Response:  The system verifies the transaction and processes it if it is valid. The user is provided a receipt of the transaction and a copy of the same receipt is logged in the receipts blockchain.
+\item[$\bullet$ Admin Users:] Admin users do not have a need to use the system for the purpose of initiating transactions, however they can act as primary users if they intend to. In case an admin user is acting as a primary user, the stimulus/response sequence is same as that of a primary user.
+\end{description}
+\subsubsection{Functional Requirements}
+\begin{description}
+\item[$\bullet$ FR13:] The system shall verify the validity of every transaction as a precursor to processing the transaction. The requirements to check the validity of each transaction is detailed in the the next chapter.
+\item[$\bullet$ FR14:] The system shall process transactions using multiple mining pools. Each mining pool will be a subset of the entire mining pool, which is derived from sharding the entire mining pool into smaller shards.
+\item[$\bullet$ FR15:] The system shall queue all valid transactions to be processed in circumstances when there is no mining pool available to process it immediately.
+\item[$\bullet$ FR16:] The system shall keep a log of all the invalid transaction attempts in the log blockchain for future reference.
+\end{description}
 \section{Other Non-Functional Requirements}
+\subsection{Performance Requirements}
+Any specific time measurements that might have been indicated in this section as a reasonable amount of time, have been specified in the testing specifications in the next chapter.
+\begin{description}
+\item[NFR1:] The system shall process a transaction within a reasonable amount of time.
+\item[NFR2:] The system shall verify the transaction in a reasonable amount of time and add the transaction to a processing queue immediately if there are no mining pools available to process it.
+\item[NFR3:] The system shall timeout and reverse any changes if the transaction stays in the processing queue for longer than 240 seconds.
+\item[NFR4:] The system shall authenticate the user and retrieve their account state in a reasonable amount of time.
+\item[NFR5:] In case the system cannot log the user in within 180 seconds of their attempt, the system shall discard all the authentication tokens and restart the process again.
+\end{description}
+\subsection{Design and Interface Requirements}
+\begin{description}
+\item[NFR6:] The system will not have a user interface but shall be able to use portable user interfaces as a plug and play system. 
+\item[NFR7:] The system shall eventually come with it's own user interface which shall be the most optimised for use with the back-end.
+\item[NFR8:] The system shall have its own library which will come with easy build UI components to create custom user interfaces.
+\item[NFR9:] The system will have a minimum level of compatibility with the existing user interfaces that the target customers might already have, such that it is usable enough.
+\end{description}
+\subsection{Usability Requirements}
+\begin{description}
+\item[NFR10:] The system shall be extremely usable because it uses the already familiar user interfaces that the user base already has.
+\item[NFR11:] The UI library could be used to build additional features on top of the existing user interface for more functionality.
+\item[NFR12:] The UI library will be used to build a quick tutorial for new and existing user to get more familiar with the system.
+\end{description}
+\subsection{Operational Requirements}
+\begin{description}
+\item[NFR13:] The system shall be able to process transactions as atomic operations, even with a slow internet connection.
+\item[NFR14:] The system shall have authority to reverse transactions that were found to be invalid at a later point in time, not exceeding the formation time for 10 blocks.
+\item[NFR15:] The system shall have a backup central server running to prevent downtime, in case the number of operating nodes goes below a minimum operable limit.
+\item[NFR16:] The system shall be completely operational as a standalone system. However, it can also interface with the most popular existing architecture
+\end{description}
+\subsection{Reliability Requirements}
+Any quantitative number which is mentioned in this section such as the operational number is also detailed more specifically in the testing specifications in the next chapter
+\begin{description}
+\item[NFR17:] The system shall be able to handle operating at its peak load for a reasonably long period of time without having any operational difficulties.
+\item[NFR18:] The system shall have at least three mirror systems which will take over in case the number of operating nodes goes below the operational number. 
+\item[NFR19:] The system shall have overloading servers that will handle the load, in rare cases where the system goes beyond peak transaction throughput.
+\end{description}
+\subsection{Security Requirements}
+\begin{description}
+\item[NFR20:] The system shall be able to detect a distributed-denial-of-service (DDoS) attack.
+\item[NFR21:] The system shall not use its backup resources in case a DDoS attack is successfully detected.
+\item[NFR22:] The system shall log any detected breaches or unusual activity to be reviewed for the purposes of optimizing the system.
+\item[NFR23:] The system shall have a separate blockchain for logging unusual activity. The logs blockchain shall have a separate consensus mechanism which will facilitate the independent consensus and governance of the logs.
+\item[NFR24:] The system shall store the user's public/private keys and alternative authentication credentials securely on the system locally.
+\item[NFR25:] The system shall provide the users with alternative methods to retrieve their private keys in case of a loss of access.
+\item[NFR26:] The system shall lock the user account and request the user to enter their authentication credentials every time there is suspected malicious activity.
+\item[NFR27:] The system shall email the user with an account log every-time there is any activity on their account.
+\end{description}
+\subsection{Maintainability Requirements}
+\begin{description}
+\item[NFR28:] The system shall be built using industry standard blockchain technology which has a certain degree of standardisation and compatibility with existing systems.
+\item[NFR29:] The system shall be completely modular with partially independent, maintainable components which could be replaced or serviced without affecting the usability of the entire system.
+\item[NFR30:] The system shall have a very detailed maintenance guide and documentation, such that it will be quite intuitive for any blockchain engineer to be able to fix and modify the system.
+\item[NFR31:] The system shall have a backup service for each component which shall be used during the maintenance of the the respective component to avoid downtime. 
+\end{description}
+\subsection{Legal Requirements}
+\begin{description}
+\item[NFR32:] The copyright and license agreements of any third-party software used in the development of the system must be strictly abided by.
+\item[NFR33:] The system shall include a data privacy policy agreement that informs users of their right regarding the collection and use of their personal data.
+\item[NFR34:] The data privacy policy shall completely conform to the General Data Protection Regulation (GDPR).
+\item[NFR35:] The system shall have a software licence agreement which informs the user of their rights and obligations.
 
-\chapter{System Specifications and Design}
+\end{description}
+\chapter{System Testing and Design Specifications}
 \label{chap:Conclusions}
 \chapter{System Implementation}
 \chapter{Discussion}
@@ -439,7 +672,7 @@ CSIT \> Channel State Information at Transmitter\\
 dB \> Decibels\\
 DPC \> Dirty Paper Coding\\
 GS \> Gram-Schmidt\\
-RVQ \> Random Vector Quantisation\\
+RVQ \> Random Vector Quantization\\
 SISO \> Single Input Single Output\\
 SNR \> Signal to Noise Ratio\\
 SINR \> Signal to Interference plus Noise Ratio\\
