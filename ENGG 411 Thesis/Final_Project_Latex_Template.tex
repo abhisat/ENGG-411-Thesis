@@ -105,6 +105,8 @@
 \usepackage{amsxtra}
 \usepackage{amsfonts}
 \usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{longtable}
 \usepackage{multirow} % This is package for multi-rows in tables added on 7th July 2009 by Arif
 %\usepackage{setspace}
 
@@ -617,7 +619,7 @@ Any specific time measurements that might have been indicated in this section as
 \item[NFR13:] The system shall be able to process transactions as atomic operations, even with a slow internet connection.
 \item[NFR14:] The system shall have authority to reverse transactions that were found to be invalid at a later point in time, not exceeding the formation time for 10 blocks.
 \item[NFR15:] The system shall have a backup central server running to prevent downtime, in case the number of operating nodes goes below a minimum operable limit.
-\item[NFR16:] The system shall be completely operational as a standalone system. However, it can also interface with the most popular existing architecture
+\item[NFR16:] The system shall be completely operational as a standalone system. However, it can also interface with the most popular existing architecture.
 \end{description}
 \subsection{Reliability Requirements}
 Any quantitative number which is mentioned in this section such as the operational number is also detailed more specifically in the testing specifications in the next chapter
@@ -653,6 +655,351 @@ Any quantitative number which is mentioned in this section such as the operation
 
 \end{description}
 \chapter{System Testing and Design Specifications}
+The following system test and design document contains the test requirements and other system design information such as package diagram, analysis and design class diagram, state diagram and requirements traceability matrix.  
+\section{Design Specifications}
+The following section lays out the basic design of the high level architecture of the system:
+\subsection{System Architecture}
+The system architecture lays the technical framework for the system which regards the requirements and design specifications of the system. The framework for how the system integrates with the existing infrastructure and collaborates with the existing software. The system architecture also details the different components of the system itself and how those components interact and work among each other.
+\subsection{Data Storage Strategy}
+The data storage strategy used in this system is quite different from a standard blockchain system. Standard blockchain systems have a completely distributed data storage model which keeps a redundant copy of data on every single node. The scalability of such a system is compromised. The data will have to redundantly copied across all the nodes, every single time an update is made. The data storage model in the system described in this thesis is partially centralised in order to make it more scalable and secure. The data centralisation does not, however, allow any single node to have any additional authority of any other normal node. The central data stores are just there for the purpose of storage. 
+\subsection{Trader-offs and Choices}
+The project demanded a few trade-offs and hard choices in terms of selection of technological advantages. One of the major trade-offs was to discard the concept of complete decentralisation in order to make the system more scalable. The system also had to incorporate multiple data mirrors or backup servers. The other trade-off was to prioritise security over usability. The system is extremely secure. The security procedures such as password reset and key recovery might not be the most usable and intuitive, however, those features are designed by prioritizing security.
+\subsection{Concurrent Processes and Coordination}
+The concurrent processing of certain parts of the system is extremely neccessary. The system is a network of blockchains in which certain data needs to be logged simultaneously into multiple concurrent systems. This requirement creates a plethora of difficulties and complications in the integration of the system. However, it is completely necessary in order to maintain the security and integrity of the entire system. As an example, the logging blockchain needs to work concurrently with the transactions blockchain. The transactions need to be logged in real time otherwise there is going to problems with integration.
+\subsection{Package Diagram}
+\section{Data Dictionary}
+\section{Analysis and Design Class Diagram}
+\section{State Diagram}
+\section{Design Assumptions}
+\section{Test Specifications}
+\subsection{Test Overview}
+The following test specifications are based on the requirements taken from the Software Requirements Specifications (SRS) document which has been provided in the previous chapter of this thesis. The following sections illustrate each requirement and its corresponding test specification. 
+\subsubsection{Functional Requirements}
+\begin{description}
+\item[FR1:] The system shall allow users to authenticate using their public and private keys and/or alternative log in credentials such as user id and password if they have activated multi-factor authentication.
+\item[Purpose:] To allow users to log in to the system securely using multiple methods of authentication.
+\item[Fit Criteria:] The system shall reject all the attempts of authentication using incorrect credentials. This fit criteria shall be valid for any of the multiple modes of authentication.
+\\
+\item[FR2:] The  system  shall  authorize  different  users  with  different  levels  of  access identified based on their log in credentials.
+\item[Purpose:] To provide every user with the appropriate level of access into the system 
+\item[Fit Criteria:] Under no circumstances, shall the system allow a user more privileges than their role permits.
+\\
+\item[FR3:] The system shall allow the users to transfer supported tokens from one blockchain to another by converting the tokens for transfer to the base currency and then reconverting  the  tokens  back  to  the  receiver’s  currency  using  a  conversion  rate stored in a public ledger stored on the central chain.
+\item[Purpose:] To allow interoperability of multiple blockchains and token systems.
+\item[Fit Criteria:] The system shall not process a token transaction using an incorrect exchange rate or a token transaction that is not supported, under any circumstance.
+\\
+\item[FR4:] The system shall deduct the tokens successfully from the sender’s account,freeze those tokens for future use, and release the converted equivalent amount of tokens to the receiver’s account.
+\item[Purpose:] To prevent double spending.
+\item[Fit Criteria:] The system will, under no circumstance, process a transaction before deducting and freezing the correct denomination of tokens from the sender's account.
+\\
+\item[FR5:] The system shall collect and broadcast any proposals to add new blockchain and token systems into the architecture from admin users or users granted admin access temporarily.
+\item[Purpose:] To allow the incorporation of various token systems into the token conversion system.
+\item[Fit Criteria:] The system shall not allow any user who does not have admin privileges to add proposals for incorporating token systems, under any circumstance.
+\\
+\item[FR6:] The system shall send a voting request to all the members who are eligible to vote upon the specific proposal.
+\item[Purpose:] To allow for a decentralisation of choice in the incorporation of various token systems.
+\item[Fit Criteria:] The system shall not allow any user to vote unless they have voting privileges as deemed necessary by the proposal. The system must notify all eligible voters about the voting proposal.
+\\
+\item[FR7:] The system shall collect the votes as and when the eligible voters vote using their voting request.
+\item[Purpose:] To allow admin users to vote on token incorporation proposals.
+\item[Fit Criteria:] The system shall allow all eligible admin nodes to vote while preventing the ineligible users from voting.
+\\
+\item[FR8:] The system shall not let any single voter vote on the proposal more than once. In case another admin user has nominated their vote to the specific user, they can vote twice.
+\item[Purpose:] To avoid duplicate votes.
+\item[Fit Criteria:] The system will not, under any circumstance, let a user vote more than once unless they have a token from another user, which allows them to vote twice.
+\\
+\item[FR9:] The system shall keep a count of the votes secretly until every user has finished voting.
+\item[Purpose:] To prevent the user's voting choice based on the voting count.
+\item[Fit Criteria:] Any user, under no circumstance shall be able to find out the current vote count before it is officially published.
+\\
+\item[FR10:] The system shall publish the result of the voting after every admin user who is meant to be voting on the respective proposal has finished doing so.
+\item[Purpose:] To establish fair voting policy and allow every voter enough time to vote.
+\item[Fit Criteria:] The system shall, under no circumstance, allow any user to discover the voting results before the process is completed.
+\\
+\item[FR11:] The system shall add the token and blockchain system into the token exchange data base according to the rules set in the smart contract of the voting proposal, if the voting has a successful outcome.
+\item[Purpose:] To add the interoperability of multiple blockchains into the architecture.
+\item[Fit Criteria:] The system shall, under no circumstance, allow the incorrect integration of a token proposal with incorrect rules into the system.
+\\
+\item[FR12:] The system shall discard the smart contract and the proposal in case of an unsuccessful voting outcome. However, the system shall keep a record of the voting proposal and log of its voting outcomes in a separate blockchain for future reference.
+\item[Purpose:] To discard unsuccessful voting proposals.
+\item[Fit Criteria:] The system shall, under no circumstance, allow the integration of a token proposal which has been unsuccessful after the voting procedure has ended.
+\\
+\item[FR13:] The system shall verify the validity of every transaction as a precursor to processing the transaction. The requirements to check the validity of each transaction is detailed in the the next chapter.
+\item[Purpose:] To improve the processing efficiency by filtering invalid transactions.
+\item[Fit Criteria:] The system shall never initialize a transaction before conducting the validity check. The initialization procedure will include the validity check. 
+\\
+\item[FR14:] The system shall process transactions using multiple mining pools. Each mining pool will be a subset of the entire mining pool, which is derived from sharding the entire mining pool into smaller shards.
+\item[Purpose:] To achieve scalability and parallel processing.
+\item[Fit Criteria:] The system shall divide the entire mining pool into smaller shards
+\\
+\item[FR15:] The system shall queue all valid transactions to be processed in circumstances when there is no mining pool available to process it immediately.
+\item[Purpose:] To allow an extra transaction processing bandwidth when the mining pools are all occupied.
+\item[Fit Criteria:] The system will never reject a valid transaction unless there is a set timeout.
+\\
+\item[FR16:] The system shall keep a log of all the invalid transaction attempts in the logs blockchain for future reference.
+\item[Purpose:] To use the data to be able to optimise the detection of invalid transactions.
+\item[Fit Criteria:] The system shall never, under any circumstance, allow any modification or access to any component of the system without creating a log input for such an operation.
+\end{description}
+\subsubsection{Performance Requirements}
+\begin{description}
+\item[NFR1:] The system shall process a transaction within a reasonable amount of time.
+\item[Purpose:] To make the transaction processing system more efficient and prevent any potential brute force attacks.
+\item[Fit Criteria:] The system will not take more than 240 seconds to process any kind of transaction.
+\item[NFR2:] The system shall verify the transaction in a reasonable amount of time and add the  transaction  to  a  processing  queue  immediately  if  there  are  no  mining  pools available to process it.
+\item[Purpose:] To prevent valid transactions from being declined due to transaction throughput limitations.
+\item[Fit Criteria:] The system shall not take more than 60 seconds to verify and add the transaction to the processing queue.
+\item[NFR3:] The system shall timeout and reverse any changes if the transaction stays in the processing queue for longer than 240 seconds.
+\item[Purpose:] To prevent any potential security vulnerabilities which might be exploited by a brute-force attack.
+\item[Fit Criteria:] The system will not process any transaction which has an initial timestamp which is more than 240 seconds in the past and will timeout and reverse any such transaction.
+\item[NFR4:] The  system  shall  authenticate  the  user  and  retrieve  their  account  state in a reasonable amount of time.
+\item[Purpose:] To prevent any possible attacks and exploits using authentication tokens issued by the system.
+\item[Fit Criteria:] The authentication token generated by the system shall in no circumstance be older than 60 seconds, otherwise, the system shall restart the authentication process with the user.
+\item[NFR5:] In case the system cannot log the user in within 60 seconds of their attempt, the system shall discard all the authentication tokens and restart the process again and notify the user.
+\item[Purpose:] To prevent any possible attacks and exploits using authentication tokens issued by the system.
+\item[Fit Criteria:] The system shall notify the user of any failed log in attempt or log in timeout.
+\end{description}
+\subsubsection{Design and Interface Requirements}
+\begin{description}
+\item[NFR6:] The system will not have a user interface but shall be able to use portable user interfaces as a plug and play system.
+\item[Purpose:] To allow for various types of existing infrastructure to interface with the system.
+\item[Fit Criteria:] The system shall have cross compatibility with the most popular existing accounting systems, legacy banking infrastructure, and supply chain software.
+\item[NFR7:] The system shall eventually come with it’s own user interface which shall be optimised for the best use with the back-end.
+\item[Purpose:] To create a standarised infrastructure and framework which will be effective in standardising the system.
+\item[Fit Criteria:] The system library shall be based on a multi-platform UI interface which will include web, Android, iOS, MacOS, Windows, Linux, and the upcoming HeliOS. The system will have a standardized set of features and components across all platforms. 
+\item[NFR8:] The system shall have its own library which will come with easy build UI components to create custom user interfaces.
+\item[Purpose:] To create a standarised infrastructure and framework which will be effective in standardising the system.
+\item[Fit Criteria:] The UI library will be built on a common language across all the platforms which will ensure ease of use and reusability of code components.
+\item[NFR9:] The system will have a minimum level of compatibility with the existing user interfaces that the target customers might already have, such that it is usable enough.
+\item[Purpose:] To make the system compatible with existing systems for ease of adoption and integration.
+\item[Fit Criteria:] The system shall be cross compatible with most existing databases for the purposes of backing up and restroring data.
+\end{description}
+\subsubsection{Usability Requirements}
+\begin{description}
+\item[NFR10:] The system shall be extremely usable because it uses the already familiar user interfaces that the user base already has.
+\item[Purpose:] To make the system extremely usable and give users the choice to keep their familiar user interface.
+\item[Fit Criteria:] The system shall be compatible with any existing user interface, if the UI is standalone or could be made so with minimal modifications.
+\item[NFR11:] The UI library could be used to build additional features on top of the existing user interface for more functionality.
+\item[Purpose:] To allow for slow and smooth transition from the old user interface.
+\item[Fit Criteria:] The UI library should be able to create UI components which will be compatible with most existing standalone environments.
+\item[NFR12:] The UI library will be used to build a quick tutorial for new and existing user to get more familiar with the system.
+\item[Purpose:] To make users familiar with the system more quickly.
+\item[Fit Criteria:] The UI will be able to integrate tutorial UI components on top of the existing interface.
+\end{description}
+\subsubsection{Operational Requirements}
+\begin{description}
+\item[NFR13:] The  system  shall  be  able  to  process  transactions  as  atomic  operations,  even with a slow internet connection.
+\item[Purpose:] To ensure that there is no possibility of any transaction being processed twice.
+\item[Fit Criteria:] The system shall, under no circumstance, process any transaction twice.
+\item[NFR14:] The system shall have authority to reverse transactions that were found to be invalid at a later point in time, not exceeding the formation time for 10 blocks.
+\item[Purpose:] To reverse transactions in case a security breach is detected.
+\item[Fit Criteria:] The system shall allow users to reverse transactions in case a security breach has been detected with the corresponding account. ( This is a great feature for making the system more usable, however, opens up a huge window of potential exploits.)
+\item[NFR15:] The system shall have a backup central server running to prevent downtime, incase the number of operating nodes goes below a minimum operable limit.
+\item[Purpose:] To prevent the system from having potential downtime.
+\item[Fit Criteria:] The system shall make use of the backup server as its data and consensus engine as soon as the number of active nodes goes below 20\% of the total number of nodes.
+\item[NFR16:] The system shall be completely operational as a standalone system.  However,it can also interface with the most popular existing architecture.
+\item[Purpose:] To make the system functional without having any dependencies.
+\item[Fit Criteria:] The system shall satisfy all the functional requirements without making use of any other third-party software or libraries.
+\end{description}
+\subsubsection{Reliability Requirements}
+\begin{description}
+\item[NFR17:] The system shall be able to handle operating at its peak load for a reasonably long period of time without having any operational difficulties.
+\item[Purpose:] To ensure the system can perform at its peak load.
+\item[Fit Criteria:] The system is able to perform at its peak operating load for at least an hour in any given 24 hr time period.
+\item[NFR18:] The system shall have at least three mirror systems which will take over in case the number of operating nodes goes below the operational number.
+\item[Purpose:] To make sure there is no loss of data.
+\item[Fit Criteria:] The system will be able to return back to its previous checkpoint, which is the creation of every block, using one of the three mirrors whenever there is a storage breach or loss.
+\item[NFR19:] The  system  shall  have  overloading  servers  that  will  handle  the  load,  in  rare cases where the system goes beyond peak transaction throughput.
+\item[Purpose:] To prevent the breaking of the system in case there is an unexpected overload.
+\item[Fit Criteria:] The system shall always transition to the overloading servers as soon as it reaches a 95\% load.
+\end{description}
+\subsubsection{Security Requirements}
+\begin{description}
+\item[NFR20:] The system shall be able to detect a distributed-denial-of-service (DDoS) attack.
+\item[Purpose:] To prevent misuse of the system by a denial-of-service attack.
+\item[Fit Criteria:] The system should initially be able to detect at least 95\% of the DDOS exploit. It should also be able to optimise based on data gathered from potential breaches over time.
+\item[NFR21:] The system shall not use its backup resources in case a DDoS attack is successfully detected.
+\item[Purpose:] To prevent misuse of system resources.
+\item[Fit Criteria:] The system should not use any backup resource, under any circumstance, when an attack is detected. The system will also shut down the use of any backup resources within 600 milliseconds of an attack being detected.
+\item[NFR22:] The system shall log any detected breaches or unusual activity to be reviewed for the purposes of optimizing the system.
+\item[Purpose:] To keep a record of all the activity of any kind that has happened on the system and use the data to make the system better.
+\item[Fit Criteria:] The system shall create a log of any atomic activity that has taken place on the system, even the ones that are a reversal of a transaction.
+\item[NFR23:] The system shall have a separate blockchain for logging unusual activity.  The logs blockchain shall have a separate consensus mechanism which will facilitate the independent consensus and governance of the logs
+\item[Purpose:] To keep the functioning of the logging system separate and independent from the main system.
+\item[Fit Criteria:] The logging system shall be completely independent and concurrent with the transaction system. The logging system shall complete the logging process as a part of an atomic transaction.
+\item[NFR24:] The system shall store the user’s public/private keys and alternative authentication credentials securely on the system locally.
+\item[Purpose:] To keep authentication credentials safe in case of a potential data breach of the system.
+\item[Fit Criteria:] There shall be no raw data entry of user private keys found anywhere on the system.
+\item[NFR25:] The system shall provide the users with alternative methods to retrieve their private keys in case of a loss of access.
+\item[Purpose:] To allow users a secure way of restoring their private keys.
+\item[Fit Criteria:] The system will have a local password recovery system which will let the users recover their private keys and let users create a log in password which will be a easily memorable and human readable form of the private key.
+\item[NFR26:] The system shall lock the user account and request the user to  enter their authentication credentials every time there is suspected malicious activity.
+\item[Purpose:] To make the user account more secure against potential account exploits.
+\item[Fit Criteria:] The system shall lock the user account when there is a potential malicious activity regardless of whether the said activity is a false positive.
+\item[NFR27:] The system shall email the user with an account log every-time there is any activity on their account.
+\item[Purpose:] To inform the users of any activity that has been happening on their account and prevent any potential exploits.
+\item[Fit Criteria:] The system will send the user a log of the activities happening on their account every five minutes while the account is active.
+\end{description}
+\subsubsection{Maintainability Requirements}
+\begin{description}
+\item[NFR28:] The system shall be built using industry standard blockchain technology which has a certain degree of standardisation and compatibility with existing systems.
+\item[Purpose:] To create a system that has cross-platform compatibility and industry standard code.
+\item[Fit Criteria:] Apart from the intellectual property regarding the design and implementation of the system, it shall be built using already existing open source technologies.
+\item[NFR29:] The system shall be completely modular with partially independent, maintainable components which could be replaced or serviced without affecting the usability of the entire system.
+\item[Purpose:] To reduce interdependence and improve maintainability of the individual components of the system.
+\item[Fit Criteria:] The system as a whole should be able to satisfy all the functional requirements even if any individual system component is replaced with an identical one.
+\item[NFR30:] The system shall have a very detailed maintenance guide and documentation, such that it will be quite intuitive for any blockchain engineer to be able to fix and modify the system.
+\item[Purpose:] To allow the users and maintainers to be able to use, maintain and troubleshoot the system easily.
+\item[Fit Criteria:] The system shall maintain a comprehensive digital manual and troubleshooting guide which will be updated regularly by maintainers as soon as new troubleshooting information is discovered.
+\item[NFR31:] The system shall have a backup service for each component which shall be used during the maintenance of the the respective component to avoid downtime.
+\item[Purpose:] To avoid downtime in case one or multiple components of the system fail.
+\item[Fit Criteria:] The system should be able to transition to the backup service for any particular component within 100 milliseconds of detecting a component failure or in case of a scheduled maintenance. 
+\end{description}
+\subsubsection{Legal Requirements}
+\begin{description}
+\item[NFR32:] The copyright and license agreements of any third-party software used in the development of the system must be strictly abided by.
+\item[Purpose:] To prevent any legal licensing issues with third-party software used in the creation of the product.
+\item[Fit Criteria:] The software licence agreements of any existing software used in the system shall be reviewed by at least two independent software licence lawyers.
+\item[NFR33:] The system shall include a data privacy policy agreement that informs users of their right regarding the collection and use of their personal data.
+\item[Purpose:] To provide users with a comprehensive and transparent policy regarding how their data is being used.
+\item[Fit Criteria:] The data privacy policy will have the most simple language without much technical and legal jargon. It will be reviewed by a selected few users for ease of comprehension.
+\item[NFR34:] The data privacy policy shall completely conform to the General Data Protection Regulation (GDPR)
+\item[Purpose:] To conform with data privacy laws and safeguard users' sensitive personal and financial data.
+\item[Fit Criteria:] The data privacy policy shall be reviewed by at least three independent data privacy lawyers. 
+\item[NFR35:] The system shall have a software licence agreement which informs the user of their rights and obligations.
+\item[Purpose:] To give the users an opportunity to know more about their rights and restrictions while using the software.
+\item[Fit Criteria:] The software licence agreement shall be as comprehensive as possible including all the license agreements regarding any third-party software used in the production of the system. The software licence agreement will also be reviewed by appropriate software licensing lawyers.
+\end{description}
+\subsection{Test Details}
+\begin{description}
+\item[T1] Dynamic Testing - Tests execution and validation of code
+\item[T2] White Box Testing - Tests the internal structures or workings of a program
+\item[T3] Black Box Testing - Tests the functionality without knowing the internal structures
+\item[T4] System Testing - Tests a completely integrated system to verify that it meets its requirements
+\item[T5] Installation Testing - Tests the correct installation of the system
+\item[T6] Accessibility Testing - Tests the ability to cater to the needs of users with disabilities
+\item[T7] Security Testing - Test the security and authorization mechanism
+\item[T8] Usability Testing - Tests the ease of use of the system
+\item[T9] Integration Testing - Checks the proper coordination of different components
+\item[T10] Operational Acceptance Testing - Test the operational readiness (pre-release) of a product, service or system
+\item[T11] Penetration Testing - Tests how easily the system can be broken into
+\item[T12] Load Testing - Tests performance under peak load conditions
+\item[T13] Stress Testing - Tests the break point of the system
+\item[T14] Component Testing - Tests the functioning of individual components
+\item[T15] Functional Testing - Verifies that the system meets the requirements and specifications
+\end{description}
+\subsection{Test Case Specifications}
+\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{2.5}
+ 
+{\rowcolors{1}{gray!20}{white}
+\begin{tabular}{ |p{1cm}|p{1cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|  }
+\hline
+\bf{Test Case Number} & \bf{Require-ment ID} & \bf{Fit Criteria} & \bf{Test Description} & \bf{Input Specification} & \bf{Expected Result}\\
+\hline
+Afghanistan & AF &AFG \\
+Aland Islands & AX   & ALA \\
+Albania &AL & ALB \\
+Algeria    &DZ & DZA \\
+American Samoa & AS & ASM \\
+Andorra & AD & AND   \\
+Angola & AO & AGO \\
+\hline
+\end{tabular}
+}
+\subsection{Test Plan}
+\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{2.5}
+ 
+{\rowcolors{1}{gray!20}{white}
+\begin{tabular}{ |p{2cm}|p{2cm}|p{2cm}|p{2cm}|  }
+\hline
+\bf{Test ID} & \bf{Environment} & \bf{Test Mode} & \bf{Brief Description}\\
+\hline
+T1 & AF &AFG \\
+T2 Islands & AX   & ALA \\
+T3 &AL & ALB \\
+T4 &DZ & DZA \\
+T5 & AS & ASM \\
+T6 & AD & AND   \\
+T7 & AO & AGO \\
+T8\\
+T9\\
+T10\\
+T11\\
+T12\\
+T13\\
+T14\\
+T15\\
+\hline
+\end{tabular}
+}
+\section{Requirements Traceability Matrix}
+\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{2.5}
+ 
+{\rowcolors{1}{gray!20}{white}
+\begin{longtable}{ |p{1cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1cm}| }
+\hline
+\bf{Requir-ement ID} & \bf{Use Cases} & \bf{Classes} & \bf{Methods} & \bf{Packages} & \bf{Build Number}\\
+\hline
+FR1 & AF &AFG \\
+FR2  & AX   & ALA \\
+FR3 &AL & ALB \\
+FR4 &DZ & DZA \\
+FR5 & AS & ASM \\
+FR6 & AD & AND   \\
+FR7 & AO & AGO \\
+FR8\\
+FR9\\
+FR10\\
+FR11\\
+FR12\\
+FR13\\
+FR14\\
+FR15\\
+FR16\\
+\page
+NFR1\\
+NFR2\\
+NFR3\\
+NFR4\\
+NFR5\\
+NFR6\\
+NFR7\\
+NFR8\\
+NFR9\\
+NFR10\\
+NFR11\\
+NFR12\\
+NFR13\\
+NFR14\\
+NFR15\\
+NFR16\\
+NFR17\\
+NFR18\\
+NFR19\\
+NFR20\\
+NFR21\\
+NFR22\\
+NFR23\\
+NFR24\\
+NFR25\\
+NFR26\\
+NFR27\\
+NFR28\\
+NFR29\\
+NFR30\\
+NFR31\\
+NFR32\\
+NFR33\\
+NFR34\\
+NFR35\\
+\hline
+\end{longtable}
+}
 \label{chap:Conclusions}
 \chapter{System Implementation}
 \chapter{Discussion}
