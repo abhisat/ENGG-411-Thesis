@@ -668,207 +668,38 @@ The project demanded a few trade-offs and hard choices in terms of selection of 
 The concurrent processing of certain parts of the system is extremely neccessary. The system is a network of blockchains in which certain data needs to be logged simultaneously into multiple concurrent systems. This requirement creates a plethora of difficulties and complications in the integration of the system. However, it is completely necessary in order to maintain the security and integrity of the entire system. As an example, the logging blockchain needs to work concurrently with the transactions blockchain. The transactions need to be logged in real time otherwise there is going to problems with integration.
 \subsection{Package Diagram}
 \section{Data Dictionary}
+\setlength{\arrayrulewidth}{0.2mm}
+\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{2.5}
+ 
+{\rowcolors{1}{gray!20}{white}
+\begin{longtable}{ |p{2.5cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|  }
+\hline
+\bf{Name} & \bf{Type} & \bf{Meaning} & \bf{Example}\\
+\hline
+T1 &   &   &   \\
+T2 &   &   &   \\
+T3 &   &   &   \\
+T4 &   &   &   \\
+T5 &   &   &   \\
+T6 &   &   &   \\
+T7 &   &   &   \\
+T8 &   &   &   \\
+T9 &   &   &   \\
+T10 &   &   &   \\
+T11 &   &   &   \\
+T12 &   &   &   \\
+T13 &   &   &   \\
+T14 &   &   &   \\
+T15 &   &   &   \\
+\hline
+\end{longtable}
+}
 \section{Analysis and Design Class Diagram}
 \section{State Diagram}
 \section{Design Assumptions}
 \section{Test Specifications}
-\subsection{Test Overview}
-The following test specifications are based on the requirements taken from the Software Requirements Specifications (SRS) document which has been provided in the previous chapter of this thesis. The following sections illustrate each requirement and its corresponding test specification. 
-\subsubsection{Functional Requirements}
-\begin{description}
-\item[FR1:] The system shall allow users to authenticate using their public and private keys and/or alternative log in credentials such as user id and password if they have activated multi-factor authentication.
-\item[Purpose:] To allow users to log in to the system securely using multiple methods of authentication.
-\item[Fit Criteria:] The system shall reject all the attempts of authentication using incorrect credentials. This fit criteria shall be valid for any of the multiple modes of authentication.
-\\
-\item[FR2:] The  system  shall  authorize  different  users  with  different  levels  of  access identified based on their log in credentials.
-\item[Purpose:] To provide every user with the appropriate level of access into the system 
-\item[Fit Criteria:] Under no circumstances, shall the system allow a user more privileges than their role permits.
-\\
-\item[FR3:] The system shall allow the users to transfer supported tokens from one blockchain to another by converting the tokens for transfer to the base currency and then reconverting  the  tokens  back  to  the  receiver’s  currency  using  a  conversion  rate stored in a public ledger stored on the central chain.
-\item[Purpose:] To allow interoperability of multiple blockchains and token systems.
-\item[Fit Criteria:] The system shall not process a token transaction using an incorrect exchange rate or a token transaction that is not supported, under any circumstance.
-\\
-\item[FR4:] The system shall deduct the tokens successfully from the sender’s account,freeze those tokens for future use, and release the converted equivalent amount of tokens to the receiver’s account.
-\item[Purpose:] To prevent double spending.
-\item[Fit Criteria:] The system will, under no circumstance, process a transaction before deducting and freezing the correct denomination of tokens from the sender's account.
-\\
-\item[FR5:] The system shall collect and broadcast any proposals to add new blockchain and token systems into the architecture from admin users or users granted admin access temporarily.
-\item[Purpose:] To allow the incorporation of various token systems into the token conversion system.
-\item[Fit Criteria:] The system shall not allow any user who does not have admin privileges to add proposals for incorporating token systems, under any circumstance.
-\\
-\item[FR6:] The system shall send a voting request to all the members who are eligible to vote upon the specific proposal.
-\item[Purpose:] To allow for a decentralisation of choice in the incorporation of various token systems.
-\item[Fit Criteria:] The system shall not allow any user to vote unless they have voting privileges as deemed necessary by the proposal. The system must notify all eligible voters about the voting proposal.
-\\
-\item[FR7:] The system shall collect the votes as and when the eligible voters vote using their voting request.
-\item[Purpose:] To allow admin users to vote on token incorporation proposals.
-\item[Fit Criteria:] The system shall allow all eligible admin nodes to vote while preventing the ineligible users from voting.
-\\
-\item[FR8:] The system shall not let any single voter vote on the proposal more than once. In case another admin user has nominated their vote to the specific user, they can vote twice.
-\item[Purpose:] To avoid duplicate votes.
-\item[Fit Criteria:] The system will not, under any circumstance, let a user vote more than once unless they have a token from another user, which allows them to vote twice.
-\\
-\item[FR9:] The system shall keep a count of the votes secretly until every user has finished voting.
-\item[Purpose:] To prevent the user's voting choice based on the voting count.
-\item[Fit Criteria:] Any user, under no circumstance shall be able to find out the current vote count before it is officially published.
-\\
-\item[FR10:] The system shall publish the result of the voting after every admin user who is meant to be voting on the respective proposal has finished doing so.
-\item[Purpose:] To establish fair voting policy and allow every voter enough time to vote.
-\item[Fit Criteria:] The system shall, under no circumstance, allow any user to discover the voting results before the process is completed.
-\\
-\item[FR11:] The system shall add the token and blockchain system into the token exchange data base according to the rules set in the smart contract of the voting proposal, if the voting has a successful outcome.
-\item[Purpose:] To add the interoperability of multiple blockchains into the architecture.
-\item[Fit Criteria:] The system shall, under no circumstance, allow the incorrect integration of a token proposal with incorrect rules into the system.
-\\
-\item[FR12:] The system shall discard the smart contract and the proposal in case of an unsuccessful voting outcome. However, the system shall keep a record of the voting proposal and log of its voting outcomes in a separate blockchain for future reference.
-\item[Purpose:] To discard unsuccessful voting proposals.
-\item[Fit Criteria:] The system shall, under no circumstance, allow the integration of a token proposal which has been unsuccessful after the voting procedure has ended.
-\\
-\item[FR13:] The system shall verify the validity of every transaction as a precursor to processing the transaction. The requirements to check the validity of each transaction is detailed in the the next chapter.
-\item[Purpose:] To improve the processing efficiency by filtering invalid transactions.
-\item[Fit Criteria:] The system shall never initialize a transaction before conducting the validity check. The initialization procedure will include the validity check. 
-\\
-\item[FR14:] The system shall process transactions using multiple mining pools. Each mining pool will be a subset of the entire mining pool, which is derived from sharding the entire mining pool into smaller shards.
-\item[Purpose:] To achieve scalability and parallel processing.
-\item[Fit Criteria:] The system shall divide the entire mining pool into smaller shards
-\\
-\item[FR15:] The system shall queue all valid transactions to be processed in circumstances when there is no mining pool available to process it immediately.
-\item[Purpose:] To allow an extra transaction processing bandwidth when the mining pools are all occupied.
-\item[Fit Criteria:] The system will never reject a valid transaction unless there is a set timeout.
-\\
-\item[FR16:] The system shall keep a log of all the invalid transaction attempts in the logs blockchain for future reference.
-\item[Purpose:] To use the data to be able to optimise the detection of invalid transactions.
-\item[Fit Criteria:] The system shall never, under any circumstance, allow any modification or access to any component of the system without creating a log input for such an operation.
-\end{description}
-\subsubsection{Performance Requirements}
-\begin{description}
-\item[NFR1:] The system shall process a transaction within a reasonable amount of time.
-\item[Purpose:] To make the transaction processing system more efficient and prevent any potential brute force attacks.
-\item[Fit Criteria:] The system will not take more than 240 seconds to process any kind of transaction.
-\item[NFR2:] The system shall verify the transaction in a reasonable amount of time and add the  transaction  to  a  processing  queue  immediately  if  there  are  no  mining  pools available to process it.
-\item[Purpose:] To prevent valid transactions from being declined due to transaction throughput limitations.
-\item[Fit Criteria:] The system shall not take more than 60 seconds to verify and add the transaction to the processing queue.
-\item[NFR3:] The system shall timeout and reverse any changes if the transaction stays in the processing queue for longer than 240 seconds.
-\item[Purpose:] To prevent any potential security vulnerabilities which might be exploited by a brute-force attack.
-\item[Fit Criteria:] The system will not process any transaction which has an initial timestamp which is more than 240 seconds in the past and will timeout and reverse any such transaction.
-\item[NFR4:] The  system  shall  authenticate  the  user  and  retrieve  their  account  state in a reasonable amount of time.
-\item[Purpose:] To prevent any possible attacks and exploits using authentication tokens issued by the system.
-\item[Fit Criteria:] The authentication token generated by the system shall in no circumstance be older than 60 seconds, otherwise, the system shall restart the authentication process with the user.
-\item[NFR5:] In case the system cannot log the user in within 60 seconds of their attempt, the system shall discard all the authentication tokens and restart the process again and notify the user.
-\item[Purpose:] To prevent any possible attacks and exploits using authentication tokens issued by the system.
-\item[Fit Criteria:] The system shall notify the user of any failed log in attempt or log in timeout.
-\end{description}
-\subsubsection{Design and Interface Requirements}
-\begin{description}
-\item[NFR6:] The system will not have a user interface but shall be able to use portable user interfaces as a plug and play system.
-\item[Purpose:] To allow for various types of existing infrastructure to interface with the system.
-\item[Fit Criteria:] The system shall have cross compatibility with the most popular existing accounting systems, legacy banking infrastructure, and supply chain software.
-\item[NFR7:] The system shall eventually come with it’s own user interface which shall be optimised for the best use with the back-end.
-\item[Purpose:] To create a standarised infrastructure and framework which will be effective in standardising the system.
-\item[Fit Criteria:] The system library shall be based on a multi-platform UI interface which will include web, Android, iOS, MacOS, Windows, Linux, and the upcoming HeliOS. The system will have a standardized set of features and components across all platforms. 
-\item[NFR8:] The system shall have its own library which will come with easy build UI components to create custom user interfaces.
-\item[Purpose:] To create a standarised infrastructure and framework which will be effective in standardising the system.
-\item[Fit Criteria:] The UI library will be built on a common language across all the platforms which will ensure ease of use and reusability of code components.
-\item[NFR9:] The system will have a minimum level of compatibility with the existing user interfaces that the target customers might already have, such that it is usable enough.
-\item[Purpose:] To make the system compatible with existing systems for ease of adoption and integration.
-\item[Fit Criteria:] The system shall be cross compatible with most existing databases for the purposes of backing up and restroring data.
-\end{description}
-\subsubsection{Usability Requirements}
-\begin{description}
-\item[NFR10:] The system shall be extremely usable because it uses the already familiar user interfaces that the user base already has.
-\item[Purpose:] To make the system extremely usable and give users the choice to keep their familiar user interface.
-\item[Fit Criteria:] The system shall be compatible with any existing user interface, if the UI is standalone or could be made so with minimal modifications.
-\item[NFR11:] The UI library could be used to build additional features on top of the existing user interface for more functionality.
-\item[Purpose:] To allow for slow and smooth transition from the old user interface.
-\item[Fit Criteria:] The UI library should be able to create UI components which will be compatible with most existing standalone environments.
-\item[NFR12:] The UI library will be used to build a quick tutorial for new and existing user to get more familiar with the system.
-\item[Purpose:] To make users familiar with the system more quickly.
-\item[Fit Criteria:] The UI will be able to integrate tutorial UI components on top of the existing interface.
-\end{description}
-\subsubsection{Operational Requirements}
-\begin{description}
-\item[NFR13:] The  system  shall  be  able  to  process  transactions  as  atomic  operations,  even with a slow internet connection.
-\item[Purpose:] To ensure that there is no possibility of any transaction being processed twice.
-\item[Fit Criteria:] The system shall, under no circumstance, process any transaction twice.
-\item[NFR14:] The system shall have authority to reverse transactions that were found to be invalid at a later point in time, not exceeding the formation time for 10 blocks.
-\item[Purpose:] To reverse transactions in case a security breach is detected.
-\item[Fit Criteria:] The system shall allow users to reverse transactions in case a security breach has been detected with the corresponding account. ( This is a great feature for making the system more usable, however, opens up a huge window of potential exploits.)
-\item[NFR15:] The system shall have a backup central server running to prevent downtime, incase the number of operating nodes goes below a minimum operable limit.
-\item[Purpose:] To prevent the system from having potential downtime.
-\item[Fit Criteria:] The system shall make use of the backup server as its data and consensus engine as soon as the number of active nodes goes below 20\% of the total number of nodes.
-\item[NFR16:] The system shall be completely operational as a standalone system.  However,it can also interface with the most popular existing architecture.
-\item[Purpose:] To make the system functional without having any dependencies.
-\item[Fit Criteria:] The system shall satisfy all the functional requirements without making use of any other third-party software or libraries.
-\end{description}
-\subsubsection{Reliability Requirements}
-\begin{description}
-\item[NFR17:] The system shall be able to handle operating at its peak load for a reasonably long period of time without having any operational difficulties.
-\item[Purpose:] To ensure the system can perform at its peak load.
-\item[Fit Criteria:] The system is able to perform at its peak operating load for at least an hour in any given 24 hr time period.
-\item[NFR18:] The system shall have at least three mirror systems which will take over in case the number of operating nodes goes below the operational number.
-\item[Purpose:] To make sure there is no loss of data.
-\item[Fit Criteria:] The system will be able to return back to its previous checkpoint, which is the creation of every block, using one of the three mirrors whenever there is a storage breach or loss.
-\item[NFR19:] The  system  shall  have  overloading  servers  that  will  handle  the  load,  in  rare cases where the system goes beyond peak transaction throughput.
-\item[Purpose:] To prevent the breaking of the system in case there is an unexpected overload.
-\item[Fit Criteria:] The system shall always transition to the overloading servers as soon as it reaches a 95\% load.
-\end{description}
-\subsubsection{Security Requirements}
-\begin{description}
-\item[NFR20:] The system shall be able to detect a distributed-denial-of-service (DDoS) attack.
-\item[Purpose:] To prevent misuse of the system by a denial-of-service attack.
-\item[Fit Criteria:] The system should initially be able to detect at least 95\% of the DDOS exploit. It should also be able to optimise based on data gathered from potential breaches over time.
-\item[NFR21:] The system shall not use its backup resources in case a DDoS attack is successfully detected.
-\item[Purpose:] To prevent misuse of system resources.
-\item[Fit Criteria:] The system should not use any backup resource, under any circumstance, when an attack is detected. The system will also shut down the use of any backup resources within 600 milliseconds of an attack being detected.
-\item[NFR22:] The system shall log any detected breaches or unusual activity to be reviewed for the purposes of optimizing the system.
-\item[Purpose:] To keep a record of all the activity of any kind that has happened on the system and use the data to make the system better.
-\item[Fit Criteria:] The system shall create a log of any atomic activity that has taken place on the system, even the ones that are a reversal of a transaction.
-\item[NFR23:] The system shall have a separate blockchain for logging unusual activity.  The logs blockchain shall have a separate consensus mechanism which will facilitate the independent consensus and governance of the logs
-\item[Purpose:] To keep the functioning of the logging system separate and independent from the main system.
-\item[Fit Criteria:] The logging system shall be completely independent and concurrent with the transaction system. The logging system shall complete the logging process as a part of an atomic transaction.
-\item[NFR24:] The system shall store the user’s public/private keys and alternative authentication credentials securely on the system locally.
-\item[Purpose:] To keep authentication credentials safe in case of a potential data breach of the system.
-\item[Fit Criteria:] There shall be no raw data entry of user private keys found anywhere on the system.
-\item[NFR25:] The system shall provide the users with alternative methods to retrieve their private keys in case of a loss of access.
-\item[Purpose:] To allow users a secure way of restoring their private keys.
-\item[Fit Criteria:] The system will have a local password recovery system which will let the users recover their private keys and let users create a log in password which will be a easily memorable and human readable form of the private key.
-\item[NFR26:] The system shall lock the user account and request the user to  enter their authentication credentials every time there is suspected malicious activity.
-\item[Purpose:] To make the user account more secure against potential account exploits.
-\item[Fit Criteria:] The system shall lock the user account when there is a potential malicious activity regardless of whether the said activity is a false positive.
-\item[NFR27:] The system shall email the user with an account log every-time there is any activity on their account.
-\item[Purpose:] To inform the users of any activity that has been happening on their account and prevent any potential exploits.
-\item[Fit Criteria:] The system will send the user a log of the activities happening on their account every five minutes while the account is active.
-\end{description}
-\subsubsection{Maintainability Requirements}
-\begin{description}
-\item[NFR28:] The system shall be built using industry standard blockchain technology which has a certain degree of standardisation and compatibility with existing systems.
-\item[Purpose:] To create a system that has cross-platform compatibility and industry standard code.
-\item[Fit Criteria:] Apart from the intellectual property regarding the design and implementation of the system, it shall be built using already existing open source technologies.
-\item[NFR29:] The system shall be completely modular with partially independent, maintainable components which could be replaced or serviced without affecting the usability of the entire system.
-\item[Purpose:] To reduce interdependence and improve maintainability of the individual components of the system.
-\item[Fit Criteria:] The system as a whole should be able to satisfy all the functional requirements even if any individual system component is replaced with an identical one.
-\item[NFR30:] The system shall have a very detailed maintenance guide and documentation, such that it will be quite intuitive for any blockchain engineer to be able to fix and modify the system.
-\item[Purpose:] To allow the users and maintainers to be able to use, maintain and troubleshoot the system easily.
-\item[Fit Criteria:] The system shall maintain a comprehensive digital manual and troubleshooting guide which will be updated regularly by maintainers as soon as new troubleshooting information is discovered.
-\item[NFR31:] The system shall have a backup service for each component which shall be used during the maintenance of the the respective component to avoid downtime.
-\item[Purpose:] To avoid downtime in case one or multiple components of the system fail.
-\item[Fit Criteria:] The system should be able to transition to the backup service for any particular component within 100 milliseconds of detecting a component failure or in case of a scheduled maintenance. 
-\end{description}
-\subsubsection{Legal Requirements}
-\begin{description}
-\item[NFR32:] The copyright and license agreements of any third-party software used in the development of the system must be strictly abided by.
-\item[Purpose:] To prevent any legal licensing issues with third-party software used in the creation of the product.
-\item[Fit Criteria:] The software licence agreements of any existing software used in the system shall be reviewed by at least two independent software licence lawyers.
-\item[NFR33:] The system shall include a data privacy policy agreement that informs users of their right regarding the collection and use of their personal data.
-\item[Purpose:] To provide users with a comprehensive and transparent policy regarding how their data is being used.
-\item[Fit Criteria:] The data privacy policy will have the most simple language without much technical and legal jargon. It will be reviewed by a selected few users for ease of comprehension.
-\item[NFR34:] The data privacy policy shall completely conform to the General Data Protection Regulation (GDPR)
-\item[Purpose:] To conform with data privacy laws and safeguard users' sensitive personal and financial data.
-\item[Fit Criteria:] The data privacy policy shall be reviewed by at least three independent data privacy lawyers. 
-\item[NFR35:] The system shall have a software licence agreement which informs the user of their rights and obligations.
-\item[Purpose:] To give the users an opportunity to know more about their rights and restrictions while using the software.
-\item[Fit Criteria:] The software licence agreement shall be as comprehensive as possible including all the license agreements regarding any third-party software used in the production of the system. The software licence agreement will also be reviewed by appropriate software licensing lawyers.
-\end{description}
+
 \subsection{Test Details}
 \begin{description}
 \item[T1] Dynamic Testing - Tests execution and validation of code
@@ -887,56 +718,466 @@ The following test specifications are based on the requirements taken from the S
 \item[T14] Component Testing - Tests the functioning of individual components
 \item[T15] Functional Testing - Verifies that the system meets the requirements and specifications
 \end{description}
-\subsection{Test Case Specifications}
-\setlength{\arrayrulewidth}{0.5mm}
-\setlength{\tabcolsep}{18pt}
-\renewcommand{\arraystretch}{2.5}
- 
-{\rowcolors{1}{gray!20}{white}
-\begin{tabular}{ |p{1cm}|p{1cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|  }
-\hline
-\bf{Test Case Number} & \bf{Require-ment ID} & \bf{Fit Criteria} & \bf{Test Description} & \bf{Input Specification} & \bf{Expected Result}\\
-\hline
-Afghanistan & AF &AFG \\
-Aland Islands & AX   & ALA \\
-Albania &AL & ALB \\
-Algeria    &DZ & DZA \\
-American Samoa & AS & ASM \\
-Andorra & AD & AND   \\
-Angola & AO & AGO \\
-\hline
-\end{tabular}
-}
+
 \subsection{Test Plan}
-\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\arrayrulewidth}{0.2mm}
 \setlength{\tabcolsep}{18pt}
 \renewcommand{\arraystretch}{2.5}
  
 {\rowcolors{1}{gray!20}{white}
-\begin{tabular}{ |p{2cm}|p{2cm}|p{2cm}|p{2cm}|  }
+\begin{longtable}{ |p{2cm}|p{2cm}|p{2cm}|p{5cm}|  }
 \hline
-\bf{Test ID} & \bf{Environment} & \bf{Test Mode} & \bf{Brief Description}\\
+\bf{Test ID} & \bf{Environ-ment} & \bf{Test Mode} & \bf{Description}\\
 \hline
-T1 & AF &AFG \\
-T2 Islands & AX   & ALA \\
-T3 &AL & ALB \\
-T4 &DZ & DZA \\
-T5 & AS & ASM \\
-T6 & AD & AND   \\
-T7 & AO & AGO \\
-T8\\
-T9\\
-T10\\
-T11\\
-T12\\
-T13\\
-T14\\
-T15\\
+T1 & Controlled  & Professional Review  &  Tests execution and validation of code \\
+T2 & Controlled  & Professional Review  &  Tests the internal structures or workings of a program \\
+T3 & Open  & Third Party  &  Tests the functionality without knowing the internal structures \\
+T4 & Open  & Automated  &  Tests a completely integrated system to verify that it meets its requirements \\
+T5 & Uncontrolled  & Automated  &  Tests the correct installation of the system \\
+T6 & Open  & Test Users  &  Tests the ability to cater to the needs of users with disabilities \\
+T7 & Controlled and Open  & Penetration Testing and Professional Review  &  Test the security and authorization mechanism \\
+T8 & Uncontrolled  & Test Users  &  Tests the ease of use of the system \\
+T9 & Uncontrolled and Controlled  & Automated  &  Checks the proper coordination of different components \\
+T10 & Uncontrolled and Controlled  & Automated &  Test the operational readiness (pre-release) of a product, service or system \\
+T11 & Uncontrolled  & Professional Testing  &  Tests how easily the system can be broken into \\
+T12 & Uncontrolled and Controlled  & Automated  &  Tests performance under peak load conditions \\
+T13 & Uncontrolled  & Automated  &  Tests the break point of the system \\
+T14 & Uncontrolled and Controlled  & Automated  &  Tests the functioning of individual components \\
+T15 & Controlled  & Professional Review  &  Verifies that the system meets the requirements and specifications \\
 \hline
-\end{tabular}
+\end{longtable}
 }
+\subsection{Test Case Specifications}
+The following test specifications are based on the requirements taken from the Software Requirements Specifications (SRS) document which has been provided in the previous chapter of this thesis. The following sections illustrate each requirement and its corresponding test specification. 
+\subsubsection{Functional Requirements Tests}
+\begin{description}
+\item[FR1:] The system shall allow users to authenticate using their public and private keys and/or alternative log in credentials such as user id and password if they have activated multi-factor authentication.
+\item[Purpose:] To allow users to log in to the system securely using multiple methods of authentication.
+\item[Fit Criteria:] The system shall reject all the attempts of authentication using incorrect credentials. This fit criteria shall be valid for any of the multiple modes of authentication.
+\item[Test Case Numbers:] T2, T3, T6, T7, T11, T15
+\item[Test Description:] Tests whether any sort of user authentication exploits such as brute force, password hash collisions, and social engineering might be exploited in the system.
+\item[Input Specifications:] System generated log in attempts using automated requests and professional penetration Testing.
+\item[Expected Results:] The system should discard all fake system generated authentication requests and should not allow the tests to be able to retrieve authentication tokens.
+\\
+\item[FR2:] The  system  shall  authorize  different  users  with  different  levels  of access identified based on their log in credentials.
+\item[Purpose:] To provide every user with the appropriate level of access into the system 
+\item[Fit Criteria:] Under no circumstances, shall the system allow a user more privileges than their role permits.
+\item[Test Case Numbers:] T2, T3, T7, T11, T15
+\item[Test Description:] Tests whether users can get more privileges than their role permits.
+\item[Input Specifications:] System generated actual authentication tokens with more privileges and professional penetration testing.
+\item[Expected Results:] The system will not allow any user to have more privilege than they actually ought to have.
+\\
+\item[FR3:] The system shall allow the users to transfer supported tokens from one blockchain to another by converting the tokens for transfer to the base currency and then reconverting  the  tokens  back  to  the  receiver’s  currency  using  a  conversion  rate stored in a public ledger stored on the central chain.
+\item[Purpose:] To allow interoperability of multiple blockchains and token systems.
+\item[Fit Criteria:] The system shall not process a token transaction using an incorrect exchange rate or a token transaction that is not supported, under any circumstance.
+\item[Test Case Numbers:] T1, T2, T3, T6, T7, T9, T11, T12, T13, T14, T15
+\item[Test Description:] Tests whether the conversion system is functioning concurrently with the token transfer mechanism and there are potential exploits in the system.
+\item[Input Specifications:] System generated attempts to make invalid transaction and token conversion attempts.
+\item[Expected Results:] The system should not allow any transaction that is invalid according to the conversion and transaction rules to be processed.
+\\
+\item[FR4:] The system shall deduct the tokens successfully from the sender’s account,freeze those tokens for future use, and release the converted equivalent amount of tokens to the receiver’s account.
+\item[Purpose:] To prevent double spending.
+\item[Fit Criteria:] The system will, under no circumstance, process a transaction before deducting and freezing the correct denomination of tokens from the sender's account.
+\item[Test Case Numbers:] T1, T3, T7, T11, T12, T13, T15
+\item[Test Description:] Tests whether, under any circumstance, the system adds tokens before deducting the respective amount or in other words allows a successful double spending attack. These tests will also measure the transaction throughput and peak load of the system.
+\item[Input Specifications:] System generated requests to transfer more tokens than the user account balance, to add tokens to a user account without having a source account, and to create new tokens. Professional review of the smart contracts.
+\item[Expected Results:] The system should not let any user create, add, or double spend their existing tokens. A transaction should always involve more than one parties or accounts.
+\\
+\item[FR5:] The system shall collect and broadcast any proposals to add new blockchain and token systems into the architecture from admin users or users granted admin access temporarily.
+\item[Purpose:] To allow the incorporation of various token systems into the token conversion system.
+\item[Fit Criteria:] The system shall not allow any user who does not have admin privileges to add proposals for incorporating token systems, under any circumstance.
+\item[Test Case Numbers:] T1, T7, T11, T12, T13
+\item[Test Description:] Tests whether all and only admin users can create such proposals for incorporating new token systems into the global economy.
+\item[Input Specifications:] System generated admin users and non-admin users who are making automated attempts to create new proposals.
+\item[Expected Results:] The system will only validate and accept these proposals from admin users.
+\\
+\item[FR6:] The system shall send a voting request to all the members who are eligible to vote upon the specific proposal.
+\item[Purpose:] To allow for a decentralisation of choice in the incorporation of various token systems.
+\item[Fit Criteria:] The system shall not allow any user to vote unless they have voting privileges as deemed necessary by the proposal. The system must notify all eligible voters about the voting proposal.
+\item[Test Case Numbers:] T1, T3, T7, T15
+\item[Test Description:] Tests whether the system sends voting requests to only and all admin users.
+\item[Input Specifications:] System generate proposal which have a specified admin user set. 
+\item[Expected Results:] The system will only send voting request to all appropriate admin users and discard all attempts by users who are not eligible to vote.
+\\
+\item[FR7:] The system shall collect the votes as and when the eligible voters vote using their voting request.
+\item[Purpose:] To allow admin users to vote on token incorporation proposals.
+\item[Fit Criteria:] The system shall allow all eligible admin nodes to vote while preventing the ineligible users from voting.
+\item[Test Case Numbers:] T1, T3, T7, T9, T11, T15
+\item[Test Description:] Tests whether the system allows votes just during the specified voting period.
+\item[Input Specifications:] System generated votes with time stamps outside the voting time window.
+\item[Expected Results:] The system should not allow any votes to be validated outside the specified voting time window.
+\\
+\item[FR8:] The system shall not let any single voter vote on the proposal more than once. In case another admin user has nominated their vote to the specific user, they can vote twice.
+\item[Purpose:] To avoid duplicate votes.
+\item[Fit Criteria:] The system will not, under any circumstance, let a user vote more than once unless they have a token from another user, which allows them to vote twice.
+\item[Test Case Numbers:] T1, T3, T7, T10, T14, T15
+\item[Test Description:] Tests whether users can create duplicate votes, unless they have been authorized to do so.
+\item[Input Specifications:] System generated duplicated votes by multiple, random user accounts.
+\item[Expected Results:] The system shall not accept any such duplicate vote under any circumstance.
+\\
+\item[FR9:] The system shall keep a count of the votes secretly until every user has finished voting.
+\item[Purpose:] To prevent the user's voting choice based on the voting count.
+\item[Fit Criteria:] Any user, under no circumstance shall be able to find out the current vote count before it is officially published.
+\item[Test Case Numbers:] T3, T7, T11, T14, T15
+\item[Test Description:] Tests whether the users can manipulate the voting system into revealing the voting outcome.
+\item[Input Specifications:] System generated requests to reveal the voting count before the voting period ends.
+\item[Expected Results:] The system should discard all such invalid requests.
+\\
+\item[FR10:] The system shall publish the result of the voting after every admin user who is meant to be voting on the respective proposal has finished doing so.
+\item[Purpose:] To establish fair voting policy and allow every voter enough time to vote.
+\item[Fit Criteria:] The system shall, under no circumstance, allow any user to discover the voting results before the process is completed.
+\item[Test Case Numbers:] T3, T6, T7, T11, T14, T15
+\item[Test Description:] Tests whether the users can manipulate the voting system into revealing the voting outcome or manipulate the voting outcome itself.
+\item[Input Specifications:] System generated attempts to reveal the voting result.
+\item[Expected Results:] The system rejects all such malicious attempts.
+\\
+\item[FR11:] The system shall add the token and blockchain system into the token exchange data base according to the rules set in the smart contract of the voting proposal, if the voting has a successful outcome.
+\item[Purpose:] To add the interoperability of multiple blockchains into the architecture.
+\item[Fit Criteria:] The system shall, under no circumstance, allow the incorrect integration of a token proposal with incorrect rules into the system.
+\item[Test Case Numbers:] T3, T4, T5, T7, T10, T11, T15
+\item[Test Description:] Tests whether the system correctly integrates a new token system into the environment.
+\item[Input Specifications:] Various system generated attempts to incorporate fake proposals which were never voted upon or successful in completing the voting process.
+\item[Expected Results:] The system should discard all such voting requests.
+\\
+\item[FR12:] The system shall discard the smart contract and the proposal in case of an unsuccessful voting outcome. However, the system shall keep a record of the voting proposal and log of its voting outcomes in a separate blockchain for future reference.
+\item[Purpose:] To discard unsuccessful voting proposals.
+\item[Fit Criteria:] The system shall, under no circumstance, allow the integration of a token proposal which has been unsuccessful after the voting procedure has ended.
+\item[Test Case Numbers:] T2, T3, T5, T7, T9, T11, T14, T15
+\item[Test Description:] Test whether unsuccessful voting proposals can exploit potential system vulnerabilities to be able to initiate malicious activity.
+\item[Input Specifications:] System generated requests for incorporating unsuccessful voting proposals for token system into the infrastructure.
+\item[Expected Results:] The system should reject all such proposals and maintain logs for such malicious activity.
+\\
+\item[FR13:] The system shall verify the validity of every transaction as a precursor to processing the transaction. The requirements to check the validity of each transaction is detailed in the the next chapter.
+\item[Purpose:] To improve the processing efficiency by filtering invalid transactions.
+\item[Fit Criteria:] The system shall never initialize a transaction before conducting the validity check. The initialization procedure will include the validity check. 
+\item[Test Case Numbers:] T3, T7, T10. T11, T12, T13, T15
+\item[Test Description:] Tests whether the system processes valid transactions only.
+\item[Input Specifications:] System generated invalid transactions.
+\item[Expected Results:] The system should not process any such invalid transaction.
+\\
+\item[FR14:] The system shall process transactions using multiple mining pools. Each mining pool will be a subset of the entire mining pool, which is derived from sharding the entire mining pool into smaller shards.
+\item[Purpose:] To achieve scalability and parallel processing.
+\item[Fit Criteria:] The system shall divide the entire mining pool into smaller shards which will be distributed using the equation given in the next chapter.
+\item[Test Case Numbers:] T3, T7, T10, T11, T12, T13, T15
+\item[Test Description:] Tests whether the transactions are fairly distributed among the available mining pools.
+\item[Input Specifications:] System generated transactions which will fill up the entire mining pool and the processing queue.
+\item[Expected Results:] 
+\\
+\item[FR15:] The system shall queue all valid transactions to be processed in circumstances when there is no mining pool available to process it immediately.
+\item[Purpose:] To allow an extra transaction processing bandwidth when the mining pools are all occupied.
+\item[Fit Criteria:] The system will never reject a valid transaction unless there is a set timeout.
+\item[Test Case Numbers:] T2, T7, T8, T9, T12, T13, T15
+\item[Test Description:] Tests whether the system ever discards any valid transactions.
+\item[Input Specifications:] System generated transactions which will fill up the entire mining pool and the processing queue.
+\item[Expected Results:] The system should not put any transaction in the queue unless all the mining pools are preoccupied.
+\\
+\item[FR16:] The system shall keep a log of all the invalid transaction attempts in the logs blockchain for future reference.
+\item[Purpose:] To use the data to be able to optimise the detection of invalid transactions.
+\item[Fit Criteria:] The system shall never, under any circumstance, allow any modification or access to any component of the system without creating a log input for such an operation.
+\item[Test Case Numbers:] T3, T7, T10, T12, T13, T14, T15
+\item[Test Description:] Tests whether any activity on the system is being logged.
+\item[Input Specifications:] System generated transactions that may or may not end up modifying the state of the ledger.
+\item[Expected Results:] The system should have a log entry for each of those transactions.
+\end{description}
+\subsubsection{Performance Requirements Tests}
+\begin{description}
+\item[NFR1:] The system shall process a transaction within a reasonable amount of time.
+\item[Purpose:] To make the transaction processing system more efficient and prevent any potential brute force attacks.
+\item[Fit Criteria:] The system will not take more than 240 seconds to process any kind of transaction.
+\item[Test Case Numbers:] T4, T12, T13
+\item[Test Description:] Tests whether the system is scalable and efficient.
+\item[Input Specifications:] System generated random valid transactions on test accounts.
+\item[Expected Results:] The system should process all such transactions within the expected time-frame.
+
+\item[NFR2:] The system shall verify the transaction in a reasonable amount of time and add the transaction to a processing queue immediately if there are no mining pools available to process it.
+\item[Purpose:] To prevent valid transactions from being declined due to transaction throughput limitations.
+\item[Fit Criteria:] The system shall not take more than 60 seconds to verify and add the transaction to the processing queue.
+\item[Test Case Numbers:] T4, T7, T9, T12, T13, T15
+\item[Test Description:] Tests whether the system verified the validity of all the transactions in a reasonable amount of time.
+\item[Input Specifications:] System generated valid and invalid transactions and ensures that no valid transaction is unnecessarily discarded.
+\item[Expected Results:] The system should process all the valid transactions and discard all the unnecessary ones.
+
+\item[NFR3:] The system shall timeout and reverse any changes if the transaction stays in the processing queue for longer than 240 seconds.
+\item[Purpose:] To prevent any potential security vulnerabilities which might be exploited by a brute-force attack.
+\item[Fit Criteria:] The system will not process any transaction which has an initial timestamp which is more than 240 seconds in the past and will timeout and reverse any such transaction.
+\item[Test Case Numbers:] T1, T4, T11, T12, T13, T15
+\item[Test Description:] Tests whether the system is capable of efficiently processing all the transactions.
+\item[Input Specifications:] Test generated transactions that completely occupy the queue.
+\item[Expected Results:] The system should process an entire queue within the given amount of time.
+
+\item[NFR4:] The  system  shall  authenticate  the  user  and  retrieve  their  account  state in a reasonable amount of time.
+\item[Purpose:] To prevent any possible attacks and exploits using authentication tokens issued by the system.
+\item[Fit Criteria:] The authentication token generated by the system shall in no circumstance be older than 60 seconds, otherwise, the system shall restart the authentication process with the user.
+\item[Test Case Numbers:] T1, T2, T3, T6, T7, T8, T11
+\item[Test Description:] Tests whether the system is efficient enough to authenticate users efficiently and securely.
+\item[Input Specifications:] Test generated authentication tokens for test accounts.
+\item[Expected Results:] All the valid tokens should be able to authenticate their respective user accounts within 60 seconds.
+
+\item[NFR5:] In case the system cannot log the user in within 60 seconds of their attempt, the system shall discard all the authentication tokens and restart the process again and notify the user.
+\item[Purpose:] To prevent any possible attacks and exploits using authentication tokens issued by the system.
+\item[Fit Criteria:] The system shall notify the user of any failed log in attempt or log in timeout.
+\item[Test Case Numbers:] T2, T3, T7, T11, T12, T13, T15
+\item[Test Description:] Test whether the system is secure against invalid authentication attempts efficiently.
+\item[Input Specifications:] System generated invalid authentication tokens. 
+\item[Expected Results:] All the invalid authentication tokens should be able to provide the user with a negative response within a time frame of 60 seconds.
+
+\end{description}
+\subsubsection{Design and Interface Requirements}
+\begin{description}
+\item[NFR6:] The system will not have a user interface but shall be able to use portable user interfaces as a plug and play system.
+\item[Purpose:] To allow for various types of existing infrastructure to interface with the system.
+\item[Fit Criteria:] The system shall have cross compatibility with the most popular existing accounting systems, legacy banking infrastructure, and supply chain software.
+\item[Test Case Numbers:] T4, T5, T7, T8, T9, T10
+\item[Test Description:] Tests whether the system is compatible with multiple user interfaces such as banking systems.
+\item[Input Specifications:] Integrate different interfaces onto the system.
+\item[Expected Results:] At least 70\% of all the major interfaces should be compatible.
+\item[NFR7:] The system shall eventually come with it’s own user interface which shall be optimised for the best use with the back-end.
+\item[Purpose:] To create a standarised infrastructure and framework which will be effective in standardising the system.
+\item[Fit Criteria:] The system library shall be based on a multi-platform UI interface which will include web, Android, iOS, MacOS, Windows, Linux, and the upcoming HeliOS. The system will have a standardized set of features and components across all platforms. 
+\item[Test Case Numbers:] T4, T5, T9, T14, T15 
+\item[Test Description:] Tests for system compatibility with various other systems.
+\item[Input Specifications:] Integration attempts with various other interfaces.
+\item[Expected Results:] The system should be compatible with more than 70\% of all the integration attempts.
+
+\item[NFR8:] The system shall have its own library which will come with easy build UI components to create custom user interfaces.
+\item[Purpose:] To create a standarised infrastructure and framework which will be effective in standardising the system.
+\item[Fit Criteria:] The UI library will be built on a common language across all the platforms which will ensure ease of use and reusability of code components.
+\item[Test Case Numbers:] T4, T5, T9, T10, T15
+\item[Test Description:] Tests whether the system interface is compatible for building cross-platform interfaces.
+\item[Input Specifications:] Test users who are able to create custom interfaces using the platform. 
+\item[Expected Results:] The test users should be able to create completely functional user interfaces for their purposes.
+
+\item[NFR9:] The system will have a minimum level of compatibility with the existing user interfaces that the target customers might already have, such that it is usable enough.
+\item[Purpose:] To make the system compatible with existing systems for ease of adoption and integration.
+\item[Fit Criteria:] The system shall be cross compatible with most existing databases for the purposes of backing up and restroring data.
+\item[Test Case Numbers:] T4, T5, T8, T10, T15
+\item[Test Description:] Tests whether the system is compatible enough for the existing user interfaces.
+\item[Input Specifications:] Integration attempts with all major existing financial user interfaces.
+\item[Expected Results:] The system should work seamlessly with most popular banking and supply chain software interfaces.
+\end{description}
+\subsubsection{Usability Requirements Tests}
+\begin{description}
+\item[NFR10:] The system shall be extremely usable because it uses the already familiar user interfaces that the user base already has.
+\item[Purpose:] To make the system extremely usable and give users the choice to keep their familiar user interface.
+\item[Fit Criteria:] The system shall be compatible with any existing user interface, if the UI is standalone or could be made so with minimal modifications.
+\item[Test Case Numbers:] T6, T8, T9
+\item[Test Description:] Tests the usability and familiarity of the system.
+\item[Input Specifications:] Test user experience designers test users.
+\item[Expected Results:] All the users should at least give a usability score of 8.
+
+\item[NFR11:] The UI library could be used to build additional features on top of the existing user interface for more functionality.
+\item[Purpose:] To allow for slow and smooth transition from the old user interface.
+\item[Fit Criteria:] The UI library should be able to create UI components which will be compatible with most existing standalone environments.
+\item[Test Case Numbers:] T6, T8, T9
+\item[Test Description:] Tests the compatibility of the existing system with the UI library.
+\item[Input Specifications:] Independent professional user experience testers testing the interface.
+\item[Expected Results:] All the independent testers should give a score of at least 9.
+
+\item[NFR12:] The UI library will be used to build a quick tutorial for new and existing users to get more familiar with the system.
+\item[Purpose:] To make users familiar with the system more quickly.
+\item[Fit Criteria:] The UI will be able to integrate tutorial UI components on top of the existing interface.
+\item[Test Case Numbers:] T6, T8, T9
+\item[Test Description:] Tests the user friendliness and usability of the system.
+\item[Input Specifications:] Independent professional user experience testers and test users testing the interface.
+\item[Expected Results:] All the testers should at least give a score of 8.
+\end{description}
+\subsubsection{Operational Requirements Tests}
+\begin{description}
+\item[NFR13:] The  system  shall  be  able  to  process  transactions  as  atomic  operations, even with a slow internet connection.
+\item[Purpose:] To ensure that there is no possibility of any transaction being processed twice.
+\item[Fit Criteria:] The system shall, under no circumstance, process any transaction twice.
+\item[Test Case Numbers:] T2, T3, T7, T11, T15
+\item[Test Description:] Tests whether the system processes transactions correctly.
+\item[Input Specifications:] System generated transactions in a controlled bandwidth environment.
+\item[Expected Results:] The system will not process any such transactions twice.
+
+\item[NFR14:] The system shall have authority to reverse transactions that were found to be invalid at a later point in time, not exceeding the formation time for 10 blocks.
+\item[Purpose:] To reverse transactions in case a security breach is detected.
+\item[Fit Criteria:] The system shall allow users to reverse transactions in case a security breach has been detected with the corresponding account. ( This is a great feature for making the system more usable, however, opens up a huge window of potential exploits.)
+\item[Test Case Numbers:] T2, T3, T7, T9, T11
+\item[Test Description:] Tests whether the system can be secure against malicious transactions.
+\item[Input Specifications:] System generated transactions which have malicious intent.
+\item[Expected Results:] The system should be able to reverse all such transactions.
+
+\item[NFR15:] The system shall have a backup central server running to prevent downtime, incase the number of operating nodes goes below a minimum operable limit.
+\item[Purpose:] To prevent the system from having potential downtime.
+\item[Fit Criteria:] The system shall make use of the backup server as its data and consensus engine as soon as the number of active nodes goes below 20\% of the total number of nodes.
+\item[Test Case Numbers:] T4, T9, T10, T11, T12, T13
+\item[Test Description:] Tests whether the system resistant to the lack of availability of nodes.
+\item[Input Specifications:] Bringing the nodes below the minimum operable limit.
+\item[Expected Results:] The system should always successfully transition to the backup system and keep running.
+
+\item[NFR16:] The system shall be completely operational as a standalone system.  However,it can also interface with the most popular existing architecture.
+\item[Purpose:] To make the system functional without having any dependencies.
+\item[Fit Criteria:] The system shall satisfy all the functional requirements without making use of any other third-party software or libraries.
+\item[Test Case Numbers:] T4, T5, T8, T9, T14, T15
+\item[Test Description:] Tests whether the system can function without any dependencies.
+\item[Input Specifications:] System generated test requests for the system wide functions.
+\item[Expected Results:] The system should be able to process all the transactions successfully.
+\end{description}
+\subsubsection{Reliability Requirements Tests}
+\begin{description}
+\item[NFR17:] The system shall be able to handle operating at its peak load for a reasonably long period of time without having any operational difficulties.
+\item[Purpose:] To ensure the system can perform at its peak load.
+\item[Fit Criteria:] The system is able to perform at its peak operating load for at least two hours in any given 24 hr time period.
+\item[Test Case Numbers:] T4, T7, T12, T13
+\item[Test Description:] Tests whether the system can perform at peak load conditions for a reasonable amount of time.
+\item[Input Specifications:] System generated transaction requests at the peak load capacity of the respective system.
+\item[Expected Results:] The system should perform normally even under peak load conditions for at least 2 hrs.
+
+\item[NFR18:] The system shall have at least three mirror systems which will take over in case the number of operating nodes goes below the operational number.
+\item[Purpose:] To make sure there is no loss of data.
+\item[Fit Criteria:] The system will be able to return back to its previous checkpoint, which is the creation of every block, using one of the three mirrors whenever there is a storage breach or loss.
+\item[Test Case Numbers:] T4, T9, T10, T12, T13
+\item[Test Description:] Tests whether the system is resilient enough to use mirror systems in case the need arises.
+\item[Input Specifications:] System generated transactions while the system in running on at least 25\% on one of the mirrors.
+\item[Expected Results:] The system should function and perform normally and should not break.
+
+\item[NFR19:] The  system  shall  have  overloading  servers  that  will  handle  the  load, in rare cases where the system goes beyond peak transaction throughput.
+\item[Purpose:] To prevent the breaking of the system in case there is an unexpected overload.
+\item[Fit Criteria:] The system shall always transition to the overloading servers as soon as it reaches a 95\% load.
+\item[Test Case Numbers:] T4, T9, T10, T12, T13
+\item[Test Description:] Tests whether the system is capable of dealing with functioning beyond peak load in unexpected scenarios.
+\item[Input Specifications:] System generated transactions that will overload the system.
+\item[Expected Results:] The system should smoothly transition part of the load to the overloading system.
+\end{description}
+\subsubsection{Security Requirements Tests}
+\begin{description}
+\item[NFR20:] The system shall be able to detect a distributed-denial-of-service (DDoS) attack.
+\item[Purpose:] To prevent misuse of the system by a denial-of-service attack.
+\item[Fit Criteria:] The system should initially be able to detect at least 95\% of the DDOS exploit. It should also be able to optimise based on data gathered from potential breaches over time.
+\item[Test Case Numbers:] T3, T10, T11, t12, T13, T15
+\item[Test Description:] Tests whether the system has any tolerance towards a denial-of-service attack.
+\item[Input Specifications:] The system should create a fake denial-of-service attack by generating several fake transactions.
+\item[Expected Results:] The system should discard all such transactions and detect a denial of service attack.
+
+\item[NFR21:] The system shall not use its backup resources in case a DDoS attack is successfully detected.
+\item[Purpose:] To prevent misuse of system resources.
+\item[Fit Criteria:] The system should not use any backup resource, under any circumstance, when an attack is detected. The system will also shut down the use of any backup resources within 600 milliseconds of an attack being detected.
+\item[Test Case Numbers:] T4, T11, T12, T13
+\item[Test Description:] Tests whether the DDOS attack can penetrate the system barrier to be able to use system resources.
+\item[Input Specifications:] System generated fake transactions to create a fake DDOS attack.
+\item[Expected Results:] The system should not use any back up or overloading servers in case of such an attack.
+
+\item[NFR22:] The system shall log any detected breaches or unusual activity to be reviewed for the purposes of optimizing the system.
+\item[Purpose:] To keep a record of all the activity of any kind that has happened on the system and use the data to make the system better.
+\item[Fit Criteria:] The system shall create a log of any atomic activity that has taken place on the system, even the ones that are a reversal of a transaction.
+\item[Test Case Numbers:] T4, T7, T14, T15
+\item[Test Description:] Tests whether the system logs every activity especially the suspicious ones.
+\item[Input Specifications:] System generated random activity that might not be usual.
+\item[Expected Results:] The system should log any such activity and request user accounts for a review of their account for this activity. 
+
+\item[NFR23:] The system shall have a separate blockchain for logging unusual activity.  The logs blockchain shall have a separate consensus mechanism which will facilitate the independent consensus and governance of the logs
+\item[Purpose:] To keep the functioning of the logging system separate and independent from the main system.
+\item[Fit Criteria:] The logging system shall be completely independent and concurrent with the transaction system. The logging system shall complete the logging process as a part of an atomic transaction.
+\item[Test Case Numbers:] T3, T7, T11, T14, T15
+\item[Test Description:] Tests whether the system can detect malicious transactions effectively.
+\item[Input Specifications:] System generated random activity that might not be usual.
+\item[Expected Results:] The system should log all such activity in the respective blockchain.
+
+\item[NFR24:] The system shall store the user’s public/private keys and alternative authentication credentials securely on the system locally.
+\item[Purpose:] To keep authentication credentials safe in case of a potential data breach of the system.
+\item[Fit Criteria:] There shall be no raw data entry of user private keys found anywhere on the system.
+\item[Test Case Numbers:] T2, T3, T7
+\item[Test Description:] Tests whether the system keep sensitive information in potentially vulnerable places.
+\item[Input Specifications:] Code review and system attempts to search for private keys within the system.
+\item[Expected Results:] The tests should not find any private keys in the system.
+
+\item[NFR25:] The system shall provide the users with alternative methods to retrieve their private keys in case of a loss of access.
+\item[Purpose:] To allow users a secure way of restoring their private keys.
+\item[Fit Criteria:] The system will have a local password recovery system which will let the users recover their private keys and let users create a log in password which will be a easily memorable and human readable form of the private key.
+\item[Test Case Numbers:] T3, T7, T11, T15
+\item[Test Description:] Tests whether the system is usable and robust.
+\item[Input Specifications:] Test users to try logging into their accounts without using the password.
+\item[Expected Results:] The system lets the users log in if they are the actual owner of the respected account.
+
+\item[NFR26:] The system shall lock the user account and request the user to enter their authentication credentials every time there is suspected malicious activity.
+\item[Purpose:] To make the user account more secure against potential account exploits.
+\item[Fit Criteria:] The system shall lock the user account when there is a potential malicious activity regardless of whether the said activity is a false positive.
+\item[Test Case Numbers:] T2, T3, T7, T11
+\item[Test Description:] Tests whether the system is robust against suspected malicious activity. 
+\item[Input Specifications:] System generated malicious transactions.
+\item[Expected Results:] The system should successfully lock the respective user accounts after three unsuccessful log in attempts.
+
+\item[NFR27:] The system shall email the user with an account log every-time there is any activity on their account.
+\item[Purpose:] To inform the users of any activity that has been happening on their account and prevent any potential exploits.
+\item[Fit Criteria:] The system will send the user a log of the activities happening on their account every five minutes while the account is active.
+\item[Test Case Numbers:] T2, T7, T8, T15
+\item[Test Description:] Tests whether the system is secure enough against such malicious activity.
+\item[Input Specifications:] System generated malicious activity, a log of which should ideally be sent to the account holder.
+\item[Expected Results:] The systems successfully detects at least 95\% of such activity and notifies the user.
+\end{description}
+\subsubsection{Maintainability Requirements Tests}
+\begin{description}
+\item[NFR28:] The system shall be built using industry standard blockchain technology which has a certain degree of standardisation and compatibility with existing systems.
+\item[Purpose:] To create a system that has cross-platform compatibility and industry standard code.
+\item[Fit Criteria:] Apart from the intellectual property regarding the design and implementation of the system, it shall be built using already existing open source technologies.
+\item[Test Case Numbers:] T1, T4, T10, T14, T15
+\item[Test Description:] Test whether the system has a well-known standardised architecture.
+\item[Input Specifications:] Code review by independent reviewers and testers.
+\item[Expected Results:] The testers should all rate the system above 7 on a scale of 10.
+
+\item[NFR29:] The system shall be completely modular with partially independent, maintainable components which could be replaced or serviced without affecting the usability of the entire system.
+\item[Purpose:] To reduce interdependence and improve maintainability of the individual components of the system.
+\item[Fit Criteria:] The system as a whole should be able to satisfy all the functional requirements even if any individual system component is replaced with an identical one.
+\item[Test Case Numbers:] T4, T10, T14, T15
+\item[Test Description:] Tests whether the system is modular.
+\item[Input Specifications:] Code review and automated tests on individual components of the system.
+\item[Expected Results:] The reviewers should certify the system as modular and the individual components should be able to perform independently when given the correct arguments.
+
+\item[NFR30:] The system shall have a very detailed maintenance guide and documentation, such that it will be quite intuitive for any blockchain engineer to be able to fix and modify the system.
+\item[Purpose:] To allow the users and maintainers to be able to use, maintain and troubleshoot the system easily.
+\item[Fit Criteria:] The system shall maintain a comprehensive digital manual and troubleshooting guide which will be updated regularly by maintainers as soon as new troubleshooting information is discovered.
+\item[Test Case Numbers:] T1, T5, T8
+\item[Test Description:] Tests whether the system documentation is intuitive and comprehensive enough.
+\item[Input Specifications:] Test users trying to troubleshoot and use the system using the manual.
+\item[Expected Results:] At least 8 out of every 10 test users should be able to successfully operate and troubleshoot the system.
+
+\item[NFR31:] The system shall have a backup service for each component which shall be used during the maintenance of the the respective component to avoid downtime.
+\item[Purpose:] To avoid downtime in case one or multiple components of the system fail.
+\item[Fit Criteria:] The system should be able to transition to the backup service for any particular component within 100 milliseconds of detecting a component failure or in case of a scheduled maintenance.
+\item[Test Case Numbers:] T5, T9. T12, T13, T15
+\item[Test Description:] Tests whether the system is resilient enough in case of individual component failures.
+\item[Input Specifications:] System induced failure of each individual component.
+\item[Expected Results:] The system should smoothly transition to the backup service and allow the user to keep using the system normally.
+\end{description}
+\subsubsection{Legal Requirements Tests}
+\begin{description}
+\item[NFR32:] The copyright and license agreements of any third-party software used in the development of the system must be strictly abided by.
+\item[Purpose:] To prevent any legal licensing issues with third-party software used in the creation of the product.
+\item[Fit Criteria:] The software licence agreements of any existing software used in the system shall be reviewed by at least two independent software licence lawyers.
+\item[Test Case Numbers:] T1, T10
+\item[Test Description:] Tests whether the system is legally safe to be used.
+\item[Input Specifications:] Professional software licensing lawyers review the licences and the functionality of the software system.
+\item[Expected Results:] The lawyers reviewing the licences should all certify the system to be legally safe for use.
+
+\item[NFR33:] The system shall include a data privacy policy agreement that informs users of their right regarding the collection and use of their personal data.
+\item[Purpose:] To provide users with a comprehensive and transparent policy regarding how their data is being used.
+\item[Fit Criteria:] The data privacy policy will have the most simple language without much technical and legal jargon. It will be reviewed by a selected few users for ease of comprehension.
+\item[Test Case Numbers:] T1, T10
+\item[Test Description:] Tests whether the data privacy policies are clear, concise and easily understandable.
+\item[Input Specifications:] Professional data privacy lawyers review the policies.
+\item[Expected Results:] The lawyers should certify the policies to be comprehensive.
+
+\item[NFR34:] The data privacy policy shall completely conform to the General Data Protection Regulation (GDPR)
+\item[Purpose:] To conform with data privacy laws and safeguard users' sensitive personal and financial data.
+\item[Fit Criteria:] The data privacy policy shall be reviewed by at least three independent data privacy lawyers. 
+\item[Test Case Numbers:] T1, T10
+\item[Test Description:] Tests whether the data privacy policy is comprehensive and encompasses the broadest user base.
+\item[Input Specifications:] Professional data privacy lawyers review the policies to review whether they conform to the GDPR.
+\item[Expected Results:] The lawyers should certify that the data privacy policy conforms to the GDPR.
+
+\item[NFR35:] The system shall have a software licence agreement which informs the user of their rights and obligations.
+\item[Purpose:] To give the users an opportunity to know more about their rights and restrictions while using the software.
+\item[Fit Criteria:] The software licence agreement shall be as comprehensive as possible including all the license agreements regarding any third-party software used in the production of the system. The software licence agreement will also be reviewed by appropriate software licensing lawyers.
+\item[Test Case Numbers:] T1, T10
+\item[Test Description:] Tests whether the software licence agreement is clear and comprehensive.
+\item[Input Specifications:] Professional software licensing lawyers review the licences and the functionality of the software system.
+\item[Expected Results:] The lawyers reviewing the licences should all certify the system to be legally safe for use.
+\end{description}
+
 \section{Requirements Traceability Matrix}
-\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\arrayrulewidth}{0.2mm}
 \setlength{\tabcolsep}{18pt}
 \renewcommand{\arraystretch}{2.5}
  
@@ -945,58 +1186,57 @@ T15\\
 \hline
 \bf{Requir-ement ID} & \bf{Use Cases} & \bf{Classes} & \bf{Methods} & \bf{Packages} & \bf{Build Number}\\
 \hline
-FR1 & AF &AFG \\
-FR2  & AX   & ALA \\
-FR3 &AL & ALB \\
-FR4 &DZ & DZA \\
-FR5 & AS & ASM \\
-FR6 & AD & AND   \\
-FR7 & AO & AGO \\
-FR8\\
-FR9\\
-FR10\\
-FR11\\
-FR12\\
-FR13\\
-FR14\\
-FR15\\
-FR16\\
-\page
-NFR1\\
-NFR2\\
-NFR3\\
-NFR4\\
-NFR5\\
-NFR6\\
-NFR7\\
-NFR8\\
-NFR9\\
-NFR10\\
-NFR11\\
-NFR12\\
-NFR13\\
-NFR14\\
-NFR15\\
-NFR16\\
-NFR17\\
-NFR18\\
-NFR19\\
-NFR20\\
-NFR21\\
-NFR22\\
-NFR23\\
-NFR24\\
-NFR25\\
-NFR26\\
-NFR27\\
-NFR28\\
-NFR29\\
-NFR30\\
-NFR31\\
-NFR32\\
-NFR33\\
-NFR34\\
-NFR35\\
+FR1 & & & & &\\
+FR2 & & & & &\\
+FR3 & & & & &\\
+FR4 & & & & &\\
+FR5 & & & & &\\
+FR6 & & & & &\\
+FR7 & & & & &\\
+FR8 & & & & &\\
+FR9 & & & & &\\
+FR10 & & & & &\\
+FR11 & & & & &\\
+FR12 & & & & &\\
+FR13 & & & & &\\
+FR14 & & & & &\\
+FR15 & & & & &\\
+FR16 & & & & &\\
+NFR1 & & & & &\\
+NFR2 & & & & &\\
+NFR3 & & & & &\\
+NFR4 & & & & &\\
+NFR5 & & & & &\\
+NFR6 & & & & &\\
+NFR7 & & & & &\\
+NFR8 & & & & &\\
+NFR9 & & & & &\\
+NFR10 & & & & &\\
+NFR11 & & & & &\\
+NFR12 & & & & &\\
+NFR13 & & & & &\\
+NFR14 & & & & &\\
+NFR15 & & & & &\\
+NFR16 & & & & &\\
+NFR17 & & & & &\\
+NFR18 & & & & &\\
+NFR19 & & & & &\\
+NFR20 & & & & &\\
+NFR21 & & & & &\\
+NFR22 & & & & &\\
+NFR23 & & & & &\\
+NFR24 & & & & &\\
+NFR25 & & & & &\\
+NFR26 & & & & &\\
+NFR27 & & & & &\\
+NFR28 & & & & &\\
+NFR29 & & & & &\\
+NFR30 & & & & &\\
+NFR31 & & & & &\\
+NFR32 & & & & &\\
+NFR33 & & & & &\\
+NFR34 & & & & &\\
+NFR35 & & & & &\\
 \hline
 \end{longtable}
 }
