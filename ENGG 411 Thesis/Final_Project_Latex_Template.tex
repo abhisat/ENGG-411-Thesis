@@ -1209,9 +1209,8 @@ The following test specifications are based on the requirements taken from the S
 \item[Expected Results:] The lawyers reviewing the licences should all certify the system to be legally safe for use.
 \end{description}
 
-
-\label{chap:Conclusions}
 \chapter{System Implementation}
+\label{chap:System Implementation}
 The chapters so far have discussed the requirements, the testing conditions and the previous work that is related to the system. This chapter discusses the implementation of a system that satisfies the requirements and the test specifications that have been detailed in the previous chapters. Most importantly, this implementation satisfies the goals of the undertaking of this project. It is worth noting that the system does not actually have a prototype that has been tested under real-world conditions. However, theoretically, the system is expected to function as expected.
 \section{System Overview}
 The system described here is a combination of multiple partially independent systems working together to achieve the functionality and the requirements. In the context here, partially independent implies that the individual component will function as expected given the correct arguments. The architecture of the systems contains layers through which the data flow before it has been permanently written onto the blockchain. There might be a lot of overlap between the components used in the layers which would mean that those corresponding layers would not be able to function independently. 
@@ -1403,10 +1402,41 @@ The data flow begins with one of the peripheral blockchain systems initiating an
   \label{fig:3}
 \end{figure}
 \chapter{Discussion}
+\label{chap:Discussion}
+The previous chapters have presented the system architecture and implementation of a blockchain architecture which is scalable and interoperable with multiple blockchain systems 
 
-Cannot generate new tokens onto public chains.
+\section{Incomplete Design and Implementation}
+The design and implementation of the system is not comprehensive. Some of the specific details of implementation such as the detailed specifications for the data transfer between the corresponding mirrored smart contracts and the actual implementation of such contracts and their code is missing from the implementation. This aspect of the implementation of the system requires further research. The project on a system design level is comprehensive, however, each component of the system is a system within itself. A complete design and implementation for each specific component of the system would have been out of the scope of this project. The specific details would have taken much longer to research and implement, and would have made this thesis much longer than the scope or time-frame permits.
+
+Eventhough the current form of the system is not specific and detailed enough for immediate adoption
+\section{Generation of New Tokens}
+The system has a smart contract layer where smart contracts deployed on multiple blockchains that have corresponding mirrored contracts which facilitate the transfer of tokens across multiple blockchain. The way that those smart contracts work is by freezing the tokens in one blockchain and releasing the equivalent amount of tokens in the recieving blockchain. The only issue with such an approach is the limitation due to the availability of sufficient funds in the recieving chain's smart contract account. For instance, an account holder on a sending peripheral blockchain, which is Bitcoin blockchain, sends a transaction of 100 Bitcoins to an account holder on the receiving peripheral blockchain, which is an Ethereum blockchain. The system calulates the conversion of 100 Bitcoins to Ethereum, which comes down to 6000 Ethereum tokens. The samrt contract on the Bitcoin blockchain initiates the transaction and sends the tokens across to the corresponding Ethereum contract via the central NMZ chain. However, the corresponding Ethereum contract account does not have enough Ethereum to be able to transfer the tokens to the receiving account. This results in a reversal of the transaction, even though the sender had sufficient funds and the transaction was completely valid. 
+\\
+\\
+The problem mentioned above creates a major issue in terms of overall reliability of the system. The failing of transactions without any fault on the users' part will make the system unacceptable for widespread adoption. The potential solution to this issue and future developments have been discussed in Chapter \ref{chap:FutureWork}.
+\section{Potential Use Cases}
+The system designed is not completely ready as more research and implementation details 
+\section{Compatibilty with Current Infrastructure}
+The system has been designed to be compatible with most existing industry architectures. The implementation still might have some major issues with integration with existing legacy software. Legacy software is still being used in most banking infrastructures. And most of this software is closed source and proprietary which makes it harder to get the system specifications of such software. Moreover, unless there is a partnership agreement with the respective organisation, it is impossible to know the specifications of their software. This makes the process of making the system completely compatible with all such software architectures, impossible. However, the system has been designed with modularity and cross-compatibilty in perspective. The system can be easily modified to suit the certain configurations and needs of each client infrastructure, once the specifications of their infrastructure are made available.
+\section{Adoption Risk}
+The system has been designed to be used in large scale organisations and infrastructures such as the banking system or the supply chain system. These infrastructures are usually controlled by a few major corporations such as the Commonwealth Bank and ANZ in case of banking, and Maersk and DHL in case of suplly chain and logistics. 
+
 \chapter{Conclusions}
+The widespread adoption of blockchain systems into commercial applications has been hindered by the limited scalability of such systems. Interoperability is another problem, whereby, different blockchains cannot communicate among each other for transactional purposes. Both these factors have practically limited the transaction throughput to about 30 transactions per second. The goal of the project is to create a framework for multiple blockchain ecosystems to be able to transact among each other. To approach this problem, different attempts to scaleblockchains were evaluated. A system architecture for a system which will facilitate the interconnectivity of blockchains was designed using good software engineering practices. This chapter provides a conclusion to all that this project has been able to accomplish.  
+\\
+\\
+A literature review was conducted to review the existing blockchain systems available and multiple approches to solve the problem being addressed in this paper. Many approaches and attempts to solve the problem were found. Some of those attempts have been used as the foundation for the system that has been presented in this thesis. The core system of the architecure is based on the architecture of Ethereum, which is a popular public blockchain ecosystem. The approach to scale transactions by dividing the entire mining pool into smaller pools is based on the approach taken by Zilliqa. The approach to connect multiple blockchain systems with a central blockchain has been based on Cosmos. The consensus engine is a configuration of Tendermint. The other components of the framework such as the logging system and the backup architecture are the original accomplishments of this thesis.
+\\
+\\
+It was discovered in the literature review that most blockchain systems have not been designed keeping good software engineering and testing practices in perspective. The explanation given in most systems was found to be inadequate. Proper system design documents such as Software Requirements Specifications (SRS) and System Test specifications of such systems was not to be found. Therefore, the one of the important achievements of this thesis was to create proper requirements and test documentation for the system. The process began by starting with SRS document. The requirements found in the SRS were used to create a test specification. Test Driven Development (TDD) approach was taken in the development of the architecture.
+\\
+\\
+The requirements gathered and the test specification developed in the first half of the project were used in the system design and the implementation process. The primary accomplishment of the project is the framework presented in Chapter \ref{chap:System Implementation}. The framework facilitates the inter-connectivity of multiple token systems or blockchains. The system implementation also includes an approach to make the blockchains more scalable by increasing the transaction throughput. This was achieved by dividing the entire mining pool into many smaller pools which can process transactions in parallel. The system integration design presented at the end of Chapter \ref{chap:System Implementation} which shows the complete design overview of the system. 
+\\
+\\
+The system has some shortcomings. one of those is the inability of the system to create new tokens, if the smart contract account lacks sufficient funds for a transaction. This issue has been addressed in Chapter \ref{chap:Discussion} and \ref{chap:FutureWork}. The system has potential applicability in production grade, high risk software infrastructures such as the banking network and the supply chain network. 
 \chapter{Future Work}
+\label{chap:FutureWork}
 \chapter{Abbreviations}
 \label{chap:abbreviations}
 
