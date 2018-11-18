@@ -245,11 +245,11 @@ Blockchain technology has potential applicability in finance, supply chain manag
 %
 \chapter{Introduction}
 \label{chap:Introduction}
-Blockchain technology has demonstrated enormous potential utility in multiple fields including ``Internet of things", governance, finance, asset-tracking, and web decentralization. However, the widespread adoption and use of blockchains into production-grade systems are yet to be demonstrated. 
- Scalability and interoperability are major problems, hindering the production-grade adoption of blockchains into these different fields of application. Blockchain systems currently are lagging behind due to extremely low transaction throughput which makes their use impractical in real-world use cases. Available blockchain implementations are practically limited to approximately 30 transactions per second. This issue of limited transaction throughput arises from the current synchronous consensus mechanisms which require a wide time margin to ensure the safety of transactions. The demand for higher transaction throughput is rapidly increasing with the growing user base. One way of addressing this scalability problem is facilitating intercommunication among smart contracts on multiple separate blockchains. This intercommunication framework inherently solves the problem of interoperability along with scalability. In this thesis, we lay out the design, testing, and implementations specifications of such a framework.
+Blockchain technology has demonstrated enormous potential utility in multiple fields including ``Internet of things", governance, finance, asset-tracking, and web decentralization. However, the widespread adoption and use of blockchains into commercial applications yet to be demonstrated.\cite{}
+ Scalability and interoperability are major problems, hindering the production-grade adoption of blockchains into these different fields of application.\cite{} Blockchain systems currently are lagging behind due to extremely low transaction throughput which makes their use impractical in real-world use cases. Available blockchain implementations are practically limited to approximately 30 transactions per second \cite{}. This issue of limited transaction throughput arises from the current synchronous consensus mechanisms which require a wide time margin to ensure the safety of transactions \cite{}. The demand for higher transaction throughput is rapidly increasing with the growing user base. One way of addressing this scalability problem is facilitating intercommunication among smart contracts on multiple separate blockchains. This intercommunication framework inherently solves the problem of interoperability along with scalability. In this thesis, we lay out the design, testing, and implementations specifications of such a framework.
  
 \section{Project Goal}
-The goal of this project is to lay out the design, testing, and design specifications of a layer two blockchain solution that facilitates higher transaction throughput and interoperability among multiple blockchain systems. Layer two is defined as a system that is built on top of a layer one blockchain system like Ethereum or bitcoin and therefore relies on the layer one chain for security. Layer two solutions are built without requiring any breakthrough modifications to the existing layer one architecture. The project is specifically going to focus on a protocol that is built on top of Ethereum as the foundation layer one blockchain. The biggest challenge for the implementation of this project is ensuring that the layer two solution is at least as secure as the existing foundation that it is built upon. The protocol has to balance between keeping a high transaction throughput and maintaining a high level of decentralization. Decentralization and transaction throughput can easily get inversely intertwined in a decentralized system architecture and therefore precaution needs to be taken while designing the system to reduce centralization.
+The goal of this project is to lay out the design, testing, and design specifications of a layer two blockchain solution that facilitates higher transaction throughput and interoperability among multiple blockchain systems. Layer two is defined as a system that is built on top of a layer one blockchain system like Ethereum or bitcoin and therefore relies on the layer one chain for security \cite{}. Layer two solutions are built without requiring any breakthrough modifications to the existing layer one architecture. The project is specifically going to focus on a protocol that is built on top of Ethereum as the foundation layer one blockchain. The biggest challenge for the implementation of this project is ensuring that the layer two solution is at least as secure as the existing foundation that it is built upon. The protocol has to balance between keeping a high transaction throughput and maintaining a high level of decentralization. Decentralization and transaction throughput can easily get inversely intertwined in a decentralized system architecture and therefore precaution needs to be taken while designing the system to reduce centralization.
 \\
 \\ One of the other goals of the project will also be to lay out the modifications to the existing foundation system that would allow the integration of the layer two system to the foundation architecture. The project does not aim to create a completely new blockchain architecture.
 \section{Project Planning}
@@ -261,34 +261,34 @@ The project scope has remained very similar to the scope that was described in t
 The initial project plan specified two deliverables. One of the deliverables for the project was a suite of smart contracts on different Ethereum blockchains such that those smart contracts can send messages and transactions among themselves. The other deliverable in the initial project plan was a react-native app that would be able to demonstrate the functionality of the smart contracts. There has been a change in the deliverables for the project over the course of the last six weeks of progressing through the development. 
 \\
 
-The new deliverable for the project is a protocol for intercommunication and the interoperability of multiple blockchains. The deliverable includes system requirements, system testing, and implementation specifications. However, any working prototype of the protocol is not a hard deliverable of the project.
+The new deliverable for the project is a framwork for intercommunication and the interoperability of multiple blockchains. The deliverable includes system requirements, system testing, and implementation specifications. However, any working prototype of the protocol is not a hard deliverable of the project.
 \subsection{Timeline}
 There have been significant changes to the timeline of the project as it has progressed. The reason for these changes is the change in the deliverables for the project. The deadline for the project was assumed to be mid-December in the previous project plan; the new deadline is the 9th of November which is a hard deadline. Moreover, a lot of variables and deliverables had unknown components with estimated timeframes. The timeline has a become firmer with most of the variables becoming clearer. The new GANTT chart with the updated timeline for the project is given in appendix c.
 \section{Project Background}
 Prior to starting in on blockchain systems, one needs to be familiar with supporting technologies that support and facilitate the working of blockchains. 
 \subsection{Cryptographic Hash Function}
-A cryptographic hash function is a one-way mathematical construct that takes a data input of arbitrary length and outputs arbitrary data of a fixed length. The primary use of hashing in cryptography is maintaining the integrity of messages. Hashes are used in a blockchain to ensure the integrity of the data stored in each block. The data or the list of transactions in a block is hashed and the hash is appended to the next block, this ensures the integrity of the data because if even a single bit of the data is manipulated then the new hash of the block is completely different. The hash function used in the protocol described in this paper is Keccac-512 which is a variation of the SHA-512 hashing algorithm. 
+A cryptographic hash function is a one-way mathematical construct that takes a data input of arbitrary length and outputs arbitrary data of a fixed length \cite{}. The primary use of hashing in cryptography is maintaining the integrity of messages. Hashes are used in a blockchain to ensure the integrity of the data stored in each block. The data or the list of transactions in a block is hashed and the hash is appended to the next block, this ensures the integrity of the data because if even a single bit of the data is manipulated then the new hash of the block is completely different. The hash function used in the protocol described in this paper is Keccac-512 which is a variation of the SHA-512 hashing algorithm\cite{}. 
 \subsection{Public Key Cryptography}
-Public Key Cryptography is one of the core technologies used in a blockchain system. The accounts on a blockchain are a hashed version of the public key of the user. The accounts can be viewed using the public key of the account, but in order to use or transfer funds held in the account, the private key is required.
+Public Key Cryptography is one of the core technologies used in a blockchain system. The accounts on a blockchain are a hashed version of the public key of the user\cite{}. The accounts can be viewed using the public key of the account, but in order to use or transfer funds held in the account, the private key is required.
 \subsection{Consensus}
-Consensus is a mechanism which ensures that every node on the blockchain network has the same exact copy of the data. A consensus mechanism synchronizes data across all nodes as and when those nodes connect to the network. Consensus also works as a fault tolerance mechanism which is essential in any distributed computing setup such as a distributed ledger to avoid corrupt nodes. Proof of work is by far the most popular consensus mechanism used in mainstream public blockchains. It is ultimately a variation of the popular Practical Byzantine Fault tolerance algorithm.
+Consensus is a mechanism which ensures that every node on the blockchain network has the same exact copy of the data \cite{}. A consensus mechanism synchronizes data across all nodes as and when those nodes connect to the network. Consensus also works as a fault tolerance mechanism which is essential in any distributed computing setup such as a distributed ledger to avoid corrupt nodes. Proof of work is by far the most popular consensus mechanism used in mainstream public blockchains. It is ultimately a variation of the popular Practical Byzantine Fault tolerance algorithm.
 \subsection{State Transition Machine}
-The state of a blockchain is the mapping between the account addresses and the state of the account in terms of the transaction history. Every transaction on the blockchain is a manipulation of the state. The blockchain itself acts as a state transition machine which facilitates transactions by allowing the valid ones to manipulate the state.
+The state of a blockchain is the mapping between the account addresses and the state of the account in terms of the transaction history\cite{}. Every transaction on the blockchain is a manipulation of the state. The blockchain itself acts as a state transition machine which facilitates transactions by allowing the valid ones to manipulate the state.
 \subsection{Clients}
-A client of the blockchain is the end-user software that ensures the blockchain synchronisation, generates and stores private keys, and facilitates transactions on behalf of the private key. Clients live on user hardware which acts as an interface between the user's device and the blockchain network.
+A client of the blockchain is the end-user software that ensures the blockchain synchronisation, generates and stores private keys, and facilitates transactions on behalf of the private key \cite{}. Clients live on user hardware which acts as an interface between the user's device and the blockchain network.
 \subsection{Transactions}
-A transaction is the transfer of a signed data package on the blockchain which manipulates the state of the ledger. It is a record of a valid computational activity that has taken place. Any information that is stored and can be retrieved is the result of a transaction. EVM transactions involve a transfer of value as the transactions themselves have a cost attached to them. 
+A transaction is the transfer of a signed data package on the blockchain which manipulates the state of the ledger\cite{}. It is a record of a valid computational activity that has taken place. Any information that is stored and can be retrieved is the result of a transaction. EVM transactions involve a transfer of value as the transactions themselves have a cost attached to them. 
 \subsection{Smart Contracts}
 Smart Contracts are agents that facilitate the negotiation of a transaction on the blockchain without the use of another third party agent. Smart contracts are the only entry point to the state of the blockchain and therefore the only party that can modify the data layer on the ledger.
 
 \chapter{Background and Related Work}
 This chapter reviews the existing literature and work done in the area of increasing blockchain transaction throughput by facilitating interoperability of blockchains. The most important thing to note is that there is a serious lack of qualitative academic literature in the field as the research in the field is quite new and hasn't percolated into academia yet. Therefore, most of the available literature is from research work done by blockchain startups and the available whitepapers. The language in those whitepapers is often not very academic. Therefore, one of the most important tasks in this chapter would be to interpret the relevant whitepapers critically.
 \section{Ethereum}
-Ethereum is a decentralised value transfer system made possible using a cryptographically secure, transaction-based state machine. A blockchain or a distributed ledger in simple terms. Ethereum was first developed by Vitalik Buterin in late November 2013. It was a complete rewrite of the bitcoin system with the addition of a Turing complete virtual machine and smart contract execution capability. In Ethereum's state transition machine, the final state also referred to as the canonical state is a result of a consensus mechanism using a simplified version of the GHOST protocol.
+Ethereum is a decentralised value transfer system made possible using a cryptographically secure, transaction-based state machine. Which is a blockchain or a distributed ledger in simple terms\cite{}. Ethereum was first developed by Vitalik Buterin in late November 2013\cite{}. It was a complete rewrite of the bitcoin system with the addition of a Turing complete virtual machine and smart contract execution capability. In Ethereum's state transition machine, the final state also referred to as the canonical state is a result of a consensus mechanism using a simplified version of the GHOST protocol\cite{}.
 
 \subsection{Blocks, State and Transactions}
 \subsubsection{Blocks}
-The block in Ethereum is a collection of transaction bunched together as a set. The block has three parts, a block header, the transactions, and the ommers, a collection of related block headers. The block header contains the following pieces of information:
+The block in Ethereum is a collection of transaction bunched together as a set. The block has three parts, a block header, the transactions, and the ommers, a collection of related block headers\cite{}. The block header contains the following pieces of information as stated in the Ethereum whitpaper\cite{}
 \begin{description}
 \item[$\bullet$ parentHash:] a Keccak 256-bit hash of the previous block's header
 \item[$\bullet$ ommersHash:] a Keccak 256-bit hash of the ommers list or the list of blocks which have the same parent block as the current block
@@ -315,7 +315,7 @@ The world state is a mapping between account addresses which are 160 bit hashed 
 \item[$\bullet$ codeHash:] the hash of the Ethereum Virtual Machine (EVM) code of the account, which gets executed in case of transactions
 \end{description}
 \subsubsection{Transactions}
-A transaction is formally a single cryptographically signed instruction executed by an external party. There are two types of transactions in Ethereum: the first type results in a message call between actors and the second type results in the creation of new accounts. A transaction primarily has the following fields:
+A transaction is formally a single cryptographically signed instruction executed by an external party\cite{}. There are two types of transactions in Ethereum: the first type results in a message call between actors and the second type results in the creation of new accounts\cite{}. A transaction primarily has the following fields\cite{}:
 \begin{description}
 \item[$\bullet$ nonce:] a value equal to the number of transactions sent by the sender
 \item[$\bullet$ gasPrice:] number of wei to be paid for each unit of gas. Gas is a computational unit in the EVM which is discussed in a later section.
@@ -323,7 +323,7 @@ A transaction is formally a single cryptographically signed instruction executed
 \item[$\bullet$ to:] a 160-bit address of the message call's recipient 
 \item[$\bullet$ value:] number of wei to be transferred to the message call's recipient
 \end{description}
-A contract creation account contains the following additional fields:
+A contract creation account contains the following additional fields\cite{}:
 \begin{description}
 \item[$\bullet$ nonce:] infinite size byte array containing the EVM code for account initialisation
 \item[$\bullet$ data:] infinite size byte array containing the input data of the message call
@@ -334,9 +334,9 @@ A contract creation account contains the following additional fields:
 \subsection{Gas and Transaction Execution}
 Gas and transactions are the core of the Ethereum computation engine. Transactions form the basis for all the computation and Gas forms the basis of all payment calculation in Ethereum.
 \subsubsection{Gas}
-Gas is defined as any programmable computation in Ethereum. The EVM is a Turing complete computation engine and it is absolutely essential to limit the possibility of denial-of-service attacks in a public computation engine. Gas costs Ether to execute and therefore prevents denial-of-service as no Ethereum account is likely to have an infinite amount of Ether. Every transaction has a Gas price which is the amount of ether paid per Gas or computational step. Miners will usually preferably select a transaction which has the highest gas price.
+Gas is defined as any programmable computation in Ethereum\cite{}. The EVM is a Turing complete computation engine and it is absolutely essential to limit the possibility of denial-of-service attacks in a public computation engine. Gas costs Ether to execute and therefore prevents denial-of-service as no Ethereum account is likely to have an infinite amount of Ether. Every transaction has a Gas price which is the amount of ether paid per Gas or computational step. Miners will usually preferably select a transaction which has the highest gas price.
 \subsubsection{Sub-state}
-A valid transaction in Ethereum is defined as a transaction which:
+A valid transaction in Ethereum is defined as a transaction which\cite{}:
 \begin{description}
 \item [$\bullet$ is a well formed Recursive Length Prefix (RLP);]
 \item [$\bullet$ has a valid signature;]
@@ -345,69 +345,69 @@ A valid transaction in Ethereum is defined as a transaction which:
 \item [$\bullet$ has a sender whose account balance is greater than the Gas cost]
 \end{description}
 
-A transaction is also the most complex part of the EVM as it involves the state transition mechanism. The virtual machine gets in transition state during the execution of the transaction, called the sub-state. The sub-state creates a set of temporary accounts needed to complete the transaction, called the suicide set.
+A transaction is also the most complex part of the EVM as it involves the state transition mechanism. The virtual machine gets in transition state during the execution of the transaction, called the sub-state\cite{}. The sub-state creates a set of temporary accounts needed to complete the transaction, called the suicide set.
 
-The ethereum state transition function is defined as follows: \[\sigma' = \upsilon(\sigma, T)\]
+The ethereum state transition function is defined as follows\cite{}: \[\sigma' = \upsilon(\sigma, T)\]
 where $\sigma$ is the state and $\Upsilon$ is the state transition function.
 
 \subsection{Canonicalisation}
-Canonicalisation is defined as a process when the algorithm takes as input a document that has more than one possible representation and always transforms it into a canonical or consistent form. Canonicalisation is a very important process in any blockchain architecture such as Ethereum. This ensures that all the nodes are synchronised and, therefore, are referring to the same state. Proof-of-Work is the way by which Ethereum achieves a canonical state. Canonicalisation and Consensus are closely related processes. The difference is that canonicalisation is standardisation of the multiple versions of the data and consensus is ensuring all the nodes have the same data.
+Canonicalisation is defined as a process when the algorithm takes as input a document that has more than one possible representation and always transforms it into a canonical or consistent form\cite{}. Canonicalisation is a very important process in any blockchain architecture such as Ethereum. This ensures that all the nodes are synchronised and, therefore, are referring to the same state. Proof-of-Work is the way by which Ethereum achieves a canonical state\cite{}. Canonicalisation and Consensus are closely related processes. The difference is that canonicalisation is standardisation of the multiple versions of the data and consensus is ensuring all the nodes have the same data.
 \subsection{Message Call}
-Message calls are defined as transactions between two or more smart contracts. The only difference from that of a transaction is that, transactions are message calls originated by an externally owned account. Executing a message call requires multiple parameters. Those parameters are: sender(s), transaction originator (o), recipient (r), the account whose code is to be executed (c), available gas (g), value (v), the gas price (p), and an arbitrary length byte array which contains the input of the message call and the present depth of the message-call/contract-creation stack (e).
+Message calls are defined as transactions between two or more smart contracts\cite{}. The only difference from that of a transaction is that, transactions are message calls originated by an externally owned account. Executing a message call requires multiple parameters. Those parameters are: sender(s), transaction originator (o), recipient (r), the account whose code is to be executed (c), available gas (g), value (v), the gas price (p), and an arbitrary length byte array which contains the input of the message call and the present depth of the message-call/contract-creation stack (e)\cite{}.
 \\ 
 \\ 
-The message calls that are initiated due to VM-code execution use the following scheme:
+The message calls that are initiated due to VM-code execution use the following scheme\cite{}:
 \[(\sigma', g', A, o)\equiv \Theta(\sigma, s, o, r, c, g, p, v, \Tilde{v}, d, e)\]
 \\
 \\
 Ethereum is the most essential part of the literature review as most of the system design elements were directly or indirectly derived from variations of the design of the Ethereum system. 
 \section{Cosmos}
-Cosmos is a platform which facilitates the interoperability of multiple parallel blockchains while retaining the inherent security features of blockchains. One of the problems faced by interoperable multi-chain frameworks is their vulnerability to an attack if a majority of the hashing ability is not merge-mined with the central parent chain. Cosmos addresses this issue by having multiple independent blockchains which are called zones in Cosmos. The central or the parent chain is called the Cosmos hub. The zones utilise something called a Tendermint Core, which is a Practical Byzantine Fault Tolerant (PBFT) consensus engine. The system described in this paper uses Tendermint and it will be discussed in a later section.
+Cosmos is a platform which facilitates the interoperability of multiple parallel blockchains while retaining the inherent security features of blockchains\cite{}. One of the problems faced by interoperable multi-chain frameworks is their vulnerability to an attack if a majority of the hashing ability is not merge-mined with the central parent chain. Cosmos addresses this issue by having multiple independent blockchains which are called zones in Cosmos. The central or the parent chain is called the Cosmos hub. The zones utilise something called a Tendermint Core, which is a Practical Byzantine Fault Tolerant (PBFT) consensus engine\cite{}. The system described in this paper uses Tendermint and it will be discussed in a later section.
 
-The main currency on the Cosmos hub is a multi-asset proof-of-stake token. The hub and zones facilitate the intercommunication between the hub and the zones using a protocol called the inter-blockchain communication protocol, which works on a virtual UDP layer for blockchains.
+The main currency on the Cosmos hub is a multi-asset proof-of-stake token. The hub and zones facilitate the intercommunication between the hub and the zones using a protocol called the inter-blockchain communication protocol, which works on a virtual UDP layer for blockchains.\cite{}
 
 \subsection{Consensus}
-Cosmos uses a partially synchronous Byzantine Fault Tolerant (BFT) consensus algorithm called Tendermint. It uses optimal Byzantine Fault Tolerance with a majority of greater than 2/3 of the total voting power. Hence, more than a third of the total voting power has to be Byzantine to cause a violation of safety. As a result, when a violation occurs, it can be detected by the system by comparing conflicting blocks. And since Cosmos combined with Tendermint is a permissioned system, it is much easier to detect Byzantine nodes.
+Cosmos uses a partially synchronous Byzantine Fault Tolerant (BFT) consensus algorithm called Tendermint. It uses optimal Byzantine Fault Tolerance with a majority of greater than 2/3 of the total voting power. Hence, more than a third of the total voting power has to be Byzantine to cause a violation of safety\cite{}. As a result, when a violation occurs, it can be detected by the system by comparing conflicting blocks. And since Cosmos combined with Tendermint is a permissioned system, it is much easier to detect Byzantine nodes.
 
 \subsection{The Hub and Zones}
-The Hub and different zones in Cosmos are connected using a protocol called Inter-blockchain communication (IBC) protocol. The block commits in the zones are constantly posted on the hub, allowing the hub to keep track of the world state and also the state of the zones. The zones communicate among each other using the IBC protocol, by sending Merkle-proofs of transactions. 
+The Hub and different zones in Cosmos are connected using a protocol called Inter-blockchain communication (IBC) protocol. The block commits in the zones are constantly posted on the hub, allowing the hub to keep track of the world state and also the state of the zones. The zones communicate among each other using the IBC protocol, by sending Merkle-proofs of transactions. \cite{}
 \subsubsection{The Hub}
-The Cosmos hub is the central blockchain in the system which hosts a distributed ledger that supports multiple tokens. These coins are moved from one zone to another using a special packet in IBC called a coin packet. The hub is accountable for counting the total amount of coins in each hub. The hub is the central ledger responsible for the entire network of the zones and therefore, is a single point of failure. The security of the hub is of paramount importance. It is secured by a global set of validators which are all permissioned nodes.
+The Cosmos hub is the central blockchain in the system which hosts a distributed ledger that supports multiple tokens\cite{}. These coins are moved from one zone to another using a special packet in IBC called a coin packet\cite{}. The hub is accountable for counting the total amount of coins in each hub. The hub is the central ledger responsible for the entire network of the zones and therefore, is a single point of failure. The security of the hub is of paramount importance. It is secured by a global set of validators which are all permissioned nodes\cite{}.
 \subsubsection{The Zones}
-The Zones exchange information among each other via the hub using the IBC. A zone is a multi-asset, multi-signature account. The hub ensures that the zones cannot transfer more tokens than it has been assigned. The hub does not verify the authenticity of the zones and therefore it should within the senders' discretion to send tokens across zones. 
+The Zones exchange information among each other via the hub using the IBC. A zone is a multi-asset, multi-signature account\cite{}. The hub ensures that the zones cannot transfer more tokens than it has been assigned. The hub does not verify the authenticity of the zones and therefore it should within the senders' discretion to send tokens across zones. 
 \subsection{Inter-blockchain Communication (IBC)}
-The Inter-blockchain communication (IBC) works by moving packets of data from one zone to another via the hub, by posting Merkle-proofs. The proof is evidence that the sending chain published a packet which was meant for the receiving chain. 
+The Inter-blockchain communication (IBC) works by moving packets of data from one zone to another via the hub, by posting Merkle-proofs\cite{}. The proof is evidence that the sending chain published a packet which was meant for the receiving chain. 
 \\
 \\
-The IBC is the most important component of the Cosmos literature. IBC is mentioned here because a lot of inspiration for communication between different blockchains, which have been mentioned in later chapters actually come from the IBC protocol. As shown in the diagram below, the IBC has two different types of transactions; namely, IBCBlockCommitTx transaction and an IBCPacketTx transaction. The IBCBlockCommitTx allows a zone to prove to any observer zone that its most recent block hash exists. The IBCPacketTx allows a zone to prove to any observer that a published packet was indeed sent by the sender. The separation of the two different types of transactions allows the sender and receiver zones to have independent control over their block commits, respectively. The IBCBlockCommit interaction diagram which shows the two types of transactions has been shown in figure \ref{fig:1}.
+The IBC is the most important component of the Cosmos literature. IBC is mentioned here because a lot of inspiration for communication between different blockchains, which have been mentioned in later chapters actually come from the IBC protocol. As shown in the diagram below, the IBC has two different types of transactions; namely, IBCBlockCommitTx transaction and an IBCPacketTx transaction\cite{}. The IBCBlockCommitTx allows a zone to prove to any observer zone that its most recent block hash exists\cite{}. The IBCPacketTx allows a zone to prove to any observer that a published packet was indeed sent by the sender\cite{}. The separation of the two different types of transactions allows the sender and receiver zones to have independent control over their block commits, respectively. The IBCBlockCommit interaction diagram which shows the two types of transactions has been shown in figure \ref{fig:1}.
 \begin{figure}
   \includegraphics[width=\linewidth]{ibc_transactions.png}
-  \caption{IBCBlockCommit Transaction interaction diagram.}
+  \caption{IBCBlockCommit Transaction interaction diagram\cite{}.}
   \label{fig:1}
 \end{figure}
 
 \section{Zilliqa}
-Zilliqa is another blockchain solution which aims to solve the problem of scalability by using blockchain sharding. It divides the mining network into smaller shards, each capable of processing transactions in parallel. It also has a smart contract execution environment or a virtual machine and a special contract language which implements data-flow programming. This allows the parallel processing of the programs as soon as all the inputs are available. The entire system in Zilliqa is divided into six layers. This layering system is good for maintenance and abstraction of different parts of the system. The layers are explained in more detail in the sections below:
+Zilliqa is another blockchain solution which aims to solve the problem of scalability by using blockchain sharding \cite{}. It divides the mining network into smaller shards, each capable of processing transactions in parallel\cite{}. It also has a smart contract execution environment or a virtual machine and a special contract language which implements data-flow programming\cite{}. This allows the parallel processing of the programs as soon as all the inputs are available. The entire system in Zilliqa is divided into six layers. This layering system is good for maintenance and abstraction of different parts of the system. The layers are explained in more detail in the sections below\cite{}:
 
 \subsection{Cryptographic Layer}
-Zilliqa's cryptographic layer uses elliptic curve cryptography for digital signatures and a memory hard hash function for proof-of-work (PoW). The hash function used in Ziliqa is ethash, which is the hash function used in Ethereum. Ethhash is based on Keccak, which is memory hard meaning that Application specific integrated circuits (ASIC) will not be able to generate the hashes. 
+Zilliqa's cryptographic layer uses elliptic curve cryptography for digital signatures and a memory hard hash function for proof-of-work (PoW)\cite{}. The hash function used in Ziliqa is ethash, which is the hash function used in Ethereum. Ethhash is based on Keccak, which is memory hard meaning that Application specific integrated circuits (ASIC) will not be able to generate the hashes. 
 \subsubsection{EC-Schnorr Signature}
-Zilliqa uses digital signatures based on the EC-Schnorr algorithm instantiated with the secp256k1 elliptic curve. According to Zilliqa, EC-Schnorr has a few benefits over Elliptic Curve Digital Signature Algorithm (ECDSA). Those benefits are Non-malleability, Multisignature ability, and faster speeds. 
+Zilliqa uses digital signatures based on the EC-Schnorr algorithm instantiated with the secp256k1 elliptic curve\cite{}. According to Zilliqa, EC-Schnorr has a few benefits over Elliptic Curve Digital Signature Algorithm (ECDSA). Those benefits are Non-malleability, Multisignature ability, and faster speeds\cite{}. 
 
 \subsubsection{Proof of Work}
-Zilliqa uses Proof of Work to prevent Sybil attacks and generate node identities. This is contrary to other blockchain systems such as Ethereum which use PoW for the purpose of achieving consensus. Sybil attacks work by forging identities of different systems in order to subvert the reputation of the concerned system, especially in used in peer-to-peer networks. Zilliqa uses ethhash as its algorithm of choice for PoW. As mentioned earlier, ethash is a memory hard hash function and requires a considerable amount of memory and high bandwidth I/O interface which makes it impossible to use specialised hardware for computation of the hash.
+Zilliqa uses Proof of Work to prevent Sybil attacks and generate node identities\cite{}. This is contrary to other blockchain systems such as Ethereum which use PoW for the purpose of achieving consensus. Sybil attacks work by forging identities of different systems in order to subvert the reputation of the concerned system, especially in used in peer-to-peer networks\cite{}. Zilliqa uses ethhash as its algorithm of choice for PoW. As mentioned earlier, ethash is a memory hard hash function and requires a considerable amount of memory and high bandwidth I/O interface which makes it impossible to use specialised hardware for computation of the hash.
 \subsection{Data Layer}
 The data layer mainly consists of the global state of Zilliqa and it also defines the data needed by different entities to update the global state. 
 \subsubsection{Accounts and Addresses}
-Zilliqa just like Ethereum is an account based blockchain system and consists of two types of accounts; namely, a normal account and a contract account. A normal account is created when the EC-Schnorr algorithm is invoked to create a private key. A contract account is created when a contract is deployed by another normal account. The public key is then derived from the private key by using the EC-Schnorr algorithm. The account address for a normal account is then generated by using the 160 least significant bits of the SHA-3 hash of the public key and for a contract account it is generated by using the 160 least significant bits of the SHA-3 hash of the address of the creator's account and the account nonce, which is the number of transactions sent from the particular account. The equations for generating the addresses for both normal and contract accounts are given below:
+Zilliqa just like Ethereum is an account based blockchain system and consists of two types of accounts; namely, a normal account and a contract account. A normal account is created when the EC-Schnorr algorithm is invoked to create a private key. A contract account is created when a contract is deployed by another normal account. The public key is then derived from the private key by using the EC-Schnorr algorithm. The account address for a normal account is then generated by using the 160 least significant bits of the SHA-3 hash of the public key and for a contract account it is generated by using the 160 least significant bits of the SHA-3 hash of the address of the creator's account and the account nonce, which is the number of transactions sent from the particular account\cite{}. The equations for generating the addresses for both normal and contract accounts are given below\cite{}:
 \begin{equation}
     A_{normal} = LSB_{160}(SHA3-256(PubKey(sk)))
 \end{equation}
 \begin{equation}
     A_{contract} = LSB_{160}(SHA3-256(address||nonce))
 \end{equation}
-There are two types of states in Zilliqa; the account state and the global state.
-Each account is associated with an account an account state which has the following information:
+There are two types of states in Zilliqa; the account state and the global state \cite{}.
+Each account is associated with an account an account state which has the following information\cite{}:
 \begin{description}
 \item[$\bullet$ account nonce:] the number of transactions sent from the account in case of a normal account, or the number of transactions sent from the creator's account in case of a contract account.
 \item[$\bullet$ balance:] a number that corresponds to the number of tokens currently owned by the respective account.
@@ -416,7 +416,7 @@ Each account is associated with an account an account state which has the follow
 \end{description}
 The global state in Zilliqa is the mapping between account addresses and corresponding account states. 
 \subsubsection{Transactions}
-A transaction in Zilliqa is always sent from a normal account and it updates the global state as it updates the account states of the respective parties involved in the transaction. A transaction contains the following information:
+A transaction in Zilliqa is always sent from a normal account and it updates the global state as it updates the account states of the respective parties involved in the transaction. A transaction contains the following information\cite{}:
 \begin{description}
 \item[$\bullet$ version:] current version of the global state.
 \item[$\bullet$ nonce:] a number corresponding to the number of transactions sent by the sender's account.
@@ -430,7 +430,7 @@ A transaction in Zilliqa is always sent from a normal account and it updates the
 \item[$\bullet$ signature:] the EC-Schnorr signature the data package
 \end{description}
 \subsubsection{Blocks}
-Most of the Zilliqa protocol until now has been very similar to Ethereum but the differences actually exist at the block level. There are two types of blocks in Zilliqa which implies two different blockchains, one of which is used for purpose of parallel processing of transactions by multiple shards. The two types of blocks are transaction blocks and directory service blocks (DS-Blocks). The transaction blocks are the normal blocks that would be expected to exist in any blockchain system to keep a record of the transactions. The DS-blocks, however, contain metadata about miners participating in transactions in shards to maintain consensus. The DS-block has two parts; the header and the signature. The header part of the DS-block contains the following data:
+Most of the Zilliqa protocol until now has been very similar to Ethereum but the differences actually exist at the block level. There are two types of blocks in Zilliqa which implies two different blockchains, one of which is used for purpose of parallel processing of transactions by multiple shards. The two types of blocks are transaction blocks and directory service blocks (DS-Blocks)\cite{}. The transaction blocks are the normal blocks that would be expected to exist in any blockchain system to keep a record of the transactions. The DS-blocks, however, contain metadata about miners participating in transactions in shards to maintain consensus\cite{}. The DS-block has two parts; the header and the signature. The header part of the DS-block contains the following data\cite{}:
 \begin{description}
 \item[$\bullet$ version]
 \item[$\bullet$ previous hash]
@@ -441,10 +441,10 @@ Most of the Zilliqa protocol until now has been very similar to Ethereum but the
 \item[$\bullet$ mix hash]
 \item[$\bullet$ nonce]
 \end{description}
-And the signature part of the DS-block contains only two fields: an EC-Schnorr signature and a bitmap which records a 0 or 1 depending on whether the i-th node participated in the signature.
+And the signature part of the DS-block contains only two fields: an EC-Schnorr signature and a bitmap which records a 0 or 1 depending on whether the i-th node participated in the signature\cite{}.
 \\
 \\
-The transaction blocks, as the name suggests,  keep a record of all the transactions in the blockchain and have three parts; the header, the data, and the signature. The header part consists of the following fields:
+The transaction blocks, as the name suggests,  keep a record of all the transactions in the blockchain and have three parts; the header, the data, and the signature. The header part consists of the following fields\cite{}:
 \begin{description}
 \item[$\bullet$ type:] could be a micro block or a final block.
 \item[$\bullet$ version] 
@@ -462,42 +462,42 @@ The transaction blocks, as the name suggests,  keep a record of all the transact
 \item[$\bullet$ parent ds hash]
 \item[$\bullet$ parent ds block number]
 \end{description}
-The data part of the transaction block contains the tx count, which is the number of transactions contained in the block, and the tx list, which is the list of transactions in the block.
+The data part of the transaction block contains the tx count, which is the number of transactions contained in the block, and the tx list, which is the list of transactions in the block\cite{}.
 \\
 \\
-Finally, the signature part of the transaction block contains the EC-Schnorr based multi-signature, which contains two fields; the signature and the bitmap, that specifies the signatories.  
+Finally, the signature part of the transaction block contains the EC-Schnorr based multi-signature, which contains two fields; the signature and the bitmap, that specifies the signatories\cite{}.  
 \\
 \\
 Micro blocks are submitted by mining shards which then get approved by the DS-committee to final block status which form a part of the final transaction blockchain.
 \subsection{Network Layer}
- Zilliqa's mining network, as mentioned before, is divided into multiple shards which are all capable of processing transactions in parallel. Network sharding is a two-step process which involves a dedicated set of special nodes called the Directory Service Committee (DS committee). 
+ Zilliqa's mining network, as mentioned before, is divided into multiple shards which are all capable of processing transactions in parallel. Network sharding is a two-step process which involves a dedicated set of special nodes called the Directory Service Committee (DS committee)\cite{}. 
 \subsection{Consensus Layer}
-The DS committee has to run the consensus protocol on the micro blocks in order to finalise the blocks. Zilliqa uses Practical Byzantine Fault Tolerance (PBFT), however, uses a slightly modified PBFT protocol which includes native multi-signatures using EC-Schnorr to improve efficiency. Using EC-Schnorr multi-signature reduces the communication latency from \[O(n^2)\] to \[O(n)\] and reduces the signature size from O(n) to O(1).
+The DS committee has to run the consensus protocol on the micro blocks in order to finalise the blocks\cite{}. Zilliqa uses Practical Byzantine Fault Tolerance (PBFT), however, uses a slightly modified PBFT protocol which includes native multi-signatures using EC-Schnorr to improve efficiency\cite{}. Using EC-Schnorr multi-signature reduces the communication latency from \[O(n^2)\] to \[O(n)\] and reduces the signature size from O(n) to O(1)\cite{}.
 \\
 \\
-Every consensus round is executed in three rounds:
+Every consensus round is executed in three rounds\cite{}:
 \begin{description}
 \item[$\bullet$] in the pre-prepare phase, the leader of a consensus shard distributes the next transaction micro block.
 \item[$\bullet$] in the prepare phase, the nodes validate the block and multicast a message to other nodes
 \item[$\bullet$] in the commit phase, after receiving 2/3n commit messages, the group commits the nominated micro block to a final block by performing a second round of EC-Schnorr multi-signatures.
 \end{description}
 \subsection{Smart Contract Layer}
-Zilliqa comes with a smart contract execution environment which follows a data-flow programming paradigm. The nodes in Zilliqa's execution model get activated as soon as all the data inputs are available. According to Zilliqa, the advantage of implementing a data flow paradigm is that a lot of nodes can get activated at the same time as soon as all the data points are available. The smart contract language in Zilliqa is not a Turing complete a language, which makes it very application specific. 
+Zilliqa comes with a smart contract execution environment which follows a data-flow programming paradigm\cite{}. The nodes in Zilliqa's execution model get activated as soon as all the data inputs are available. According to Zilliqa, the advantage of implementing a data flow paradigm is that a lot of nodes can get activated at the same time as soon as all the data points are available. The smart contract language in Zilliqa is not a Turing complete a language, which makes it very application specific. 
 
 \section{Tendermint}
-Tendermint is a software for secure replication of applications on multiple machines. It claims to be able to achieve consensus even if up to a third of the total number of machines are Byzantine. Byzantine means that the machines have become arbitrarily malicious. Tendermint is a Byzantine Fault Tolerant state replication machine. The ability to tolerate machines failing in arbitrary ways, including becoming malicious, is known as Byzantine Fault Tolerance (BFT).
+Tendermint is a software for secure replication of applications on multiple machines\cite{}. It claims to be able to achieve consensus even if up to a third of the total number of machines are Byzantine\cite{}. Byzantine means that the machines have become arbitrarily malicious\cite{}. Tendermint is a Byzantine Fault Tolerant state replication machine. The ability to tolerate machines failing in arbitrary ways, including becoming malicious, is known as Byzantine Fault Tolerance (BFT)\cite{}.
 \\
 \\
-Tendermint consists of two chief technical components: a blockchain consensus engine and a generic application interface. The consensus engine, called Tendermint Core, ensures that the same transactions are recorded on all the machines in the order. Tendermint has a specific port which uses a generic application interface called the Application BlockChain Interface (ABCI). The ABCI is a generic interface which allows transactions to be processed in any programming language. 
+Tendermint consists of two chief technical components: a blockchain consensus engine and a generic application interface. The consensus engine, called Tendermint Core, ensures that the same transactions are recorded on all the machines in the order. Tendermint has a specific port which uses a generic application interface called the Application BlockChain Interface (ABCI)\cite{}. The ABCI is a generic interface which allows transactions to be processed in any programming language\cite{}. 
 
 \subsection{Application BlockChain Interface (ABCI)}
-The Application BlockChain Interface (ABCI) facilitates the replication of Byzantine Fault Tolerant replication of state machines, which could be written in any programming language. Tendermint's ABCI uses an implementation called the Tendermint Socket Protocol (TSP). Tendermint's core communicates with external applications using the TSP.
+The Application BlockChain Interface (ABCI) facilitates the replication of Byzantine Fault Tolerant replication of state machines, which could be written in any programming language. Tendermint's ABCI uses an implementation called the Tendermint Socket Protocol (TSP)\cite{}. Tendermint's core communicates with external applications using the TSP.
 \\
 \\
 This is contrary applications such as Ethereum which support a Turing-complete bytecode virtual machine. The number of languages that can compile to bytecode is very limited. This factor limits the compatibility of the blockchain system with other applications.
 \\
 \\
-The ABCI is mainly composed of three types of messages:
+The ABCI is mainly composed of three types of messages\cite{}:
 \begin{description}
 \item[$\bullet$ DeliverTx:] The DeliverTx message allows the verification of each transaction against the current state,  the application protocol, and the digital signature.
 \item[$\bullet$CheckTx:] Tendermint Core's mempool checks the validity of a transaction with a CheckTx and ensures only valid transactions are relayed to the peers.
@@ -505,7 +505,7 @@ The ABCI is mainly composed of three types of messages:
 \end{description}
 
 \subsection{Tendermint Core}
-The Tendermint core will be responsible for the following tasks in the process of achieving consensus:
+The Tendermint core will be responsible for the following tasks in the process of achieving consensus\cite{}:
 \begin{description}
 \item[$\bullet$]Maintaining the Unspent Transaction Output (UTXO) database
 \item[$\bullet$]Validating the transaction signatures
@@ -514,7 +514,7 @@ The Tendermint core will be responsible for the following tasks in the process o
 `
 \end{description}
 \\
-It is worth noting that the logic for BlockChain transaction processing must be deterministic. Consensus would not be reached if the transaction processing was not deterministic. 
+It is worth noting that the logic for BlockChain transaction processing must be deterministic. Consensus would not be reached if the transaction processing was not deterministic\cite{}. 
 \label{chap:LitReview}
 
 \chapter{System Requirements}
@@ -522,7 +522,7 @@ It is worth noting that the logic for BlockChain transaction processing must be 
 
 \section{System Overview \label{sec:Intro-ChapUserSelec}}
 \subsection{Overall Description}
-Blockchain systems have been facing major bottlenecks in the areas of scalability and interoperability. In order for blockchains to be applicable in commercial production-scale applications, the issue of scalability and interoperability need to be solved. This chapter lays out the system requirement specification for a production-grade blockchain system that is scalable and can interoperate with a multitude of other systems.
+This chapter lays out the system requirement specification for a commercially usable production-grade blockchain system that is scalable and can interoperate with a multitude of other systems.
 \subsection{Product Perspective}
 The recent hype about blockchain systems has been phenomenal, however, ignoring all the hype, blockchains practically have a lot of applications in many different fields. The system specified in this thesis will have applicability in banking infrastructure, accounting applications, supply chain systems, and digital currencies. Many industry-specific applications that require multiple parties to collaborate securely could potentially implement this system in their existing architecture. The system will improve the overall system security, tamper-resistance along with all the other benefits like having continuous history logging, that comes with any blockchain system.
 \subsection{User Characteristics}
@@ -653,7 +653,7 @@ Any specific time measurements that might have been indicated in this section as
 \begin{description}
 \item[NFR13:] The system shall be able to process transactions as atomic operations, even with a slow internet connection.
 \item[NFR14:] The system shall have authority to reverse transactions that were found to be invalid at a later point in time, not exceeding the formation time for 10 blocks.
-\item[NFR15:] The system shall have a backup central server running to prevent downtime, in case the number of operating nodes goes below a minimum operable limit.
+\item[NFR15:] The system shall have a backup central server running to prevent downtime, in case the number of operating nodes goes below a minimum operable limit (MOL).
 \item[NFR16:] The system shall be completely operational as a standalone system. However, it can also interface with the most popular existing architecture.
 \end{description}
 \subsection{Reliability Requirements}
@@ -702,35 +702,6 @@ The project demanded a few trade-offs and hard choices in terms of selection of 
 \subsection{Concurrent Processes and Coordination}
 The concurrent processing of certain parts of the system is extremely necessary. The system is a network of blockchains in which certain data needs to be logged simultaneously into multiple concurrent systems. This requirement creates a plethora of difficulties and complications in the integration of the system. However, it is completely necessary in order to maintain the security and integrity of the entire system. As an example, the logging blockchain needs to work concurrently with the transactions blockchain. The transactions need to be logged in real time otherwise there is going to problems with integration.
 
-\section{Data Dictionary}
-\setlength{\arrayrulewidth}{0.2mm}
-\setlength{\tabcolsep}{18pt}
-\renewcommand{\arraystretch}{2.5}
- 
-{\rowcolors{1}{gray!20}{white}
-\begin{longtable}{ |p{2.5cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|  }
-\hline
-\bf{Name} & \bf{Type} & \bf{Meaning} & \bf{Example}\\
-\hline
-T1 &   &   &   \\
-T2 &   &   &   \\
-T3 &   &   &   \\
-T4 &   &   &   \\
-T5 &   &   &   \\
-T6 &   &   &   \\
-T7 &   &   &   \\
-T8 &   &   &   \\
-T9 &   &   &   \\
-T10 &   &   &   \\
-T11 &   &   &   \\
-T12 &   &   &   \\
-T13 &   &   &   \\
-T14 &   &   &   \\
-T15 &   &   &   \\
-\hline
-\end{longtable}
-}
-\section{Test Assumptions}
 \section{Test Specifications}
 
 \subsection{Test Details}
@@ -1032,12 +1003,12 @@ The following test specifications are based on the requirements taken from the S
 \item[Input Specifications:] System generated transactions which have malicious intent.
 \item[Expected Results:] The system should be able to reverse all such transactions.
 
-\item[NFR15:] The system shall have a backup central server running to prevent downtime, in case the number of operating nodes goes below a minimum operable limit.
+\item[NFR15:] The system shall have a backup central server running to prevent downtime, in case the number of operating nodes goes below the MOL.
 \item[Purpose:] To prevent the system from having potential downtime.
 \item[Fit Criteria:] The system shall make use of the backup server as its data and consensus engine as soon as the number of active nodes goes below 20\% of the total number of nodes.
 \item[Test Case Numbers:] T4, T9, T10, T11, T12, T13
 \item[Test Description:] Tests whether the system resistant to the lack of availability of nodes.
-\item[Input Specifications:] Bringing the nodes below the minimum operable limit.
+\item[Input Specifications:] Bringing the nodes below the MOL.
 \item[Expected Results:] The system should always successfully transition to the backup system and keep running.
 
 \item[NFR16:] The system shall be completely operational as a standalone system.  However, it should also interface with the most popular existing architecture.
@@ -1211,73 +1182,114 @@ The following test specifications are based on the requirements taken from the S
 
 \chapter{System Implementation}
 \label{chap:System Implementation}
-The chapters so far have discussed the requirements, the testing conditions and the previous work that is related to the system. This chapter discusses the implementation of a system that satisfies the requirements and the test specifications that have been detailed in the previous chapters. Most importantly, this implementation satisfies the goals of the undertaking of this project. It is worth noting that the system does not actually have a prototype that has been tested under real-world conditions. However, theoretically, the system is expected to function as expected.
+The chapters so far have discussed the requirements, testing conditions, and previous work that is related to the system. This chapter discusses the implementation of a system that satisfies the requirements. Most importantly, this implementation satisfies the project goals. It is important to note that the system does not actually have a prototype that has been tested under real-world conditions.
 \section{System Overview}
-The system described here is a combination of multiple partially independent systems working together to achieve the functionality and the requirements. In the context here, partially independent implies that the individual component will function as expected given the correct arguments. The architecture of the systems contains layers through which the data flow before it has been permanently written onto the blockchain. There might be a lot of overlap between the components used in the layers which would mean that those corresponding layers would not be able to function independently. 
+The proposed system described here is a combination of multiple partially independent components working together to satisfy the project requirements. In this context, `partially independent' implies that the individual components will function as expected even when isolated, given the correct arguments. The system architecture contains layers through which the data flow before it is permanently written onto the blockchain. There may be a large amount of overlap between the components used in the layers, meaning that those layers would not be able to function independently. 
 \\
 \\
-The system contains a consensus engine which, as the name suggests, ensures that the system achieves consensus or makes sure that all the nodes are in sync with the system. The consensus engine used in this case is Tendermint. The cryptographic layer of the system manages account creation, generation of public and private keys, and all the hashing requirements of the system. The logging layer is independent of the main system in a way that no data can ever flow to be written permanently onto the blockchain without being logged by the logs layer. The central blockchain is the central point of failure for all the systems working in conjunction. All the transactions between the multiple blockchain systems working in conjunction with each other are processed through the central chain. The fault tolerance layer consists of the overloading servers. The fault tolerance layers take over when the system cannot function on its own due to unavailability of adequate resources. The security layer is a unique system that has not been incorporated into any popular blockchain systems yet. It uses machine learning to detect any potential malicious activity in the system and then uses the appropriate mechanisms to prevent such attacks from happening. The network layer is where the sharding mechanism of the mining pools take place. The network layer ensures that the transactions are properly allocated to the shards and processed appropriately. The following sections describe these individual components that make up the system in more detail and also elaborates how they all function in conjunction. 
-\section{Consensus Layer}
-The consensus mechanism in the system described here is quite different from the consensus mechanisms that have been described in the literature review chapter of this thesis. The blockchain being described here is a permissioned blockchain. This makes achieving consensus relatively easier than popular mechanisms such as proof of work. The consensus mechanism here uses tendermint which is a software for replicating state across machines.
+The system contains a consensus engine which ensures that all the nodes are in sync with the global state of the centeral blockchain. The consensus engine used in this system is Tendermint. The cryptographic layer of the system manages account creation, generation of public and private keys, and all the hashing requirements of the system. The logging layer is independent of the central blockchain. There could no discrepancy between the logs layer and the central blockchain. The central blockchain is the single point of failure for all the systems working in conjunction as all transactions between the peripheral blockchains are processed via the central chain. The security layer is a unique system that has not been incorporated into any popular blockchain ecosystems so far, such as Bitcoin and Ethereum. It uses machine learning to detect any potential malicious activity in the system and then uses the appropriate mechanisms to prevent such attacks from happening. The network layer is where the sharding of the mining pools occur. It ensures that the transactions are properly allocated to the shards and processed appropriately. The following sections describe these individual components that make up the system in more detail.
+\section{Central Numiz(NMZ) Blockchain}
+The most important component of the entire architecture is the central blockchain. It facilitates the interoperability of the various peripheral blockchains connected to the system. The central blokchain has the token conversion mechanism embedded in its architecture. The token conversion mechanism is a suite of mirrored smart contracts which convert tokens by freezing them on sending blockchain and releasing them into recipient blockchain. The smart contracts can generate new tokens into the system when the amount of available tokens on hold is insufficient, however, this is not possible in all cases. Tokens on hold are the number of tokens currently present for transactions in the mirrored smart contract accounts of the peripheral blockchains. It is important to note that the central blockchain is only activated when there is a cross-chain transfer of tokens. This is vital in order to maintain the independent operation of the multiple peripheral token systems. The independence of the peripheral token system is necessary for making the central blokchain more scalable as most of the internal transactions of the chain are never processed through the central chain. This effectively reduces the number of transactions that need to be processed by the central chain.
+\subsection{NMZ Chain Architecture}
+In figure \ref{fig:smart}, outlines the architecture of a peripheral chain connected to the central blockchain. When a transaction to transfer tokens between two peripheral blockchains is initiated, the tokens from the first peripheral chain are converted to the native token of the central chain, which for the purposes of this thesis will be called Numiz Coin (NMZ token). The transfer smart contract deployed on the sender peripheral chain freezes those tokens in the smart contract account. A commit message for the freezing of these tokens is generated which includes the receiptsRoot of the trie that contains the receipt for that transaction. This information in this commit message is digitally signed using the EC-Schnorr signature of the smart contract, instantiated using the sepc256k1 elliptic curve. The message is then sent across the network using the TCP protocol. TCP guarantees the delivery of the data to the receiver smart contract. The mirrored smart contract on the NMZ blockchain has the public keys associated with every smart contract successfully deployed onto the system. The NMZ blockchain first verifies that the data received is sent from a valid peripheral chain. The central chain can reject the data transfer and discard all the data received if the signature cannot be verified. The mirrored smart contract after validating the signature of the data received gathers information about the amount of tokens that need to be transferred. The smart contract also gathers information about the destination chain from the metadata of the commit message. The amount of tokens that need to be released to the destination chain are converted into NMZ. The correct denomination of NMZ is converted using the central chain conversion rates specified during the deployment of the mirrored smart contracts. The NMZ tokens are then sent across to the destination chain smart contract using TCP data packets. The mirrored smart contract on the NMZ chain freezes those NMZ tokens. The destination chain does not have access to the conversion rates. The conversion denomination calculation is actually done on the NMZ blockchain. The sent packet includes the number of tokens that need to be released to the user account. The data received by the receiver chain also includes the nominee account address and the digital signature of the NMZ chain. The smart contract in the receiver chain verifies the signature and releases the given amount of tokens to the nominee's account. In cases where the signature is not valid or the receiver chain does not have enough tokens to release, the transaction will be rejected and a message will be sent back to the central chain, reversing the changes that have been made so far. The tokens from the sender's account which were frozen earlier will be sent back to the sender.
 \\
 \\
-The Blockchain in the system is a permissioned Blockchain. Achieving consensus in permissioned Blockchains is comparatively easier due to the fact that nodes are not anonymous. It makes it easier for the consensus mechanism to associate malicious behaviour with specific nodes. Since Tendermint is a Blockchain independent consensus engine it requires certain arguments to be given as input. The Tendermint Core interfaces with the Blockchain system using ABCI to get the proper arguments and achieve consensus.
-\\
-\\
-The Tendermint core can be configured with the following parameters:
+The data sent across from the sender peripheral chain includes the following fields:
 \begin{description}
-\item[$\bullet$ abci:]ABCI transport (socket|grpc). The system will use a a socket configuration which is more widely used.
-\item[$\bullet$ db\_backend:]Database backend for the blockchain and TendermintCore state. The system will use levedb because it has been tested to be the best at disk space utilization.
-\item[$\bullet$ db\_dir:]Database directory. This will be set the the value ``\$TMHOME/data/chain\_ID", where chain\_ID is the value specified in the genesis.json file.
-\item[$\bullet$ fast\_sync:]Whether to sync faster from the block pool. This field can be set to true or false depending on the need. If fast\_sync is enabled then the block are downloaded and the merkle tree of the validators are checked instead of syncing the blockchain from genesis.
+    \item[$\bullet$ EC-Schnorr Signature:] the digital signature of the smart contract account of the sender chain
+    \item[$\bullet$ amount:] the number of tokens in the denomination of the sending chain to be transferred
+    \item[$\bullet$ destAddress:] the public address of the destination chain that is the receiver chain
+    \item[$\bullet$ destAccount:] the account address of the receiver
+    \item[$\bullet$ recieptHeader:] the header of the Merkle tree which contains the receipt of the tokens
+    \item[$\bullet$ tokenFreezeReciept:] a receipt proving that the specified number of tokens have been frozen
+\end{description}
+\\
+\\
+The data sent across from the NMZ chain to the receiving chain contains the following information:
+\begin{description}
+    \item[$\bullet$ EC-Schnorr Signature:] the digital signature of the NMZ blockchain
+    \item[$\bullet$ NMZamount:] the number of NMZ tokens that have been frozen in the NMZ mirrored contract
+    \item[$\bullet$ releaseAmount:] the amount of destination tokens that need to be released into the receiver account
+    \item[$\bullet$ destAccount:] the account address of the receiver account
+    \item[$\bullet$ receiptHeader:] the header of the Merkle tree which contains the receipt of the tokens by the NMZ chain
+    \item[$\bullet$ tokenFreezeReceipt:] a receipt proving that the said amount of tokens have been frozen
+\end{description}
+
+\begin{figure} 
+  \includegraphics[width=\linewidth]{mirrored_blockchains.png}
+  \caption{Mirrored Smart Contracts}
+  \label{fig:smart}
+\end{figure}
+
+\subsection{Data Transfer and Transaction Validity}
+The data fields mentioned in the previous section will need to be sent across from one token system to another. The ABCI facilitates this connection using sockets. This creates a standardised interface between the various token systems to exchange data. The NMZ chain also verifies whether the transactions are valid. Transaction validity is confirmed if the following conditions are met:
+\begin{description}
+\item[$\bullet$]the EC-Schnorr signature on the transaction is valid and a keyVerify() request from the cryptographic layer returns true.
+\item[$\bullet$]the account has sufficient funds available for the transaction.
+\end{description}
+
+If the above conditions are met then the transaction is deemed valid and is eligible for further processing. The validation of other necessary information such as the destAddress and destAccount is completed in later stages. 
+\section{Consensus Layer}
+The consensus mechanism in the system described here is quite different from the consensus mechanisms that have been described in the literature review chapter of this thesis. The system utilises a permissioned blockchain. This makes achieving consensus relatively easier than popular mechanisms such as proof of work. The consensus mechanism here uses Tendermint which is a software for replicating state across machines.
+\\
+\\
+Achieving consensus in permissioned blockchains is comparatively easier due to the fact that nodes are not anonymous and, therefore, the consensus mechanism to associate malicious behaviour with specific nodes. Since Tendermint is a blockchain independent consensus engine it requires certain arguments to be given as input. The Tendermint Core interfaces with the system using ABCI to get the proper arguments and replicate the current state across all the active nodes.
+\\
+\\
+The Tendermint core can be configured with the following parameters\cite{}:
+\begin{description}
+\item[$\bullet$ abci:]ABCI transport (socket|grpc). The system will use a socket configuration which is more widely used.
+\item[$\bullet$ db\_backend:]Database backend for the blockchain and Tendermint Core state. The system will use leveldb because it is better at disk space utilisation \cite{}.
+\item[$\bullet$ db\_dir:]Database directory. This will be set to the value ``\$TMHOME/data/chain\_ID", where chain\_ID is the value specified in the genesis.json file.
+\item[$\bullet$ fast\_sync:]Whether to sync faster from the block pool. This field can be set to true or false depending on the need. If fast\_sync is enabled then the blocks are downloaded and the Merkle tree of the validators are checked instead of syncing the blockchain from genesis.
 \item[$\bullet$ genesis\_file:]The location of the genesis file.
 \item[$\bullet$ log\_level:] Defines the verbosity of the logs generated.
 \item[$\bullet$ moniker:]Name of the node which is defining the configuration file.
-\item[$\bullet$ priv\_validator\_file:]Validator private key file. The json file containing the validator's private keys.
+\item[$\bullet$ priv\_validator\_file:]Validator private key file. The JSON file containing the validator's private keys.
 \item[$\bullet$ prof\_laddr:]Profile listen address.
 \item[$\bullet$ proxy\_app:]The ABCI app endpoint. The default value is Default: "tcp://127.0.0.1:46658"
-\item[$\bullet$ consensus.max\_block\_size\_txs:]Maximum number of block txs. The maximum number of transactions in a block will be 5000 which will keep the block creation time to be about one block per second.
+\item[$\bullet$ consensus.max\_block\_size\_txs:]Maximum number of block txs. The maximum number of transactions in a block will be 5000 which will keep the block creation time to be approximately one block per second.
 \item[$\bullet$ consensus.timeout\_*:]Various consensus timeout parameters
-\item[$\bullet$ consensus.wal\_file:]Consensus state WAL
+\item[$\bullet$ consensus.wal\_file:]Consensus state WAL. It recovers the system to a previous checkpoint in case of failure.
 \item[$\bullet$ consensus.wal\_light:]Whether to use light-mode for Consensus state WAL.
-\item[$\bullet$ mempool.*:]Various mempool parameters
+\item[$\bullet$ mempool.*:]Various mempool parameters.
 \item[$\bullet$ p2p.addr\_book\_file:]Peer address book.
 \item[$\bullet$ p2p.laddr:]Node listen address.
-\item[$\bullet$ p2p.pex:]Enable Peer-Exchange
+\item[$\bullet$ p2p.pex:]Enable Peer-Exchange.
 \item[$\bullet$ p2p.seeds:]Comma delimited host:port seed nodes.
-\item[$\bullet$ p2p.skip\_upnp:]Skip UPNP detection.
-\item[$\bullet$ rpc.grpc\_laddr:]GRPC listen address (BroadcastTx only). Port required.
-\item[$\bullet$ rpc.laddr:]RPC listen address. Port required.
-\item[$\bullet$ rpc.unsafe:]Enabled unsafe rpc methods.
+\item[$\bullet$ p2p.skip\_upnp:]Skip UPnP detection.
+\item[$\bullet$ rpc.grpc\_laddr:]GRPC listen address (BroadcastTx only).
+\item[$\bullet$ rpc.laddr:]RPC listen address.
+\item[$\bullet$ rpc.unsafe:]Enable unsafe RPC methods.
 \end{description}
 \subsection{Genesis Block}
-The Genesis block or the first block of a blockchain system is always hardcoded. The genesis block acts a specification for other blocks to adhere to. The parameters in the Genesis block have to be specified, in case of Tendermint, in a file called the Genesis.json. The file has the following fields:
+The genesis block is always hardcoded\cite{}. The genesis block acts a specification for other blocks to adhere to. In Tendermint, the parameters in the genesis block have to be specified, in the Genesis.json file. This file contains the following fields:
 \begin{description}
 \item[$\bullet$genesis\_time:]Official time of blockchain start. The value for this field will be generated automatically by the system based on the Unix timestamp.
-\item[$\bullet$chain\_id:] ID of the blockchain. This must be unique for every blockchain. The ID of the chain will be the ID generated by the cryptographic layer during initiation of the particular chain.
-\item[$\bullet$validators:] This is a list of validators whose accounts will exist from the beginning of the blockchain. Each validator in the list of validators contains the following fields:
+\item[$\bullet$chain\_id:] ID of the blockchain. This must be unique for every blockchain and will be the ID generated by the cryptographic layer during the chain initialisation.
+\item[$\bullet$validators:] This is a list of validators whose accounts will exist from genesis. Each validator in the list of validators contains the following fields:
 \begin{description}
 \item[$\bullet$pub\_key:]The first element specifies the pub\_key type. The second element is the pubkey bytes.
 \item[$\bullet$amount:]The validator’s voting power.
 \item[$\bullet$name:]Name of the validator (optional).
 \end{description}
 
-\item[$\bullet$app\_hash:]The expected application hash (as returned by the Commit ABCI message) upon genesis. If the app’s hash does not match, a warning message is printed. This field is present at the end of the validator list.
+\item[$\bullet$app\_hash:]The expected application hash (as returned by the Commit ABCI message) upon genesis. If the app hashes do not match, a warning message is printed. This field is present at the end of the validator list.
 \\
 \\
 \end{description}
-A sample genesis.json file has been provided in the appendix C for reference. The configuration of the Tendermint core to be able to achieve consensus concurrently on the NMZ main chain and the logging chain will be the challenging part of configuring the consensus engine.
+Appendix C contains a sample genesis.json file for reference. The configuration of the Tendermint core to achieve consensus concurrently on the NMZ main chain and the logging chain is the most challenging part of the configuration the consensus engine.
 \section{Cryptographic Layer}
-The cryptographic layer is essential in terms of facilitating the interoperability of the system across various token systems. It's most important use is generation and maintenance of the public and private keys across the system. The crytographic layer is the system that is responsible for generating all the public and private key pairs for each peripheral blockchain that is deployed in the system. 
+The cryptographic layer is essential for enabling the interoperability of the multiple token systems. The important function is the generation and maintenance of the public and private keys across the system. The cryptographic layer is responsible for generating all the public and private key pairs for each peripheral blockchain associated with the central blockchain.
 \\
 \\
-The cryptographic layer uses the EC-Schnorr digital signature algorithm instantiated with the sepc256k1 elliptic curve to generate key pairs. Everytime a proposal for the integration of a new token system is generated by an admin user the cryptographic layer is invoked to generate the public key address of the of the peripheral chain and add it to the smart contract proposal. The private key is kept confidential until the new token system has been fully incorporated. If the proposal for incorporation gets accepted, the cryptographic layer adds the private key to the smart contract on the peripheral blockchain before deploying it. Once the smart contract is finished deploying onto the peripheral chain, the private key deleted from the system. However, if the proposal ends up being rejected by the voting process then the cryptographic layer does not keep any record of the private or public key of the respective token system. It sends the details across to the logging system to securely keep a record of the activity.
+The cryptographic layer uses the EC-Schnorr digital signature algorithm instantiated with the sepc256k1 elliptic curve to generate key pairs. Every time a proposal for the integration of a new token system is generated by an admin user, the cryptographic layer is invoked to generate the public key address of the peripheral chain and add it to the smart contract proposal. The private key is kept confidential until the new token system has been fully incorporated. If the proposal for incorporation is accepted, the cryptographic layer adds the private key to the smart contract on the peripheral blockchain before deploying it. Once the smart contract is deployed onto the peripheral chain, the private key is deleted from the system. However, if the proposal is by the voting process, then the cryptographic layer deletes all records of the private or public key of the proposed token system. It pushes the details across to the logging system to keep a secure record of the activity.
 \\
 \\
-The central NMZ blockchain relies on the cryptographic layer to access the public addresses of the token systems during the process of the token transfer across different chains. \ref{fig:6} shows the interaction between the central blockchain and the cryptographic layer in all the use cases. The use cases have been described below:
+The central Numiz(NMZ) blockchain relies on the cryptographic layer to access the public addresses of the token systems during the process of the token transfer across different chains. Figure \ref{fig:6} shows the interaction between the central blockchain and the cryptographic layer in the following use cases:
 \begin{description}
-    \item[$\bullet$ Request to generate keys (keyGen()):] During the deployment of the a new token incorporation proposal, the new blockchain to be deployed needs to have a public key attached to the smart contract which will be out for review. The central chain requests a generation of new keys from which the public key is attached to the smart contract and the private key is sent to the Temporary key database until the proposal deployment is finalised by the vote.
-    \item[$\bullet$ Key Verification Request (keyVerify()):] The processing of transactions requires the central chain to verify the blockchains that are parties to the transaction. This involved retrieving the public keys in order to verify the certificate that is attached to the transaction data packet.
+    \item[$\bullet$ Request to generate keys (keyGen()):] Before a new token incorporation proposal, the blockchain to be deployed needs to have a public key attached to the smart contract. The central chain requests the generation of new keys from which the public key is attached to the smart contract and the private key is sent to the temporary key database until the proposal is voted on.
+    \item[$\bullet$ Key Verification Request (keyVerify()):] The processing of transactions requires the central chain to verify the blockchains that are parties to the transaction. This involves retrieving the public keys to verify the certificate that is attached to the transaction data packet. This verification is a security requirement such that the system does not accept transactions from unverified sources. 
 \end{description}
 \begin{figure}
   \includegraphics[width=\linewidth]{cryptographic_layer.png}
@@ -1285,74 +1297,34 @@ The central NMZ blockchain relies on the cryptographic layer to access the publi
   \label{fig:6}
 \end{figure}
 \section{Logging Layer}
-The logging system is a unique component in the architecture of the system. It is completely independent from the central blockchain even though they work concurrently with a time gap of no more than 6 secs. It maintains a separate blockchain just for logging activities that have happened on the system. This is perhaps the most unique feature which is much needed in a system of this nature.
+The logging system is a unique component in the architecture of the proposes system. It is completely independent of the central blockchain even though they work concurrently with a time gap of no more than 6 seconds. It maintains a separate blockchain specifically for logging activities. This is perhaps the most unique feature which is much needed in a system of this nature. Figure \ref{fig:6} shows the design and architecture of the logging layer. It has a completely decentralised blockchain with an independent Tendermint Consensus engine.
 \\
 \\
-The logging system is a concurrent blockchain which is completely self-governing. Self-governing implies that it is a completely decentralized blockchain where the distribution of power is even. Unlike, the central blockchain where its servers and the overloading system have more authority over the other nodes in order to keep the system functional and scalable. The central blockchain also has mining pools which further compromises on the centralisation of the architecture. The logging blockchain does not need to have multiple mining pools for the purpose of parallel processing. The logging blockchain only logs the headers of the merkle tree which are taken from the central blockchain. The headers are scanned through the security system to ensure that there are no anomalies present.\\
+The logging system blockchain is concurrent and self-governing. Self-governing implies that it is a decentralized blockchain with every node having equal voting rights. Unlike, the central blockchain where its servers and the overloading system have more authority over the other nodes in order to keep the system functional and scalable. The central blockchain also has mining pools which further compromises on the centralisation of the architecture. The logging blockchain does not need to have multiple mining pools for the purpose of parallel processing because it only logs the headers of the Merkle tree, taken from the central blockchain. The headers are scanned through the security system to ensure that there are no inconsistencies present.\\
 \\
-The security layer ensures that the headers logged in the logging blockchain are consistent with the central chain. It could be stated that the security layer acts as a consensus layer between the logs and the central blockchain. The security layer resembles a consensus mechanism between the two independent blockchain systems.
+The security layer ensures that the headers logged are consistent with the central chain. It could be stated that the security layer acts as a consensus layer between the logs and the central blockchain. The security layer resembles a consensus mechanism between the two independent blockchain systems.
 \begin{figure}
   \includegraphics[width=\linewidth]{logging_layer.png}
   \caption{Logging System Architecture}
   \label{fig:2}
 \end{figure}
-\section{Central Numiz(NMZ) Blockchain}
-The most important component of the entire architecture is the central blockchain. It facilitates the inter-operability of the various blockchain systems connected to the system. The hub has the token conversion mechanism which is embeded into its architecture. The token conversion system is a suite of mirrored smart contracts which convert tokens by freezing them on one blockchain and releasing them into another. The smart contracts can generate new tokens into the system when the amount of available tokens on hold is not sufficient, however, this is not possible in all cases. It is important to note that the central blockchain is only activated when there is a cross-chain transfer of tokens. This is really important in order to maintain the independent operation of the multiple token systems integrated with the system. The independence of the external token system is also necessary for achieving the scalabilty of system. Most of the internal transactions of the chain are never processed through the central chain which effectively reduces the number of transactions that need to be processed by the central chain.
-\subsection{NMZ Chain Architecture}
-In \ref{fig:2}, a peripheral chain, which can potentially be a popular public blockchain such as Bitcoin or Ethereum, is connected to the central blockchain. When a transaction to transfer tokens between two peripheral blockchains is intiatated, the tokens from the first peripheral chain get converted to the native token of the central chain which for the purposes of this thesis will called Numiz Coin (NMZ token). The transfer smart contract deployed in the sender peripheral chain freezes those transfer tokens in the smart contract account. A commit message for the freezing of those tokens is generated which includes the receiptsRoot of the trie that contains the receipt for that transaction. This information is this commit message is digitally signed using the EC-Schnorr signature of the smart contract, instantiated using the sepc256k1 elliptic curve. The message is then sent across the network using the TCP protocol. This guarantees the data to be delivered to the receiver smart contract. The smart contract on the NMZ blockchain has the public keys associated with each samrt contract that has been successfully deployed onto the system. The NMZ blockchain first verifies that the data received is sent from a valid peripheral chain. The central chain can reject the data transfer and discard all the data received if the signature cannot be verified to be sent from a valid source. The mirrored smart contract after validating the signature of the data received gathers information about the amount of tokens that need to be transferred. The smart contract also gather information about the destination chain from the meta data of the commit message. The amount of tokens that need to be released into the destination chain are converted into NMZ. The correct denomination of NMZ is converted using the central chain conversion rates which are specified during the deployment of the mirrored smart contracts. This value can be modified later only through a proposal to change it by the admin panel. The NMZ tokens are then sent across to the destination chain smart contract using the same TCP datapacket. The mirrored smart contract on the NMZ chain freezes those NMZ tokens. The destination chain does not have access to the conversion rates. The conversion denomination calculation is actually done on the NMZ blockchain. The sent packet includes the number of tokens that need to be released into the user account. The data received by the receiver chain also includes the nominee account address and the digital signature of the NMZ chain. The smart contract in the receiver chain verifies the signature and releases the given amount tokens into the nominee's account. In cases, where the signature is not valid or the receiver chain does not have enough tokens to release, the transaction will be rejected and the a message will be sent back to the central chain. This will reverse all the changes that have taken place so far. The tokens from the sender's account which have been reserved will be sent back to the account.
-\\
-\\
-The data sent across from the sender peripheral chain includes the following fields:
-\begin{description}
-    \item[$\bullet$ EC-Schnorr Signature:] the digital signature of the smart contract account of the sender chain
-    \item[$\bullet$ amount:] the amount of tokens in the denomination of the sending chain to be transferred
-    \item[$\bullet$ destAddress:] the public address of the destination chain that is the reciever chain
-    \item[$\bullet$ destAccount:] the account address of the reciever
-    \item[$\bullet$ recieptHeader:] the header of the Merkle trie which contains the reciept of the tokens
-    \item[$\bullet$ tokenFreezeReciept:] a receipt proving that the said amount of tokens have been frozen
-\end{description}
-\\
-\\
-The data sent across from the NMZ chain to the receiving chain contains the following information:
-\begin{description}
-    \item[$\bullet$ EC-Schnorr Signature:] the digital signature of the NMZ blockchain
-    \item[$\bullet$ NMZamount:] the amount of NMZ tokens that have been frozen in the NMZ mirrored contract
-    \item[$\bullet$ releaseAmount:] the amount of destination tokens that need to be released into the receiver account
-    \item[$\bullet$ destAccount:] the account address of the receiver account
-    \item[$\bullet$ receiptHeader:] the header of the Merkle trie which contains the reciept proving the receipt of the tokens by the NMZ chain
-    \item[$\bullet$ tokenFreezeReceipt:] a receipt proving that the said amount of tokens have been frozen
-\end{description}
 
-\begin{figure} 
-  \includegraphics[width=\linewidth]{mirrored_blockchains.png}
-  \caption{Mirrored Smart Contracts}
-  \label{fig:2}
-\end{figure}
-
-\subsection{Data Transfer and Transaction Validity}
-The data fields mentioned in the previous section will need to be sent across from one token system to another. The ABCI facilitates this connection using sockets. This creates a standardised interface among all the token systems to exchange data. The NMZ chain also verifies whether the transactions are valid. The transactions are valid if the following conditions are met:
-\begin{description}
-\item[$\bullet$]the EC-Schnorr signature on the transaction is valid and a keyVerify() request from the cryptographic layer returns true.
-\item[$\bullet$]the account has the amount of funds available.
-\end{description}
-
-If the above conditions are met then the transaction is deemed valid and is eligible for further processing. The validation of other necessary information such as the destAddress and destAccount are done in later stages. 
 \section{Security Layer}
- The security layer ensures that potential security breach attempts are detected by the system. It uses machine learning classifiers to detect whether each operation attempted on the system was malicious. All the data logs are scanned through the security layer before being permanently logged onto the logs blockchain.   
+ The security layer ensures that potential security breaches are detected by the system. It uses machine learning classifiers to detect whether each operation attempted on the system was malicious. All data logs are scanned through the security layer before being permanently pushed to the logs blockchain.   
 \\
 \\
-The machine learning model used in this malicious activity detection will be based on the research published by the name of Detecting Malicious Content on Facebook. The model will be tweaked in order to detect malicious activity on blockchain transactions instead. Another feature of the security layer is the ability to cross check the Merkle tree headers logged into the logs blockchain to detect any discrepancies. The main function of the security layer is this added security which makes the functioning of the independent parts of the blockchain architecture more secure. The security layer acts as a consensus mechanism and interface between the logs layer and the other components of the system.
+The machine learning model used in malicious activity detection is based on the research published by Prateek Dewan et all. on Detecting Malicious Content on Facebook\cite{}. The model will be modified in order to detect malicious activity on blockchain transactions instead. Another feature of the security layer is the ability to cross check the Merkle tree headers in the logs blockchain to detect any discrepancies. The security layer acts as a consensus mechanism and interface between the logs layer and other components of the system.
 \section{Backup Layer}
-Blockchain systems are usually highly redundant systems when it comes to data storage as all the nodes are redundantly storing all the data. However, in production grade blockchain system such as the one being described here which has potential use in banking, finance and supply chain industries a backup system is essential. The backup layer will be activated when the number of active nodes goes below the minimum operable number. This puts the system in a backup mode where the systems rely on the backup data storage servers for data retrieval. This backup data and bandwidth is used for parts of transaction processing which require data retrieval from the backend. 
+Blockchain systems are usually highly redundant, when it comes to data storage as all the nodes are redundantly storing all the data\cite{}. However, in production-grade blockchain systems such as the one being described here a backup system is essential, particularly when deployed in banking, finance, and supply chain industries. The backup layer will be activated when the number of active nodes falls below the MOL. The MOL in this case is 10000 active nodes, however, this parameter could be redefined in the configuration file. Activation of the backup layer puts the system in a backup mode where the components rely on the backup data storage servers for data retrieval and consensus. This backup data and bandwidth are used for elements of transaction processing that require data retrieval from the backend. 
 \\
 \\
-The backup layer is activated as soon as the total number of nodes goes below the initial 10000 available active nodes. Active nodes are defined as the nodes in the network which are essentially miner nodes and involve in the transaction processing and consensus mechanism. The system pings nodes every 600 milliseconds and creates a bitmap of the active nodes. A particular bit in the bitmap is of value one if the particular node is active during the ping and or 0 otherwise. The system has a particular arrangement nodes in order based on the time-stamp of when the particular node was first registered. This information combined with the bitmap generated during each pinging cycle makes is easy to determine all sorts of network activity information such as number of active nodes, public addresses of those nodes, and their involvement in the transaction processing.
+The backup layer is activated as soon as the total number of nodes goes below the initial 10000 available active nodes. Active nodes are defined as the nodes in the network that are involved in the transaction processing and consensus mechanism. The system pings nodes every 600 milliseconds and creates a bitmap of the active nodes. A particular bit in the bitmap is of value 1 or 0 depending on if the particular node is active during the ping. The system has a particular arrangement of nodes in incereasing order of the timestamp of when the particular node was first registered. This information combined with the bitmap generated during each pinging cycle makes it easy to determine a variety of network information such as the number of active nodes, public addresses of these nodes, and their involvement in transaction processing.
 
 \subsection{Storage}
-The backup layer is comprised of a data server and a storage layer. The storage layer contains one main database and three mirror storage units. The storage on the database is a snapshot of the global state of the blockchain system taken once every 100 blocks. This snapshot is then copied across the three mirror storage units. The design of the storage layer is given in \ref{fig:3}. The backup mirrors are used in case of failure of the main storage layer which is only activated in case of the total number of the active nodes falling under the minimum operable limit. Therefore, the likelihood of the backup mirrors ever being used is extremely low. The backup system is there for when there is an absolute need for it.
+The backup layer is comprised of a data server and a storage layer. The storage layer contains one main database and three mirror storage units. The storage on the database is a snapshot of the global state of the blockchain system taken once every 100 blocks. This snapshot is then copied across the three mirror storage units. The design of the storage layer is given in figure \ref{fig:3}. The backup mirrors are used in case of the failure of the main storage layer, which itself is only activated in case of the total number of the active nodes falling below the minimum operable number (MON). Therefore, the likelihood of the backup mirrors ever being used is extremely low. The backup system exists to increase the integrity and robustness of the system.
 
 \subsection{Server Nodes}
-The backup server has nodes and the number of nodes is very scalable. The server nodes get activated as soon as the number of active nodes in the system fall under the minimum operable limit which is 10000 nodes. The server nodes scale according to the number of nodes required to get the system back to the minimum operable number. For example, if the total number of active nodes falls down to 9986 nodes then the number of server nodes in the backup layer will be scaled to 10000 - 9986 = 14 nodes.
+The server nodes get activated as soon as the number of active nodes in the system falls under the MOL which is 10000 nodes. The server nodes scale according to the number of nodes required to get the system back to the MOL. For example, if the total number of active nodes falls to 9986 nodes then the number of server nodes in the backup layer will be scaled to 10000 - 9986 = 14 nodes.
 \begin{figure}
   \includegraphics[width=\linewidth]{storage_layer.png}
   \caption{Storage Layer Architecture}
@@ -1360,42 +1332,42 @@ The backup server has nodes and the number of nodes is very scalable. The server
 \end{figure}
 
 \section{Network Layer}
-The network layer is very crucial in this scenario because it allows the system to achieve high scalability without compromising on security. The network layer is the backbone of the scalability and parallel processing ability of the system. The network layer has the following functionality:
+The network layer is crucial as it allows the system to achieve high scalability without compromising on security. The network layer is the backbone of the scalability and parallel processing ability of the system. The network layer has the following functionality:
 \begin{description}
-\item[$\bullet$] segregate the entire mining pool into multiple smaller shards that can process transactions in parallel
+\item[$\bullet$] segregate the entire mining pool into multiple smaller shards for parallel processing of transactions
 \item[$\bullet$] allocate new nodes into mining shards
 \item[$\bullet$] allocate transactions to one of the valid shards
-\item[$\bullet$] verify the validity of the transactions 
-\item[$\bullet$] queue transactions in the processing queue when all the shards are busy
+\item[$\bullet$] confirm the validity of the transactions 
+\item[$\bullet$] queue transactions when all the shards are busy
 \item[$\bullet$] retrieve transactions from the processing queue and allocate them to an appropriate mining shard for processing
 \end{description}
 \subsection{Sharding of the Mining Pool}
-The mining pool in the system is divided into multiple shards which can all process transactions in parallel. There are some important concerns that need to be addressed before the algorithm for dividing the mining pool into shards can be implemented. One of the main concerns is to find an effective ratio between the number nodes in a sharded pool and the total number of all nodes. The ratio of the number of nodes in each pool, which is denited by the symbol n to the total number of nodes, denited by the symbol N, can be called the pool ratio and denoted by the symbol $\phi$. $\phi$ should be a variable which varies directly with the total number of nodes in the pool. The number of nodes in each pool becomes higher if the total mining pool size increases and vice-versa. However, the increase or decrease is not a direct one-to-one correlation. Initially, each pool will begin with a 1000 nodes while the total number of nodes will be set to 10 times that. However, any increase in the total number of nodes will trigger the addition of the nodes successively into each shard. The new nodes will keep getting added to the shards until each shards hits what is called a rearrangement point. The rearrangement point is when the increase in the number of nodes of 1/5th of the total number of nodes. At the rearrangement point, the system automatically dissolves all the shards and starts the process of rearranging the nodes into shards and increases the number of shards possible shards. This is done in order to keep the pool ratio within a certain range. The process of rearrangement also ensures that there is an effective increase in the number of mining shards with the increase in the number of nodes. This allows the network to be more scalable and efficient with the increase in the total number of nodes because the number of transactions that can be processed in parallel increases with the number of mining shards increase.
+The mining pool in the system is divided into multiple shards enabling the shards rto process transactions in parallel. There are some important concerns that need to be addressed before the algorithm for dividing the mining pool into shards can be implemented. One of the main concerns is to find an effective ratio between the number nodes in a sharded pool and the total number of nodes. The ratio of the number of nodes in each pool, n, to the total number of nodes, N, is called the pool ratio, $\phi$. $\phi$ varies directly with the total number of nodes in the pool. The number of nodes in each pool becomes higher if the total mining pool size increases and vice-versa. However, the increase or decrease is not a direct one-to-one correlation. Initially, each pool will begin with 1000 nodes while the total number of nodes will be set to 10 times that. Any increase in the total number of nodes will trigger the addition of the nodes sequentially into each shard. The new nodes are continually added to the shards until each shard reaches the rearrangement point. The rearrangement point is defined as the increase in the number of nodes to 1/5th of the total number of nodes. At the rearrangement point, the system automatically dissolves all the shards and starts the process of rearranging the nodes by increasing the number of shards. This is done in order to keep the pool ratio within a certain range. The process of rearrangement also ensures that there is an effective increase in the number of mining shards with the increase in the number of nodes. This has scalability and efficiency advantages.
 \\
 \\
 The pool ratio is defined as follows:
 
 \[\phi = n/N\]
 
-The value of phi is an average of each pool. The intial value of phi is approximately 1000/10000 = 0.1. This value can vary as nodes get added. Every rearragement of the mining pools resets the value of \phi as close as mathematically possible to the default value of 0.1.
+The value of phi is the average value taken from each individual pool. The initial value of phi is approximately 1000/10000 = 0.1. This value varies as nodes get added. Every rearrangement of the mining pools resets the value of $\phi$ as close as mathematically possible to the default value of 0.1.
 
 
 \section{Smart Contract and Virtual Machine Layer} 
-The system has a smart contract processing layer which contains a virtual machine for processing various transactions and computations. The virtual machine is capable of processing any kind of computational operations in the form of transactions. The virtual machine will be a highly modified version of the Ethereum Virtual Machine (EVM). The virtual machine executes VM code which is always in binary form. The smart contract layer has an integrated compiler that converts code written in various popular languages such as JavaScript or Python to VM code which is a form of binary code that natively runs on the Virtual Machine.
+The system has a smart contract processing layer that contains a virtual machine for processing various transactions and computations. The virtual machine is capable of processing any kind of computational operation in the form of transactions. The virtual machine will be a heavily modified version of the Ethereum Virtual Machine (EVM). The virtual machine executes bytecode code in binary form. The smart contract layer has an integrated compiler that converts code written in various popular languages such as JavaScript or Python to bytecode code which is a form of binary code that natively runs on the Virtual Machine.
 \\
 \\
-The smart contract and the virtual machine have two separate parts, as stated:
+The smart contract and the virtual machine have two separate parts, as stated below:
 \subsection{Smart Contracts}
-The smart contracts can be written in any language. The compiler converts the languages into virtual machine code or byte code which can run natively on the system. This makes the virtual machine compatible with various systems.
+The smart contracts can be written in any language. The compiler converts the languages into virtual machine code or bytecode which can run natively on the system. This makes the virtual machine compatible with various systems.
 \subsection{Virtual Machine}
-The core of the virtual machine is a standard EVM core which is a simple stack based architecture. 
+The core of the virtual machine is a standard EVM core which is a simple stack-based architecture \cite{}. 
 \section{System Integration}
-The system being described here is a very complex architecture and in a system like this proper integration is crucial for the functioning of the system. \ref{fig:3} shows how the different components of the system operate in conjunction among each other. The illustration shows how the peripheral blockchains are all connected to the system using a traffic router to better manage data traffic. All the data traffic passes through the smart contract layer which contains the mirrored smart contracts for each peripheral blockchain. The smart contracts layer is the entry point to the NMZ chain for the multiple peripheral blockchains.
+ Proper integration is crucial for the functioning of the system of this complexity. Figure \ref{fig:3} shows how the different components of the system operate in conjunction with one another. The peripheral blockchains are all connected to the system through a data traffic router. All the data traffic passes through the smart contract layer which contains the mirrored smart contracts for each peripheral blockchain. The smart contracts layer is the entry point to the NMZ chain for the multiple peripheral blockchains.
 \\
 \\
-The central chain system is isolated from the peripheral system. The central chain system is comprised of the central chain, the network layer, the security and the logging layers, the consensus engine, the cryptographic layer, and the backup system all connected to each other using a data traffic router. The individual functionality of each component of the central chain system is described in detail in the previous sections. The overview of the entire system and its integration is described here. The central chain system is only applicable to inter-chain transfers.
+The central blockchain is isolated from the peripheral system. The central chain system is comprised of the central chain, network layer, security and logging layers, consensus engine, cryptographic layer, and the backup system, all connected to each other using a data traffic router. The overview of the entire system and its integration is described here. The central chain system is only applicable to inter-chain transfers.
 \subsection{Data Flow}
-The data flow begins with one of the peripheral blockchain systems initiating an transaction. The request goes through the router to the NMZ chain's corresponding smart contract. The smart contract verifies the validity of the transaction by using a connection to the cryptographic layer. The transaction data is then sent back to the network layer for allocation to a mining pool or the transaction queue if no pools are currently available. The transaction is then sent back to the NMZ chain for processing. After the processing of 5000 transactions the data is bunched together in a block. A copy of the block data is sent to the Tendermint Consensus engine and the logging layer each. The logging layer has a separate Tendermint Consensus engine which achieves consensus in the logging blockchain. Finally, the security layer verifies whether both the logging blockchain and the NMZ chain have exactly the same copy of the data by comparing the hashes of the corresponding block headers from the different blockchains. This achieves consensus among the independent components of the architecture.
+The data flow begins with one of the peripheral blockchain systems initiating a transaction. The request goes through the router to the NMZ chain's corresponding smart contract. The smart contract verifies the validity of the transaction by using a connection to the cryptographic layer. The transaction data is then sent back to the network layer for allocation to a mining pool or the transaction queue if no pools are currently available. The transaction is then sent back to the NMZ chain for processing. After the processing of every 5000 transactions, the data is bunched together in a block. A copy of the block data is sent to the Tendermint consensus engine and the logging layer. The logging layer has a separate Tendermint consensus engine. Finally, the security layer verifies whether the logging blockchain and the NMZ chain have exactly the same copy of the data. This is done by comparing the hashes of the corresponding block headers from the two blockchains. This achieves consensus among the independent components of the architecture.
 \begin{figure}
   \includegraphics[width=\linewidth]{system_overview.png}
   \caption{System Architecture}
@@ -1403,46 +1375,58 @@ The data flow begins with one of the peripheral blockchain systems initiating an
 \end{figure}
 \chapter{Discussion}
 \label{chap:Discussion}
-The previous chapters have presented the system architecture and implementation of a blockchain solution which is scalable and interoperable with multiple blockchain systems. This chapter discusses some of potential issues that might be present in the system design and implementation. It also discusses the potential industry use cases for the system and possible issues that might arise in the adoption and integration of the system.
+The previous chapters have presented the system architecture and implementation of a blockchain solution which is scalable and interoperable with multiple blockchain systems. This chapter discusses some of the potential issues that might be present in the system design and implementation. It also discusses the potential industry use cases for the system and possible issues that might arise during integration.
 
 \section{Incomplete Design and Implementation}
-The design and implementation of the system is not comprehensive. Some of the specific details of implementation such as the detailed specifications for the data transfer between the corresponding mirrored smart contracts and the actual implementation of such contracts and their code is missing from the implementation. This aspect of the implementation of the system requires further research. The project on a system design level is comprehensive, however, each component of the system is a system within itself. A complete design and implementation for each specific component of the system would have been out of the scope of this project. The specific details would have taken much longer to research and implement, and would have made this thesis much longer than the scope or time-frame permits.
+The design and implementation of the system are not comprehensive. Some of the specific details of the implementation such as the detailed specifications for the data transfer between the corresponding mirrored smart contracts, and the code used in such contracts is missing. This aspect of the implementation of the system requires further research. The project on a system design level is comprehensive, however, each component of the system is a system within itself. A complete design and implementation for each specific component of the system would have been outside the scope of this project. The specific details would have taken much longer to research and implement and would have made this thesis much longer than the scope or time-frame permitted.
 \\
 \\
-Even though the current form of the system is not specific and detailed enough for immediate adoption, it is a good initial architecture for such an idealistic system to be built on. The minor inconsistencies in design and specification can be perfected over time with more usage. Furthermore, this thesis showcases the fact that such a blockchain architecture is possible to implement, if more research and development is done in this area. This thesis is a decent starting point for such research and development.
+Even though the current form of the system is not specific and detailed enough for immediate adoption, it is a good initial architecture for such a system to be built on. The minor inconsistencies in design and specification can be perfected over time with use. Furthermore, this thesis showcases the fact that such a blockchain architecture is possible to implement, if more research and development is done in this area. This thesis aims to provide a decent starting point for such research and development.
 \section{Generation of New Tokens}
-The system has a smart contract layer where smart contracts deployed on multiple blockchains that have corresponding mirrored contracts which facilitate the transfer of tokens across multiple blockchain. The way that those smart contracts work is by freezing the tokens in one blockchain and releasing the equivalent amount of tokens in the recieving blockchain. The only issue with such an approach is the limitation due to the availability of sufficient funds in the recieving chain's smart contract account. For instance, an account holder on a sending peripheral blockchain, which is Bitcoin blockchain, sends a transaction of 100 Bitcoins to an account holder on the receiving peripheral blockchain, which is an Ethereum blockchain. The system calulates the conversion of 100 Bitcoins to Ethereum, which comes down to 6000 Ethereum tokens. The samrt contract on the Bitcoin blockchain initiates the transaction and sends the tokens across to the corresponding Ethereum contract via the central NMZ chain. However, the corresponding Ethereum contract account does not have enough Ethereum to be able to transfer the tokens to the receiving account. This results in a reversal of the transaction, even though the sender had sufficient funds and the transaction was completely valid. 
+The system has a smart contract layer that has corresponding mirrored contracts on the central blockchain which facilitate the transfer of tokens across multiple peripheral blockchains. The way that those smart contracts work is by freezing the tokens in the sending blockchain's smart contract account and releasing the equivalent amount of tokens in the receiving blockchain. The only issue with such an approach is the limitation due to the availability of sufficient funds in the receiving chain's smart contract account. For example, an account holder on a sending Bitcoin peripheral blockchain, sends a transaction of 100 Bitcoins to an account holder on the receiving peripheral Ethereum blockchain. The system calculates the conversion of 100 Bitcoins to Ethereum, which for example is 6000 Ethereum tokens. The smart contract on the Bitcoin blockchain initiates the transaction and sends the tokens across to the corresponding Ethereum contract via the central NMZ chain. However, the corresponding Ethereum contract account does not have enough Ethereum to be able to transfer the tokens to the receiving account. This results in a reversal of the transaction, even though the sender had sufficient funds and the transaction was otherwise valid. 
 \\
 \\
-The problem mentioned above creates a major issue in terms of overall reliability of the system. The failing of transactions without any fault on the users' part will make the system unacceptable for widespread adoption. The potential solution to this issue and future developments have been discussed in Chapter \ref{chap:FutureWork}.
+The problem mentioned above creates a major issue with the overall reliability of the system. The failure of transactions beyond any fault on the users' part will result in being a significant source of frustration, potentially affecting the adoption of the system. The potential solution to this issue and future developments are discussed in Chapter \ref{chap:FutureWork}.
 \section{Potential Use Cases}
-The system has been designed with modularity and cross-compatibility in its core architecture. This makes it possible for it to have multiple industry use cases. There is potential applicability in banking, finance, supply chain management and logistics, accounting, and other organisations that have multiple parties involved in a business transaction. 
+The system has been designed with a modular and cross-compatible architecture, allowing for a multitude of industry use cases such as in banking, finance, supply chain management, accounting, and other organisations that have multiple parties involved in a business transaction. 
 \\
 \\
-One example use case would be the remittance system within the banking infrastructure. Currently, the banking systems use numerous middle ware and complex routes in case of complex transactions such as cross-continent fund transfers. In most cases, due to the complexity of such a transaction, it usually takes days for the remittance to be successfully processed. Banks use processing services such as MasterCard and VISA for card payments and Society for Worldwide Interbank Financial Telecommunication (SWIFT) messages for international funds transfer. The NMZ system can simplify the processing of such transactions. The banks all across the world could have their own internal blockchain  which will be connected to NMZ as peripheral blockchains. The exchange of funds among those bank blockchains could be facilitated via the NMZ chain. 
+One example use case is the remittance system within the banking infrastructure. Currently, the banking systems use numerous middleware and complex routes in case of  cross-continent fund transfers. In most cases, due to the complexity of such a transaction, it usually takes days for the remittance to be successfully processed. Banks use processing services such as MasterCard and VISA for card payments and Society for Worldwide Interbank Financial Telecommunication (SWIFT) messages for international funds transfers. The NMZ system can simplify the processing of such transactions. The banks around the world could have their own internal blockchains which will be connected to NMZ. The exchange of funds among those bank blockchains could be facilitated via the NMZ chain. 
 \section{Compatibilty with Existing Infrastructure}
-The system has been designed to be compatible with most existing industry architectures. The implementation still might have some major issues with integration with existing legacy software. Legacy software is still being used in most banking infrastructures. And most of this software is closed source and proprietary which makes it harder to get the system specifications of such software. Moreover, unless there is a partnership agreement with the respective organisation, it is impossible to know the specifications of their software. This makes the process of making the system completely compatible with all such software architectures, impossible. However, the system has been designed with modularity and cross-compatibilty in perspective. The system can be easily modified to suit the certain configurations and needs of each client infrastructure, once the specifications of their infrastructure are made available.
+The system has been designed to be compatible with most existing industry architectures although it might have integration issues with existing legacy software\cite{}. Legacy software is still used in most banking infrastructures. To complicate matters most of this software is closed source and proprietary, making it harder to get the system specifications of such software. Moreover, unless there is a partnership agreement with the client organisation, it is impossible to know the specifications of their software. This makes the process of making the system completely compatible with all such software architectures, impossible. However, the system has been designed with modularity and cross-compatibility in mind. The system can be easily modified to suit the certain configurations and needs of each client infrastructure, once the specifications of their infrastructure are made available.
 \section{Adoption Risk}
-The system has been designed to be used in large scale organisations and infrastructures such as the banking system or the supply chain system. These infrastructures are usually controlled by a few major corporations such as the Commonwealth Bank and ANZ in case of banking, and Maersk and DHL in case of supply chain and logistics. These organisations are usually very risk averse. The completely new architecture that will change the way they conduct business will be extremely hard for them to adopt and integrate into their work flow.
+The system has been designed to be used in large-scale organisations and infrastructures such as the banking system or the supply chain management. These infrastructures are usually controlled by a few major corporations such as the Commonwealth Bank and ANZ in the case of banking, or Maersk and DHL in the case of supply chain and logistics. These organisations are usually very risk-averse\cite{}. The completely new architecture will change the way they conduct business and, therefore, may be extremely hard for them to adopt and integrate into their workflow.
 \\
 \\
-The system has not been tested for a good enough amount of time on real-world applications. The lack of sufficient testing might deter these huge organisations from taking the risk of integrating such a system into their architecture. This is a paradoxical situation because the system becoming better and more compatible over time relies on the adoption and optimisation over time. Unless these client organisations release their transactional data or system specifications, it is not feasible to the system to optimise for its respective use case.
+The system has not yet been tested in real-world applications. The lack of sufficient testing may deter these large organisations from taking the risk of integrating such a system into their architecture. This is a paradoxical situation because improvements to system reliability and compatibility relies on increased adoption and optimisartion over time. Unless these client organisations release their transactional data or system specifications, it is not feasible for the system to be optimised for its different use cases in different industries.
 
 \chapter{Conclusions}
-The widespread adoption of blockchain systems into commercial applications has been hindered by the limited scalability of such systems. Interoperability is another problem, whereby, different blockchains cannot communicate among each other for transactional purposes. Both these factors have practically limited the transaction throughput to about 30 transactions per second. The goal of the project is to create a framework for multiple blockchain ecosystems to be able to transact among each other. To approach this problem, different attempts to scaleblockchains were evaluated. A system architecture for a system which will facilitate the interconnectivity of blockchains was designed using good software engineering practices. This chapter provides a conclusion to all that this project has been able to accomplish.  
+The widespread adoption of blockchain systems in commercial applications has been hindered by the limited scalability of such systems\cite{}. Interoperability is another problem, whereby, different blockchains cannot communicate with each other for transactional purposes\cite{}. Both of these factors have practically limited the transaction throughput to approximately 30 transactions per second. The goal of the project was to create a framework for multiple blockchain ecosystems to be able to transact among each other. To approach this problem, different attempts to scale blockchains were evaluated. An architecture for a system which will facilitate the interconnectivity of blockchains was designed using good software engineering practices. This chapter provides a conclusion to all that this project has been able to accomplish.  
 \\
 \\
-A literature review was conducted to review the existing blockchain systems available and multiple approches to solve the problem being addressed in this paper. Many approaches and attempts to solve the problem were found. Some of those attempts have been used as the foundation for the system that has been presented in this thesis. The core system of the architecure is based on the architecture of Ethereum, which is a popular public blockchain ecosystem. The approach to scale transactions by dividing the entire mining pool into smaller pools is based on the approach taken by Zilliqa. The approach to connect multiple blockchain systems with a central blockchain has been based on Cosmos. The consensus engine is a configuration of Tendermint. The other components of the framework such as the logging system and the backup architecture are the original accomplishments of this thesis.
+A literature review revealed the multiple approaches to solving the problem being addressed in this paper. Some of those attempts are the foundation for the system that has been presented in this thesis. The core system is based on the architecture of Ethereum. The approach to scale transactions by dividing the entire mining pool into smaller pools is based on the approach taken by Zilliqa. The approach to connecting multiple blockchain systems with a central blockchain is based on Cosmos. The consensus engine is a configuration of Tendermint. The other components of the framework such as the logging system and the backup architecture are original contributions.
 \\
 \\
-It was discovered in the literature review that most blockchain systems have not been designed keeping good software engineering and testing practices in perspective. The explanation given in most systems was found to be inadequate. Proper system design documents such as Software Requirements Specifications (SRS) and System Test specifications of such systems was not to be found. Therefore, the one of the important achievements of this thesis was to create proper requirements and test documentation for the system. The process began by starting with SRS document. The requirements found in the SRS were used to create a test specification. Test Driven Development (TDD) approach was taken in the development of the architecture.
+It was discovered during the literature review that most blockchain systems have not been designed with consideration given to good software engineering and testing practices. The explanation given in most systems was found to be inadequate. Proper system design documents such as Software Requirements Specifications (SRS) and System Test specifications of such systems were not found. Therefore, one of the important achievements of this thesis was to create proper requirements and test documentation for the system. The process began by starting with the SRS document. The requirements found in the SRS were used to create a test specification.  A Test Driven Development (TDD) approach was taken in the development of the architecture.
 \\
 \\
-The requirements gathered and the test specification developed in the first half of the project were used in the system design and the implementation process. The primary accomplishment of the project is the framework presented in Chapter \ref{chap:System Implementation}. The framework facilitates the inter-connectivity of multiple token systems or blockchains. The system implementation also includes an approach to make the blockchains more scalable by increasing the transaction throughput. This was achieved by dividing the entire mining pool into many smaller pools which can process transactions in parallel. The system integration design presented at the end of Chapter \ref{chap:System Implementation} which shows the complete design overview of the system. 
+The requirements gathered and the test specifications developed in the first half of the project were used in the system design and implementation process. The main accomplishment of the project is the framework presented in Chapter \ref{chap:System Implementation}. The framework facilitates the inter-connectivity of multiple blockchains. The system implementation also includes an approach to improve the scalability of the blockchains by increasing the transaction throughput. This was achieved by dividing the entire mining pool into many smaller pools enabling transactions to be processed in parallel. The system integration design presented at the end of Chapter \ref{chap:System Implementation} shows the complete design overview of the system. 
 \\
 \\
-The system has some shortcomings. one of those is the inability of the system to create new tokens, if the smart contract account lacks sufficient funds for a transaction. This issue has been addressed in Chapter \ref{chap:Discussion} and \ref{chap:FutureWork}. The system has potential applicability in production grade, high risk software infrastructures such as the banking network and the supply chain network. 
+The system has several shortcomings. One of those is the inability of the system to create new tokens if the smart contract account lacks sufficient funds for a transaction. This issue has been addressed in Chapter \ref{chap:Discussion} and \ref{chap:FutureWork}. An alternative approach to creation of new tokens by using tokens other than the native token is a feasible approach. The system has potential applicability in production grade, high-risk software infrastructures such as the banking network and the supply chain management. 
 \chapter{Future Work}
+As described in Chapter \ref{chap:Discussion}, it has been mentioned that the systyem has not been implemented. There is a lack of specific information regarding the deployment of the smart contracts. Furthermore, there is also an issue of token generation when there is a lack of funds for a remittance. This chapter discusses future work which would benfit form focussing on the follwoing areas.
+
+\section{Generation of New Tokens }
+The inability of the system to generate new tokens is a critical issue. There are a few potential ways this issue can be approached. One of the potential solutions is the use of coloured coins. Ecosystems such as Ethereum and Bitcoin have the ability to support alternative tokens generated by smart contracts. Instead of using the native tokens of the blockchain system which cannot be generated by these smart contracts, the mirrored smart contract accounts can use alternative tokens. These tokens can then be converted to the native token of the blockchain using a token exchange. 
+
+\section{Smart Contract Specification}
+The specifications for smart contracts proposed in this system have not been implemented and the code has not been finalised. Code that is going to be implemented in the smart contract has to be specified. The future work on these specifications will improve the utility of the system.
+\\
+\\
+The details and specifications regarding the communication protocol between the mirrored smart contracts need to be more explicit. Issues may arise during the implementation that will need to be addressed in the smart contract specification.
+\section{Closing Remarks}
+The system implementation is incomplete and has several issues that need to be addressed. However, this thesis forms a good foundation for implementation of such a system. If more work is directed into parts of the system that lack details, the system could be a commercially successful blockchain. 
 \label{chap:FutureWork}
 \chapter{Abbreviations}
 \label{chap:abbreviations}
