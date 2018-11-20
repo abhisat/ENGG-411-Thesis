@@ -108,6 +108,7 @@
 \usepackage[table]{xcolor}
 \usepackage{longtable}
 \usepackage{listings}
+\usepackage{pdfpages}
 \usepackage{multirow} % This is package for multi-rows in tables added on 7th July 2009 by Arif
 %\usepackage{setspace}
 
@@ -147,7 +148,7 @@
 % For Senior and honors this is the year and month that you submit the thesis
 % For Masters and PhD, this is your graduation date
   \Year{2018}
-  \Month{November 09,}
+  \Month{November 20,}
   \Author{Abhishek Satpathy}
 
 % If you have a long title, split it between two lines. The \TitleBottom field defines the second line
@@ -254,7 +255,7 @@ The goal of this project is to lay out the design, testing, and design specifica
 \\
 \\ One of the other goals of the project will also be to lay out the modifications to the existing foundation system that would allow the integration of the layer two system to the foundation architecture. The project does not aim to create a completely new blockchain architecture.
 \section{Project Planning}
-The project planning was done over the last six months during the course of ENGG 460. There have been a lot of changes the initial plan that was developed during ENGG 460. The biggest change, however, has been to the scope, deliverables, and timeline of the project. These changes are discussed below in their respective sections.
+The project planning was done over the last six months during the course of ENGG 460. There have been a lot of changes the initial plan that was developed during ENGG 460. The biggest change, however, has been to the scope, deliverables, and timeline of the project. These changes are discussed below in their respective sections. The original project plan is given in appendix \ref{projectplan}
 
 \subsection{Scope}
 The project scope has remained very similar to the scope that was described in the initial project plan. The scope is to deliver a protocol for intercommunication and interoperability of smart contracts. The scope in the initial project plan might have indicated that the scope includes the delivery of a prototype of such a blockchain architecture; however, the new scope of the project includes only the system requirements, design and testing specifications of the protocol. 
@@ -264,7 +265,7 @@ The initial project plan specified two deliverables. One of the deliverables for
 
 The new deliverable for the project is a framework for intercommunication and the interoperability of multiple blockchains. The deliverable includes system requirements, system testing, and implementation specifications. However, any working prototype of the protocol is not a hard deliverable of the project.
 \subsection{Timeline}
-There have been significant changes to the timeline of the project as it has progressed. The reason for these changes is the change in the deliverables for the project. The deadline for the project was assumed to be mid-December in the previous project plan; the new deadline is the 9th of November which is a hard deadline. Moreover, a lot of variables and deliverables had unknown components with estimated timeframes. The timeline has a become firmer with most of the variables becoming clearer. The new GANTT chart with the updated timeline for the project is given in appendix c.
+There have been significant changes to the timeline of the project as it has progressed. The reason for these changes is the change in the deliverables for the project. The deadline for the project was assumed to be mid-December in the previous project plan; the new deadline is the 9th of November which is a hard deadline. Moreover, a lot of variables and deliverables had unknown components with estimated timeframes. The timeline has a become firmer with most of the variables becoming clearer. The new GANTT chart with the updated timeline for the project is given in appendix \ref{ganttchart}.
 \section{Project Background}
 Prior to starting in on blockchain systems, one needs to be familiar with supporting technologies that support and facilitate the working of blockchains. 
 \subsection{Cryptographic Hash Function}
@@ -289,7 +290,7 @@ Ethereum is a decentralised value transfer system made possible using a cryptogr
 
 \subsection{Blocks, State and Transactions}
 \subsubsection{Blocks}
-The block in Ethereum is a collection of transactions bunched together as a set\cite{ButerinAPLATFORM}. The block has three parts, a block header, the transactions, and the ommers, a collection of related block headers\cite{Wood2018ETHEREUM:LEDGER}. The block header contains the following pieces of information as stated in the Ethereum yellowpaper\cite{Wood2018ETHEREUM:LEDGER}
+The block in Ethereum is a collection of transactions bunched together as a set\cite{ButerinAPLATFORM}. The block has three parts, a block header, the transactions, and the ommers, a collection of related block headers\cite{Wood2018ETHEREUM:LEDGER}. The block header contains the following pieces of information as stated in the Ethereum yellowpaper\cite{Wood2018ETHEREUM:LEDGER}. The code for the genesis block of Ethereum blockchain is given in appendix \ref{ethereumgenesis}. 
 \begin{description}
 \item[$\bullet$ parentHash:] a Keccak 256-bit hash of the previous block's header
 \item[$\bullet$ ommersHash:] a Keccak 256-bit hash of the ommers list or the list of blocks which have the same parent block as the current block
@@ -328,9 +329,6 @@ A contract creation account contains the following additional fields\cite{Wood20
 \begin{description}
 \item[$\bullet$ nonce:] infinite size byte array containing the EVM code for account initialisation
 \item[$\bullet$ data:] infinite size byte array containing the input data of the message call
-\end{description}
-\begin{description}
-\item[]
 \end{description}
 \subsection{Gas and Transaction Execution}
 Gas and transactions are the core of the Ethereum computation engine. Transactions form the basis for all the computation and Gas forms the basis of all payment calculation in Ethereum\cite{ButerinAPLATFORM}.
@@ -489,10 +487,10 @@ Zilliqa comes with a smart contract execution environment which follows a data-f
 Tendermint is a software for secure replication of applications on multiple machines\cite{TendermintTeam2018WhatDocumentation}. It claims to be able to achieve consensus even if up to a third of the total number of machines are Byzantine\cite{TendermintTeam2018WhatDocumentation}. Byzantine means that the machines have become arbitrarily malicious\cite{TendermintTeam2018WhatDocumentation}. Tendermint is a Byzantine Fault Tolerant state replication machine\cite{TendermintTeam2018WhatDocumentation}. The ability to tolerate machines failing in arbitrary ways, including becoming malicious, is known as Byzantine Fault Tolerance (BFT)\cite{TendermintTeam2018WhatDocumentation}.
 \\
 \\
-Tendermint consists of two chief technical components: a blockchain consensus engine and a generic application interface\cite{TendermintTeam2018WhatDocumentation}. The consensus engine, called Tendermint Core, ensures that the same transactions are recorded on all the machines in the order\cite{}. Tendermint has a specific port which uses a generic application interface called the Application BlockChain Interface (ABCI)\cite{TendermintTeam2018WhatDocumentation}. The ABCI is a generic interface which allows transactions to be processed in any programming language\cite{TendermintTeam2018WhatDocumentation}. 
+Tendermint consists of two chief technical components: a blockchain consensus engine and a generic application interface\cite{TendermintTeam2018WhatDocumentation}. The consensus engine, called Tendermint Core, ensures that the same transactions are recorded on all the machines in the order\cite{TendermintTeam2018WhatDocumentation}. Tendermint has a specific port which uses a generic application interface called the Application Blockchain Interface (ABCI)\cite{TendermintTeam2018WhatDocumentation}. The ABCI is a generic interface which allows transactions to be processed in any programming language\cite{TendermintTeam2018WhatDocumentation}. 
 
-\subsection{Application BlockChain Interface (ABCI)}
-The Application BlockChain Interface (ABCI) facilitates the replication of Byzantine Fault Tolerant replication of state machines, which could be written in any programming language\cite{}. Tendermint's ABCI uses an implementation called the Tendermint Socket Protocol (TSP)\cite{TendermintTeam2018WhatDocumentation}. Tendermint's core communicates with external applications using the TSP\cite{}.
+\subsection{Application Blockchain Interface (ABCI)}
+The Application Blockchain Interface (ABCI) facilitates the replication of Byzantine Fault Tolerant replication of state machines, which could be written in any programming language\cite{Kwon2018ALedgers}. Tendermint's ABCI uses an implementation called the Tendermint Socket Protocol (TSP)\cite{TendermintTeam2018WhatDocumentation}. Tendermint's core communicates with external applications using the TSP\cite{TendermintTeam2018WhatDocumentation}.
 \\
 \\
 This is contrary to applications such as Ethereum which support a Turing-complete, bytecode supporting virtual machine\cite{Wood2018ETHEREUM:LEDGER}. The number of languages that can compile to bytecode is very limited. This factor limits the compatibility of the blockchain system with other applications.
@@ -502,7 +500,7 @@ The ABCI is mainly composed of three types of messages\cite{TendermintTeam2018Wh
 \begin{description}
 \item[$\bullet$ DeliverTx:] The DeliverTx message allows the verification of each transaction against the current state,  the application protocol, and the digital signature.
 \item[$\bullet$CheckTx:] Tendermint Core's mempool checks the validity of a transaction with a CheckTx and ensures only valid transactions are relayed to the peers.
-\item[$\bullet$Commit:] The Commit message is used to compute a cryptographic commitment to the current application state, that gets placed in the next block header. As a result, the inconsistencies in updating the state appear as Blockchain forks which makes them easier to detect.
+\item[$\bullet$Commit:] The Commit message is used to compute a cryptographic commitment to the current application state, that gets placed in the next block header. As a result, the inconsistencies in updating the state appear as blockchain forks which makes them easier to detect.
 \end{description}
 
 \subsection{Tendermint Core}
@@ -1234,13 +1232,13 @@ If the above conditions are met then the transaction is deemed valid and is elig
 The consensus mechanism in the system described here is quite different from the consensus mechanisms that have been described in the literature review chapter of this thesis. The system utilises a permissioned blockchain. This makes achieving consensus relatively easier than popular mechanisms such as proof of work. The consensus mechanism here uses Tendermint which is a software for replicating state across machines\cite{TendermintTeam2018WhatDocumentation}.
 \\
 \\
-Achieving consensus in permissioned blockchains is comparatively easier due to the fact that nodes are not anonymous and, therefore, the consensus mechanism to associate malicious behaviour with specific nodes. Since Tendermint is a blockchain independent consensus engine it requires certain arguments to be given as input\cite{}. The Tendermint Core interfaces with the system using ABCI to get the proper arguments and replicate the current state across all the active nodes.
+Achieving consensus in permissioned blockchains is comparatively easier due to the fact that nodes are not anonymous and, therefore, the consensus mechanism to associate malicious behaviour with specific nodes. Since Tendermint is a blockchain independent consensus engine it requires certain arguments to be given as input\cite{TendermintTeam2018WhatDocumentation}. The Tendermint Core interfaces with the system using ABCI to get the proper arguments and replicate the current state across all the active nodes.
 \\
 \\
-The Tendermint core can be configured with the following parameters\cite{}:
+The Tendermint core can be configured with the following parameters\cite{TendermintTeam2018WhatDocumentation}:
 \begin{description}
 \item[$\bullet$ abci:]ABCI transport (socket|grpc). The system will use a socket configuration which is more widely used.
-\item[$\bullet$ db\_backend:]Database backend for the blockchain and Tendermint Core state. The system will use leveldb because it is better at disk space utilisation \cite{}.
+\item[$\bullet$ db\_backend:]Database backend for the blockchain and Tendermint Core state. The system will use leveldb because it is better at disk space utilisation \cite{2018LevelDB.org}.
 \item[$\bullet$ db\_dir:]Database directory. This will be set to the value ``\$TMHOME/data/chain\_ID", where chain\_ID is the value specified in the genesis.json file.
 \item[$\bullet$ fast\_sync:]Whether to sync faster from the block pool. This field can be set to true or false depending on the need. If fast\_sync is enabled then the blocks are downloaded and the Merkle tree of the validators are checked instead of syncing the blockchain from genesis.
 \item[$\bullet$ genesis\_file:]The location of the genesis file.
@@ -1248,7 +1246,7 @@ The Tendermint core can be configured with the following parameters\cite{}:
 \item[$\bullet$ moniker:]Name of the node which is defining the configuration file.
 \item[$\bullet$ priv\_validator\_file:]Validator private key file. The JSON file containing the validator's private keys.
 \item[$\bullet$ prof\_laddr:]Profile listen address.
-\item[$\bullet$ proxy\_app:]The ABCI app endpoint. The default value is Default: "tcp://127.0.0.1:46658"
+\item[$\bullet$ proxy\_app:]The ABCI app endpoint. The default value is Default: ``tcp://127.0.0.1:46658"
 \item[$\bullet$ consensus.max\_block\_size\_txs:]Maximum number of block txs. The maximum number of transactions in a block will be 5000 which will keep the block creation time to be approximately one block per second.
 \item[$\bullet$ consensus.timeout\_*:]Various consensus timeout parameters
 \item[$\bullet$ consensus.wal\_file:]Consensus state WAL. It recovers the system to a previous checkpoint in case of failure.
@@ -1264,7 +1262,7 @@ The Tendermint core can be configured with the following parameters\cite{}:
 \item[$\bullet$ rpc.unsafe:]Enable unsafe RPC methods.
 \end{description}
 \subsection{Genesis Block}
-The genesis block is always hardcoded\cite{}. The genesis block acts a specification for other blocks to adhere to. In Tendermint, the parameters in the genesis block have to be specified, in the Genesis.json file. This file contains the following fields:
+The genesis block is always hardcoded\cite{2018GenesisWiki}. The genesis block acts a specification for other blocks to adhere to. In Tendermint, the parameters in the genesis block have to be specified, in the Genesis.json file. This file contains the following fields:
 \begin{description}
 \item[$\bullet$genesis\_time:]Official time of blockchain start. The value for this field will be generated automatically by the system based on the Unix timestamp.
 \item[$\bullet$chain\_id:] ID of the blockchain. This must be unique for every blockchain and will be the ID generated by the cryptographic layer during the chain initialisation.
@@ -1279,7 +1277,7 @@ The genesis block is always hardcoded\cite{}. The genesis block acts a specifica
 \\
 \\
 \end{description}
-Appendix C contains a sample genesis.json file for reference. The configuration of the Tendermint core to achieve consensus concurrently on the NMZ main chain and the logging chain is the most challenging part of the configuration the consensus engine.
+Appendix \ref{tendermintgenesis} contains a sample genesis.json file for reference. The configuration of the Tendermint core to achieve consensus concurrently on the NMZ main chain and the logging chain is the most challenging part of the configuration the consensus engine.
 \section{Cryptographic Layer}
 The cryptographic layer is essential for enabling the interoperability of the multiple token systems. The important function is the generation and maintenance of the public and private keys across the system. The cryptographic layer is responsible for generating all the public and private key pairs for each peripheral blockchain associated with the central blockchain.
 \\
@@ -1298,7 +1296,7 @@ The central Numiz(NMZ) blockchain relies on the cryptographic layer to access th
   \label{fig:6}
 \end{figure}
 \section{Logging Layer}
-The logging system is a unique component in the architecture of the proposes system. It is completely independent of the central blockchain even though they work concurrently with a time gap of no more than 6 seconds. It maintains a separate blockchain specifically for logging activities. This is perhaps the most unique feature which is much needed in a system of this nature. Figure \ref{fig:6} shows the design and architecture of the logging layer. It has a completely decentralised blockchain with an independent Tendermint Consensus engine.
+The logging system is a unique component in the architecture of the proposes system. It is completely independent of the central blockchain even though they work concurrently with a time gap of no more than 6 seconds. It maintains a separate blockchain specifically for logging activities. This is perhaps the most unique feature which is much needed in a system of this nature. Figure \ref{logginglayer} shows the design and architecture of the logging layer. It has a completely decentralised blockchain with an independent Tendermint Consensus engine.
 \\
 \\
 The logging system blockchain is concurrent and self-governing. Self-governing implies that it is a decentralized blockchain with every node having equal voting rights. Unlike, the central blockchain where its servers and the overloading system have more authority over the other nodes in order to keep the system functional and scalable. The central blockchain also has mining pools which further compromises on the centralisation of the architecture. The logging blockchain does not need to have multiple mining pools for the purpose of parallel processing because it only logs the headers of the Merkle tree, taken from the central blockchain. The headers are scanned through the security system to ensure that there are no inconsistencies present.\\
@@ -1307,7 +1305,7 @@ The security layer ensures that the headers logged are consistent with the centr
 \begin{figure}
   \includegraphics[width=\linewidth]{logging_layer.png}
   \caption{Logging System Architecture}
-  \label{fig:2}
+  \label{logginglayer}
 \end{figure}
 
 \section{Security Layer}
@@ -1316,20 +1314,20 @@ The security layer ensures that the headers logged are consistent with the centr
 \\
 The machine learning model used in malicious activity detection is based on the research published by Prateek Dewan et all. on Detecting Malicious Content on Facebook\cite{Dewan2015DetectingFacebook}. The model will be modified in order to detect malicious activity on blockchain transactions instead. Another feature of the security layer is the ability to cross check the Merkle tree headers in the logs blockchain to detect any discrepancies. The security layer acts as a consensus mechanism and interface between the logs layer and other components of the system.
 \section{Backup Layer}
-Blockchain systems are usually highly redundant, when it comes to data storage as all the nodes are redundantly storing all the data\cite{}. However, in production-grade blockchain systems such as the one being described here a backup system is essential, particularly when deployed in banking, finance, and supply chain industries. The backup layer will be activated when the number of active nodes falls below the MOL. The MOL in this case is 10000 active nodes, however, this parameter could be redefined in the configuration file. Activation of the backup layer puts the system in a backup mode where the components rely on the backup data storage servers for data retrieval and consensus. This backup data and bandwidth are used for elements of transaction processing that require data retrieval from the backend. 
+Blockchain systems are usually highly redundant, when it comes to data storage as all the nodes are redundantly storing all the data\cite{GideonGreenspan2016BlockchainsMultiChain}. However, in production-grade blockchain systems such as the one being described here a backup system is essential, particularly when deployed in banking, finance, and supply chain industries. The backup layer will be activated when the number of active nodes falls below the MOL. The MOL in this case is 10000 active nodes, however, this parameter could be redefined in the configuration file. Activation of the backup layer puts the system in a backup mode where the components rely on the backup data storage servers for data retrieval and consensus. This backup data and bandwidth are used for elements of transaction processing that require data retrieval from the backend. 
 \\
 \\
 The backup layer is activated as soon as the total number of nodes goes below the initial 10000 available active nodes. Active nodes are defined as the nodes in the network that are involved in the transaction processing and consensus mechanism. The system pings nodes every 600 milliseconds and creates a bitmap of the active nodes. A particular bit in the bitmap is of value 1 or 0 depending on if the particular node is active during the ping. The system has a particular arrangement of nodes in incereasing order of the timestamp of when the particular node was first registered. This information combined with the bitmap generated during each pinging cycle makes it easy to determine a variety of network information such as the number of active nodes, public addresses of these nodes, and their involvement in transaction processing.
 
 \subsection{Storage}
-The backup layer is comprised of a data server and a storage layer. The storage layer contains one main database and three mirror storage units. The storage on the database is a snapshot of the global state of the blockchain system taken once every 100 blocks. This snapshot is then copied across the three mirror storage units. The design of the storage layer is given in figure \ref{fig:3}. The backup mirrors are used in case of the failure of the main storage layer, which itself is only activated in case of the total number of the active nodes falling below the minimum operable linnit (MOL). Therefore, the likelihood of the backup mirrors ever being used is extremely low. The backup system exists to increase the integrity and robustness of the system.
+The backup layer is comprised of a data server and a storage layer. The storage layer contains one main database and three mirror storage units. The storage on the database is a snapshot of the global state of the blockchain system taken once every 100 blocks. This snapshot is then copied across the three mirror storage units. The design of the storage layer is given in figure \ref{storagelayer}. The backup mirrors are used in case of the failure of the main storage layer, which itself is only activated in case of the total number of the active nodes falling below the minimum operable linnit (MOL). Therefore, the likelihood of the backup mirrors ever being used is extremely low. The backup system exists to increase the integrity and robustness of the system.
 
 \subsection{Server Nodes}
 The server nodes get activated as soon as the number of active nodes in the system falls under the MOL which is 10000 nodes. The server nodes scale according to the number of nodes required to get the system back to the MOL. For example, if the total number of active nodes falls to 9986 nodes then the number of server nodes in the backup layer will be scaled to 10000 - 9986 = 14 nodes.
 \begin{figure}
   \includegraphics[width=\linewidth]{storage_layer.png}
   \caption{Storage Layer Architecture}
-  \label{fig:3}
+  \label{storagelayer}
 \end{figure}
 
 \section{Network Layer}
@@ -1466,13 +1464,14 @@ UTXO \> Unspent Transaction Output\\
 
 \appendix
 \chapter{Project Plan}
+\label{projectplan}
 \section{Abstract}
 Blockchain scalability is one of the major problems that need to be addressed in the entire blockchain space. Of the many approaches for scaling blockchains, facilitating intercommunication of smart contracts among multiple blockchains while maintaining consensus is a promising approach. This paper lays the project road map for the research regarding a novel protocol for intercommunication among multiple private Ethereum blockchains. The paper also discusses how this protocol can be demonstrated using an app built on react-native that could interface with the blockchains and help facilitate and demonstrate this interconnectivity protocol. Moreover, the paper provides a detailed project plan along with background and literature review, approach and methodology, intended research outcome, and expected impact of the outcome.
 \section{Introduction and Background}
-Blockchains have an immense potential to revolutionize the way the internet is being used today. Blockchain and Distributed ledger technology will lead the way into what is being termed as Web 3.0 [1], in which there is no point of central control like Google, etc., and in which data is owned by the peers and not the big data firms. Until now, blockchains and distributed ledger technology have only been synonymous with Bitcoins and other cryptocurrencies. However, this new technology has numerous potential applications in many different fields such as supply chain management, distributed computing, and many other applications that still need to be discovered.
+Blockchains have an immense potential to revolutionize the way the internet is being used today. Blockchain and Distributed ledger technology will lead the way into what is being termed as Web 3.0 \cite{MatteoGianpietroZago2018WhyIt}, in which there is no point of central control like Google, etc., and in which data is owned by the peers and not the big data firms. Until now, blockchains and distributed ledger technology have only been synonymous with Bitcoins and other cryptocurrencies. However, this new technology has numerous potential applications in many different fields such as supply chain management, distributed computing, and many other applications that still need to be discovered.
 \\
 \\
-Blockchains available at the moment are far away from being massively scalable in order to cater for these potential applications on a global scale. With an average of about 15 transactions per second [2], popular blockchains like Ethereum are far from being scalable. Numerous attempts have been made in order to scale blockchains and improve the transaction rates. Just in comparison with other payment platforms such as VISA and Mastercard, VISA does on average 1667 transactions per second with a peak capacity of about 56000 transactions per second [3]. Similarly, Mastercard processes about 2834 transactions per second on average and has a peak operating capacity of about 95000 transactions per second [4]. However, it is important to note that VISA and Mastercard are platforms meant only for payments processing. A public blockchain such as Ethereum can run DApps. DApps are distributed applications that can run on the EVM, the Ethereum Virtual Machine, which is a giant virtual computer that gathers its computing resources from all the computers running on the Ethereum Public Network. Each DApp is essentially a suite of smart contracts that work together to achieve the functionality of the DApp in a completely decentralized and peer-to-peer network [5]. Smart Contracts are autonomous agents on the blockchain that execute a transaction when certain conditions are met [6]. Each request on a DApp is executed as a smart contract transaction on the blockchain. As of writing this, the Ethereum public blockchain has 1657 decentralized apps and the number is rapidly increasing every day. With a transaction rate of about 15 transactions per second, this creates a serious bottleneck on the blockchain for running transactions.
+Blockchains available at the moment are far away from being massively scalable in order to cater for these potential applications on a global scale. With an average of about 15 transactions per second \cite{AlyssaHertig2018HowCoinDesk}, popular blockchains like Ethereum are far from being scalable. Numerous attempts have been made in order to scale blockchains and improve the transaction rates. Just in comparison with other payment platforms such as VISA and Mastercard, VISA does on average 1667 transactions per second with a peak capacity of about 56000 transactions per second \cite{2018BitcoinToday}. Similarly, Mastercard processes about 2834 transactions per second on average and has a peak operating capacity of about 95000 transactions per second \cite{TheIssuers}. However, it is important to note that VISA and Mastercard are platforms meant only for payments processing. A public blockchain such as Ethereum can run DApps. DApps are distributed applications that can run on the EVM, the Ethereum Virtual Machine, which is a giant virtual computer that gathers its computing resources from all the computers running on the Ethereum Public Network. Each DApp is essentially a suite of smart contracts that work together to achieve the functionality of the DApp in a completely decentralized and peer-to-peer network \cite{2018StatePOA}. Smart Contracts are autonomous agents on the blockchain that execute a transaction when certain conditions are met \cite{ButerinAPLATFORM}. Each request on a DApp is executed as a smart contract transaction on the blockchain. As of writing this, the Ethereum public blockchain has 1657 decentralized apps and the number is rapidly increasing every day. With a transaction rate of about 15 transactions per second, this creates a serious bottleneck on the blockchain for running transactions.
 \\
 \\
 A blockchain or a distributed ledger is a secure mechanism to run these transactions and sync the data across all the nodes in the network in order to make it secure and tamper proof. This same mechanism that makes blockchains, primarily so secure also make them massive unscalable and slow. There are many ways in which this problem of transaction scalability of blockchains can be solved. One of the solutions is to enable facilitation of smart contracts to be able to communicate among themselves while running on separate blockchains. Thus, each DApp could run on its own separate blockchain while communicating with smart contracts on multiple blockchains to achieve consensus of data, consensus being the main factor that makes blockchains tamper resistant. This project is going to explore possible solutions to this smart contract communication problem among separate blockchains, in a fast and secure way, so as to maintain the fault tolerance capability that these blockchains exhibit.
@@ -1496,28 +1495,28 @@ blockchains today?
 \item[$\bullet$]How will this technology be commercialized or made public for the greater good?
 \end{description}
 \\
-The deliverables for this particular project will be a suite of smart contract accounts on different blockchains that can communicate among each other using messages. The first stage will not include any transactions exchanged between the smart contracts as this exponentially increases the complexity and vulnerability of the application and might be extremely difficult to achieve within the critical time frame of the project. A transaction being defined as a message sent across by an externally owned account [6]. However, it is believed that further work can be done on the protocol to extend it to include financial transactions without compromising on security. Another deliverable for the project is an app built on react-native that can demonstrate this said smart contract communication functionality. The app will show all the different blockchains that it has been connected to, along with all the deployed smart contracts on the respective blockchains. The users of the app will be able to send messages across between any two smart contracts and be able to view the communication in almost real time.
+The deliverables for this particular project will be a suite of smart contract accounts on different blockchains that can communicate among each other using messages. The first stage will not include any transactions exchanged between the smart contracts as this exponentially increases the complexity and vulnerability of the application and might be extremely difficult to achieve within the critical time frame of the project. A transaction is defined as a message sent across by an externally owned account \cite{ButerinAPLATFORM}. However, it is believed that further work can be done on the protocol to extend it to include financial transactions without compromising on security. Another deliverable for the project is an app built on react-native that can demonstrate this said smart contract communication functionality. The app will show all the different blockchains that it has been connected to, along with all the deployed smart contracts on the respective blockchains. The users of the app will be able to send messages across between any two smart contracts and be able to view the communication in almost real time.
 \section{Literature Review}
 Blockchain research as it has been mentioned already has been very limited in the past few years and has been mostly non-academic research done by independent organizations. Moreover, the technology is extremely nascent as the blockchain revolution was kicked off by bitcoins which have been around only for the last decade. This is a very short period for academic research to become mainstream in the field. However, some research has been done by non-academic organizations which is going to be the basis of all literature review. The research work done in this thesis will be built on top of that research. The following few research works lay the underlying framework for the research thesis on inter-blockchain communication, as described in this thesis project. Most of the following research is non- academic and therefore the availability of good quality documentation is sparse. However, best efforts have been put into understanding those previous works and, more importantly, it has been made sure that those works are very accurately described in this paper.
 \subsection{BTC Relay}
-BTC Relay is a bridge between the bitcoin blockchain and Ethereum smart contracts. It allows smart contracts on the Ethereum blockchain to securely verify bitcoin transactions. BTC Relay is an Ethereum Smart Contract that stores bitcoin block headers. These block headers are then used to build a lighter version of the bitcoin blockchain with enough data just to verify the validity of all the transactions. The bitcoin blockchain headers are sent to the BTC Relay smart contracts. These headers are then used to verify the validity of the transactions. This approach does not use a relay chain. It is also not a very scalable solution as it does not allow a two-way communication link between the blockchains. The entire light-weight version of the bitcoin blockchain has to be built from the block headers which is a computing resource intensive task and therefore might not be extremely viable for large scale use cases and connectivity across multiple blockchains. However, BTC Relay is a good starting point for reviewing attempts that have already been made in this field. [8]
+BTC Relay is a bridge between the bitcoin blockchain and Ethereum smart contracts. It allows smart contracts on the Ethereum blockchain to securely verify bitcoin transactions. BTC Relay is an Ethereum Smart Contract that stores bitcoin block headers. These block headers are then used to build a lighter version of the bitcoin blockchain with enough data just to verify the validity of all the transactions. The bitcoin blockchain headers are sent to the BTC Relay smart contracts. These headers are then used to verify the validity of the transactions. This approach does not use a relay chain. It is also not a very scalable solution as it does not allow a two-way communication link between the blockchains. The entire light-weight version of the bitcoin blockchain has to be built from the block headers which is a computing resource intensive task and therefore might not be extremely viable for large scale use cases and connectivity across multiple blockchains. However, BTC Relay is a good starting point for reviewing attempts that have already been made in this field. \cite{2018BTCRelay}\cite{2018FrequentlyDocumentation}
 \subsection{Peace Relay}
-Peace Relay is very similar technology to BTC Relay. However, it is built for a different purpose of connecting two different Ethereum blockchains i.e. Ethereum and Ethereum Classic. Peace Relay works both ways between Ethereum Classic and Ethereum and vice-versa. Similar to BTC Relay, the Merkle Patricia headers are sent to the smart contract on the receiver blockchain that stores all the headers and verifies whether the header is valid before adding it to the light-weight chain. The contract then allows the submission of Merkle proofs by users in order to verify the validity of the transactions [9].
+Peace Relay is very similar technology to BTC Relay. However, it is built for a different purpose of connecting two different Ethereum blockchains i.e. Ethereum and Ethereum Classic. Peace Relay works both ways between Ethereum Classic and Ethereum and vice-versa. Similar to BTC Relay, the Merkle Patricia headers are sent to the smart contract on the receiver blockchain that stores all the headers and verifies whether the header is valid before adding it to the light-weight chain. The contract then allows the submission of Merkle proofs by users in order to verify the validity of the transactions \cite{LoiLuu2017PeaceRelay:Blockchains}.
 \\
 \\
 In order to send transactions from one blockchain to the other, Peace Relay uses locking contracts which peg the amount being transferred from the sender blockchain and then generate the same number of tokens on the receiving blockchain, using a corresponding smart contract. This process is very unscalable just like BTC Relay, and the contract execution can become exponentially complex with the addition of more blockchains in the relay. However, this demonstrates that a possible communication between two Ethereum blockchains is definitely possible. There is definitely a more effective and scalable solution which can achieve the same effect. Finding that more effective and scalable solution is the main objective of this research paper.
 \subsection{Cosmos: Inter-blockchain Communication Protocol}
-Cosmos is a network connecting multiple independent blockchains. Cosmos has a main network which acts very much like a connector chain, called the Cosmos Hub. All the other blockchains connected to the Cosmos Hub are called Zones. A Cosmos zone is a separate, independent blockchain that uses the main blockchain, which is the Hub, for achieving global consensus on the network. Cosmos uses the protocol called Inter-blockchain Communication (IBC) for connectivity between the hub and all the zones. IBC uses data packets to send information across between the zones and the hub. There are two types of transactions in the IBC protocol; an IBCBlockCommitTx transaction and an IBCPacketTx transaction. The first kind of transaction allows a zone to prove to any observer of its most recent block-hash. The latter kind of transaction allows a blockchain to prove to any observer that the given packet was indeed published by the sender's application, via a Merkle-proof to the recent block-hash. The Cosmos Hub can also be used as a bridge between different blockchains such as any Bitcoin or Ethereum blockchain. The transaction throughput of the Cosmos blockchains is currently unknown, however, the zones use a Tendermint core which uses a Byzantine Fault Tolerant consensus mechanism and claims a transaction throughput of about 10000 transactions per second. [10]
+Cosmos is a network connecting multiple independent blockchains. Cosmos has a main network which acts very much like a connector chain, called the Cosmos Hub. All the other blockchains connected to the Cosmos Hub are called Zones. A Cosmos zone is a separate, independent blockchain that uses the main blockchain, which is the Hub, for achieving global consensus on the network. Cosmos uses the protocol called Inter-blockchain Communication (IBC) for connectivity between the hub and all the zones. IBC uses data packets to send information across between the zones and the hub. There are two types of transactions in the IBC protocol; an IBCBlockCommitTx transaction and an IBCPacketTx transaction. The first kind of transaction allows a zone to prove to any observer of its most recent block-hash. The latter kind of transaction allows a blockchain to prove to any observer that the given packet was indeed published by the sender's application, via a Merkle-proof to the recent block-hash. The Cosmos Hub can also be used as a bridge between different blockchains such as any Bitcoin or Ethereum blockchain. The transaction throughput of the Cosmos blockchains is currently unknown, however, the zones use a Tendermint core which uses a Byzantine Fault Tolerant consensus mechanism and claims a transaction throughput of about 10000 transactions per second. \cite{Kwon2018ALedgers}
 \\
 \\
 Cosmos IBC currently seems to be the most promising background work, on which the entire research work of this project could be built upon. If this research project is successful, then this could most likely be work done on top of Cosmos IBC.
 \subsection{Polkadot}
-Polkadot is a scalable heterogenous multi-chain system. It relies on many technologies such as Relay chains, parachains and bridges. A relay chain coordinates consensus and transaction delivery between chains. Parachains are constituent blockchains which gather, and process transactions. Bridges are links to blockchains with their own consensus mechanism, such as Ethereum. Polkadot has four different kinds of nodes on the blockchain. The validator nodes secure the relay chain by staking tokens, validating proofs from other collator nodes, and participating in consensus with other validators. The nominator nodes secure the relay chain by choosing good validators and staking tokens. The collator nodes maintain the parachains by collecting parachain transactions from users and producing state transition proofs for validators. The final type of nodes on the Polkadot chains are the fishermen nodes which act as the final security checkpoint and prove bad behavior to validators. Polkadot does not provide a platform for the execution of different smart contracts and transactions, rather, it acts as a connection chain which could be used by multiple other chains as a consensus platform. [11] [12]
+Polkadot is a scalable heterogenous multi-chain system. It relies on many technologies such as Relay chains, parachains and bridges. A relay chain coordinates consensus and transaction delivery between chains. Parachains are constituent blockchains which gather, and process transactions. Bridges are links to blockchains with their own consensus mechanism, such as Ethereum. Polkadot has four different kinds of nodes on the blockchain. The validator nodes secure the relay chain by staking tokens, validating proofs from other collator nodes, and participating in consensus with other validators. The nominator nodes secure the relay chain by choosing good validators and staking tokens. The collator nodes maintain the parachains by collecting parachain transactions from users and producing state transition proofs for validators. The final type of nodes on the Polkadot chains are the fishermen nodes which act as the final security checkpoint and prove bad behavior to validators. Polkadot does not provide a platform for the execution of different smart contracts and transactions, rather, it acts as a connection chain which could be used by multiple other chains as a consensus platform. \cite{GavinWood2018PolkadotLight-paper}\cite{GavinWood2018POLKADOT:FRAMEWORK}
 \\
 \\
 The ideal outcome of this research project relies heavily on the foundation laid by Polkadot. The research should try to modify or create better version of Polkadot in order to achieve a better transaction throughput. Polkadot claims to have a transaction throughput of about 1000 transactions per second currently. However, if this protocol could be extended to have much higher transaction throughput, then that could be the most ideal outcome of this research project.
 \subsection{Interledger}
-Interledger is an open suite of protocols for connecting all types of ledgers and payment systems. Interledger uses connectors to route payments across different blockchains. In order to connect the blockchains, Interledger uses a transport protocol called STREAM, which is a multiplexed system for transporting money and data across blockchains connected via the Interledger protocol. It essentially uses multiple streams of data over the Interledger Protocol (ILP). A stream is a logical, bi-directional channel of ordered bytes and money within a STREAM connection. STREAM is a generic transport protocol for different ledgers which is a generic protocol, such as TLS on the internet. [13] [14]
+Interledger is an open suite of protocols for connecting all types of ledgers and payment systems. Interledger uses connectors to route payments across different blockchains. In order to connect the blockchains, Interledger uses a transport protocol called STREAM, which is a multiplexed system for transporting money and data across blockchains connected via the Interledger protocol. It essentially uses multiple streams of data over the Interledger Protocol (ILP). A stream is a logical, bi-directional channel of ordered bytes and money within a STREAM connection. STREAM is a generic transport protocol for different ledgers which is a generic protocol, such as TLS on the internet. \cite{2018InterledgerInterledger}\cite{2018STREAMInterledger}
 \\
 \\
 However, STREAM on the Interledger Protocol is designed specifically for currency transactions and payments blockchains in mind. If, however, work could be done on this protocol to develop a generic blockchain communication protocol for executing all sorts of transactions and not just payments and data, then that would be the ideal outcome of this research project.
@@ -1528,17 +1527,17 @@ All the literature review mentioned above might not end up being the background 
 The approach towards the solution to the problem being discussed in this paper will be quite different from other academic research. The main reason behind this is that no peer-reviewed academic research work has been done already in the inter-blockchain communication space. That alone would be the biggest hurdle in conducting this project methodically. Due to the availability of inadequate documentation or complete lack of it, proper understanding of the existing work that has already been done in the area will be difficult. It has already been mentioned in the literature review section that the background research work done in this area is quite sparse. There is a need for new innovation, research and a completely novel approach and methodology.
 \\
 \\
-The methodology and approach will be to create a messaging protocol that can be used in order for smart contracts to communicate among different Ethereum blockchains. The rough sketch of the protocol has been demonstrated in the figure \ref{fig:A.1}. The diagram shows two blockchains, each with multiple smart contract accounts that are sending messages across to each other. The only issue in the current diagram is that there is no method to specify which blockchain the respective smart contract accounts belong to. The approach to solve this issue will be to create a relay chain which will store the unique blockchain addresses of each blockchain on the relay chain. Each separate blockchain will therefore have a separate unique address on the relay chain. The messages that are being transmitted between the smart contract will hence contain a from address which will be generated using a combination of the chain address on the relay chain and the smart contract account address. The address generation function will have to be researched and appropriately tested in order to avoid errors and collisions. This approach should be appropriate to achieve the task at hand.
+The methodology and approach will be to create a messaging protocol that can be used in order for smart contracts to communicate among different Ethereum blockchains. The rough sketch of the protocol has been demonstrated in figure \ref{fig:A.1}. The diagram shows two blockchains, each with multiple smart contract accounts that are sending messages across to each other. The only issue in the current diagram is that there is no method to specify which blockchain the respective smart contract accounts belong to. The approach to solve this issue will be to create a relay chain which will store the unique blockchain addresses of each blockchain on the relay chain. Each separate blockchain will therefore have a separate unique address on the relay chain. The messages that are being transmitted between the smart contract will hence contain a from address which will be generated using a combination of the chain address on the relay chain and the smart contract account address. The address generation function will have to be researched and appropriately tested in order to avoid errors and collisions. This approach should be appropriate to achieve the task at hand.
 \begin{figure}
   \includegraphics[width=\linewidth]{smart_contract_architecture.png}
   \caption{Smart Contract Architecture}
   \label{fig:A.1}
 \end{figure}
 \section{Project Timeline}
-The thesis project has a very strict timeline and has to be completed within roughly the 15 weeks available in session 2 of 2018. The complete graphical representation of the project timeline has been provided in the GANTT chart attached in appendix I. The first stage of the project which is project planning and literature review has already been completed in this report. The other stages of the project have been described in detail in this section below.
+The thesis project has a very strict timeline and has to be completed within roughly the 15 weeks available in session 2 of 2018. The complete graphical representation of the project timeline has been provided in the GANTT chart attached in appendix \ref{ganttchart}. The first stage of the project which is project planning and literature review has already been completed in this report. The other stages of the project have been described in detail in this section below.
 \\
 \\
-The following provides the detailed timelines of all the tasks that have been identified in the GANTT chart in appendix I:
+The following provides the detailed timelines of all the tasks that have been identified in the GANTT chart in appendix \ref{ganttchart}:
 \begin{enumerate}
     \item \textbf{Project Planning and Literature Review}
     \begin{enumerate}
@@ -1600,139 +1599,79 @@ The research project will have three definite outcomes. The first outcome is tha
 \\
 Blockchain technology has the potential to be beneficially applied to numerous different industries. It shows immense ability to disrupt industries like finance, supply chain, energy, software, distributed computing, among many other commercial use cases that are yet to be identified and harnessed. One of the main issues that will stop blockchains from becoming mainstream and going on to disrupt these industries is their ability to scale and handle the millions of transactions which are going to be flooding these blockchains once they are put to effective use. This research addresses the particular issue of scalability facing blockchains. If successful, this project could lead to blockchains becoming effective enough for mainstream use. This will, therefore, lead to complete transition of industries into the age of decentralized computing. It will impact the entire internet and the concept of trust on the internet. The entirely new form of trust on the internet based on mathematical proofs will lead to a new secure, decentralized internet. The impact of this project will be significant on many industries, will disrupt many other and even create a fresh few. The success of this project will be the foundation on which the entire framework of a completely secure and trustless Web 3.0 could be built.
 \section{References}
-As per the marking rubric, it is mentioned that 4\% of marks for this project plan are contributed from the in-depth review of appropriate peer-reviewed literature. However, due to the uniqueness and novelty of the project, no previous academic or peer-review work is available in this area of blockchain research. All the research and background work has been done by independent third-party organizations and startups. Some of the articles on Medium have also been used for references. The literature review might not be adequate enough due to lack of detailed academic research available. An academic paper even mentions that about 80\% of all academic research in the blockchain space has been done on Bitcoin blockchain alone and only 20\% on other blockchains [15]. Therefore, marker’s attention towards this fact is being requested and marking this particular criterion for the project plan is requested to be done considerately.
-\begin{description}
-\item[[1]]M. Zago, ``Why the Web 3.0 Matters and you should know about it",
-CoinDesk Newsroom.mastercard.com
-Medium, 2018.[Online]. Available:https://medium.com/@matt\\eozago/why-the-web-3-0-matters-and-you-should-know-about-it-a5851d63c949. [Accessed: 09- Jun- 2018].
-\item[[2]]A. Hertig, ``How Will Ethereum Scale? - CoinDesk", CoinDesk
-, 2018. [Online]. Available:
- https://www.coindesk.com/information/will-ethereum-scale/. [Accessed: 06- Jun- 2018].
-\item[[3]``Bitcoin and Ethereum vs Visa and PayPal – Transactions per second - Altcoin
-  Today",
-Altcoin Today
-, 2018. [Online]. Available: https://altcointoday.com/bitcoin-ethereum-
- vs-visa-paypal-transactions-per-second/. [Accessed: 11- Jun- 2018].
-\item[[4]]``The MasterCard Network Advantage", Newsroom.mastercard.com
-, 2018. [Online].
- Available: https://newsroom.mastercard.com/wp-content/uploads/2011/09/Master\\Card-
- Network-Advantage.pdf. [Accessed: 11- Jun- 2018].
-\item[[5]] ``State of the ÐApps — What's a ÐApp",
-https://www.stateofthedapps.com/whats-a-dapp. [Accessed: 13- Jun- 2018].
-\item[[6]]  ``Ethereum/wiki", Github, 2014, [Online]. https://github.com/ethereum/wiki/wiki/White-Paper. [Accessed: 14- Jun- 2018].
-\item[[7]] ``BTC Relay",Btcrelay.org, 2016. [Online]. Available: http://btcrelay.org. [Accessed: 18-
-Jun- 2018].
-\item[[8]]``Frequently Asked Questions — BTC Relay 1.0 documentation", https://btc-relay.readthedocs.io\\/en/latest/
- 2018. [Online]. Available: http://btc-relay.readthedocs.io/en/latest/frequently-asked-
- questions.html. [Accessed: 15- Jun- 2018].
-\item[[9]]L. Luu, ``PeaceRelay: Connecting the many Ethereum Blockchains", Medium
-, 2017.
- [Online]. Available: https://medium.com/@loiluu/peacerelay-connecting-the-many-ethereum-
- blockchains-22605c300ad3. [Accessed: 19- Jun- 2018].
-\item[[10]] J. Kwon and E. Buchman, ``cosmos/cosmos",
-GitHub, 2018. [Online]. Available:
- https://github.com/cosmos/cosmos/blob/master/WHITEPAPER.md\#inter-blockchain-
- communication-ibc. [Accessed: 24- Jun- 2018].
-\item[[11]]G. Wood, ``Polkadot Light-paper", Polkadot.network
-, 2018. [Online]. Available:
- https://polkadot.network/Polkadot-lightpaper.pdf. [Accessed: 23- Jun- 2018].
-\item[[12]]G. Wood, ``POLKADOT: VISION FOR A HETEROGENEOUS MULTI-CHAIN
-  FRAMEWORK",
-Polkadot.\\network
-, 2016. [Online]. Available:
- https://polkadot.network/PolkaDotPaper.pdf. [Accessed: 18- Jun- 2018].
-\item[[13]]``Interledger Protocol V4 (ILPv4) | Interledger",
-Available: https://interledger.org/\\rfcs/0027-interledger-protocol-4/. [Accessed: 29- Jun- 2018].
-Interledger.org
-Interledger.org
-Btc-relay.readthedocs.io,
-Medium
-, 2018. [Online].
-\item[[14]] ``STREAM
-- A
-Multiplexed
-Money and Data Transport for ILP |
-PLOS ONE
-  Interledger", interledger.org
-, 2018. [Online]. Available: https://interledger.org/rfcs\\/0029-
- stream/\#33-multiplexed-streams. [Accessed: 29- Jun- 2018
-\item[[15]] J. Yli-Huumo, D. Ko, S. Choi, S. Park and K. Smolander, "Where Is Current Research on
-  Blockchain Technology? —A Systematic Review", PLOS ONE
-, vol. 11, no. 10, p. e0163477,
- 
-
-
-\end{description}
-\chapter{Ethereum WhitePaper}
-\section{Overview}
-here is the Overview of appendix B ...
-\section{}
-here is the content of this section ...
-
+As per the marking rubric, it is mentioned that 4\% of marks for this project plan are contributed from the in-depth review of appropriate peer-reviewed literature. However, due to the uniqueness and novelty of the project, no previous academic or peer-review work is available in this area of blockchain research. All the research and background work has been done by independent third-party organizations and startups. Some of the articles on Medium have also been used for references. The literature review might not be adequate enough due to lack of detailed academic research available. An academic paper even mentions that about 80\% of all academic research in the blockchain space has been done on Bitcoin blockchain alone and only 20\% on other blockchains \cite{Yli-Huumo2016WhereReview}. Therefore, marker’s attention towards this fact is being requested and marking this particular criterion for the project plan is requested to be done considerately.
 \chapter{genesis.json for Tendermint}
+\label{tendermintgenesis}
 \lstset{%
    breaklines=true
 }
+The following is the code for the first block of a Tendermint consensus blockchain\cite{2018UsingDocumentation}.
 \begin{lstlisting}
 {
-  "genesis_time": "2016-02-05T06:02:31.526Z",
-  "chain_id": "chain-tTH4mi",
-  "validators": [
+  ``genesis_time": ``2016-02-05T06:02:31.526Z",
+  ``chain_id": ``chain-tTH4mi",
+  ``validators": [
     {
-      "pub_key": [
+      ``pub_key": [
         1,
-        "9BC5112CB9614D91CE423FA8744885126CD9D08D9FC9D1F42E552D662BAA411E"
+        ``9BC5112CB9614D91CE423FA8744885126CD9D08D9FC9D1 F42E552D662BAA411E"
       ],
-      "power": 1,
-      "name": "mach1"
+      ``power": 1,
+      ``name": ``mach1"
     },
     {
-      "pub_key": [
+      ``pub_key": [
         1,
-        "F46A5543D51F31660D9F59653B4F96061A740FF7433E0DC1ECBC30BE8494DE06"
+        ``F46A5543D51F31660D9F59653B4F96061A740FF7433 E0DC1ECBC30BE8494DE06"
       ],
-      "power": 1,
-      "name": "mach2"
+      ``power": 1,
+      ``name": ``mach2"
     },
     {
-      "pub_key": [
+      ``pub_key": [
         1,
-        "0E7B423C1635FD07C0FC3603B736D5D27953C1C6CA865BB9392CD79DE1A682BB"
+        ``0E7B423C1635FD07C0FC3603B736D5D27953C1C6CA865B B9392CD79DE1A682BB"
       ],
-      "power": 1,
-      "name": "mach3"
+      ``power": 1,
+      ``name": ``mach3"
     },
     {
-      "pub_key": [
+      ``pub_key": [
         1,
-        "4F49237B9A32EB50682EDD83C48CE9CDB1D02A7CFDADCFF6EC8C1FAADB358879"
+        "4F49237B9A32EB50682EDD83C48CE9CDB1D02A7CFDADCFF6E C8C1FAADB358879"
       ],
-      "power": 1,
-      "name": "mach4"
+      ``power": 1,
+      ``name": ``mach4"
     }
   ],
-  "app_hash": "15005165891224E721CB664D15CB972240F5703F",
-  "app_state": {
-    {"account": "Bob", "coins": 5000}
+  ``app_hash": ``15005165891224E721CB664D15CB972240F5703F",
+  ``app_state": {
+    {``account": ``Bob", ``coins": 5000}
   }
 }
 
 \end{lstlisting}
 \chapter{genesis.json for Ethereum}
+\label{ethereumgenesis}
+The following the genesis.json code for the first block of an Ethereum blockchain\cite{BenjaminM.Brown2018HowQuickly}.
 \begin{lstlisting}
 {
-    "nonce": "0xdeadbeefdeadbeef",
-    "timestamp": "0x0",
-    "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-    "extraData": "0x0",
-    "gasLimit": "0x8000000",
-    "difficulty": "0x400",
-    "mixhash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-    "coinbase": "0x3333333333333333333333333333333333333333",
-    "alloc": {
+    ``nonce": ``0xdeadbeefdeadbeef",
+    ``timestamp": ``0x0",
+    ``parentHash": ``0x00000000000000000000000000000000000 00000000000000000000000000000",
+    ``extraData": ``0x0",
+    ``gasLimit": ``0x8000000",
+    ``difficulty": ``0x400",
+    ``mixhash": ``0x0000000000000000000000000000000000000 000000000000000000000000000",
+    ``coinbase": ``0x3333333333333333333333333333333333333333",
+    ``alloc": {
     }
 }
 \end{lstlisting}
+\chapter{Project Timeline}
+\label{ganttchart}
+The following is the Gantt chart for the project.
+\includepdf[]{gantt_chart.pdf}
 \bibliographystyle{acm}
 \bibliography{my_reference}
 
